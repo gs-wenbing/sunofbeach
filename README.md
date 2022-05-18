@@ -13,23 +13,23 @@
 
 **登录注册**
 
-![image.png](1)
+![image.png](https://github.com/gs-wenbing/sunofbeach/blob/master/screenshot/1.png)
 
 **文章列表和详情**
 
-![image.png](2)
+![image.png](https://github.com/gs-wenbing/sunofbeach/blob/master/screenshot/2.png)
 
 **摸鱼列表和详情**
 
-![image.png](3)
+![image.png](https://github.com/gs-wenbing/sunofbeach/blob/master/screenshot/3.png)
 
 **问答列表和详情**
 
-![image.png](4)
+![image.png](https://github.com/gs-wenbing/sunofbeach/blob/master/screenshot/4.png)
 
 **商城和个人中心**
 
-![image.png](5)
+![image.png](https://github.com/gs-wenbing/sunofbeach/blob/master/screenshot/5.png)
 
 
 
