@@ -152,7 +152,7 @@ class LoginActivity : BaseActivity<LoginActivityBinding, LoginViewModel>() {
                     ForegroundColorSpan(ContextCompat.getColor(this, R.color.colorPrimary)),
                     str.indexOf("《"), str.length
                 )
-                mBinding.tvLogo.text = "登录"
+                mBinding.tvLogo.text = "注册"
             }
             PageType.SWITCH_FORGET.ordinal -> {
                 mBinding.tvAgreement.setText(R.string.common_website)
@@ -166,7 +166,7 @@ class LoginActivity : BaseActivity<LoginActivityBinding, LoginViewModel>() {
                     ForegroundColorSpan(ContextCompat.getColor(this, R.color.colorPrimary)),
                     str.indexOf("《"), str.length
                 )
-                mBinding.tvLogo.text = "注册"
+                mBinding.tvLogo.text = "登录"
             }
         }
     }
