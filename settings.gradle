@@ -1,0 +1,10 @@
+include ':sob_shop'
+include ':sob_ucenter'
+include ':sob_wenda'
+include ':sob_moyu'
+include ':sob_home'
+include ':sob_login'
+include ':lib_common'
+include ':lib_base'
+include ':app'
+rootProject.name = "sunofbeach"

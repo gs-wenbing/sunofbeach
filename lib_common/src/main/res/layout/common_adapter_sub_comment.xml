@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:paddingLeft="@dimen/dp_6"
+    android:paddingRight="@dimen/dp_6">
+
+    <TextView
+        android:id="@+id/tv_sub_comment"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/deep_white"
+        android:padding="@dimen/dp_4"
+        android:layout_marginStart="@dimen/dp_50"
+        android:lineSpacingExtra="@dimen/dp_6"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="拉大锯  回复 @工头断点  我这里实际使用5G不到，8g的配置不算高的了[捂脸]，一般公司的是32g起步的。" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

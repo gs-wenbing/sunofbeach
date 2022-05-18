@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.zwb.sob_wenda">
+
+    <application>
+        <activity android:name=".activity.MainActivity">
+
+        </activity>
+        <activity android:name=".activity.WendaDetailActivity"/>
+        <activity android:name=".activity.WendaAnswerActivity"/>
+
+    </application>
+
+</manifest>

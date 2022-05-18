@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/include_bar"
+        layout="@layout/layout_toolbar"/>
+
+    <com.allen.library.SuperTextView
+        android:id="@+id/tv_wenda"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_46"
+        android:paddingLeft="@dimen/dp_10"
+        android:paddingRight="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_10"
+        app:sBackgroundDrawableRes="@drawable/menu_btn_selector"
+        app:sLeftIconRes="@mipmap/ic_msg_wenda"
+        app:sLeftTextColor="@color/textSecondary"
+        app:sRightIconRes="@mipmap/ic_next"
+        app:sLeftTextSize="@dimen/sp_14"
+        app:sRightTextSize="@dimen/sp_10"
+        app:sRightTextColor="@color/white"
+        app:sRightTextGravity="center"
+        app:sRightTextBackground="@drawable/red_solid_btn_normal"
+        app:sLeftTextString="问题回答" />
+    <com.allen.library.SuperTextView
+        android:id="@+id/tv_article"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_46"
+        android:paddingLeft="@dimen/dp_10"
+        android:paddingRight="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_6"
+        app:sBackgroundDrawableRes="@drawable/menu_btn_selector"
+        app:sLeftIconRes="@mipmap/ic_msg_article"
+        app:sLeftTextColor="@color/textSecondary"
+        app:sRightIconRes="@mipmap/ic_next"
+        app:sLeftTextSize="@dimen/sp_14"
+        app:sRightTextSize="@dimen/sp_10"
+        app:sRightTextColor="@color/white"
+        app:sRightTextGravity="center"
+        app:sRightTextBackground="@drawable/red_solid_btn_normal"
+        app:sLeftTextString="文章回复" />
+
+
+    <com.allen.library.SuperTextView
+        android:id="@+id/tv_dynamic"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_46"
+        android:paddingLeft="@dimen/dp_10"
+        android:paddingRight="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_6"
+        app:sBackgroundDrawableRes="@drawable/menu_btn_selector"
+        app:sLeftIconRes="@mipmap/ic_msg_dynamic"
+        app:sLeftTextColor="@color/textSecondary"
+        app:sRightIconRes="@mipmap/ic_next"
+        app:sLeftTextSize="@dimen/sp_14"
+        app:sRightTextSize="@dimen/sp_10"
+        app:sRightTextColor="@color/white"
+        app:sRightTextGravity="center"
+        app:sRightTextBackground="@drawable/red_solid_btn_normal"
+        app:sLeftTextString="动态评论" />
+
+    <com.allen.library.SuperTextView
+        android:id="@+id/tv_star"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_46"
+        android:paddingLeft="@dimen/dp_10"
+        android:paddingRight="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_6"
+        app:sBackgroundDrawableRes="@drawable/menu_btn_selector"
+        app:sLeftIconRes="@mipmap/ic_msg_star"
+        app:sLeftTextColor="@color/textSecondary"
+        app:sRightIconRes="@mipmap/ic_next"
+        app:sLeftTextSize="@dimen/sp_14"
+        app:sRightTextSize="@dimen/sp_10"
+        app:sRightTextColor="@color/white"
+        app:sRightTextGravity="center"
+        app:sRightTextBackground="@drawable/red_solid_btn_normal"
+        app:sLeftTextString="给朕点赞" />
+
+    <com.allen.library.SuperTextView
+        android:id="@+id/tv_at"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_46"
+        android:paddingLeft="@dimen/dp_10"
+        android:paddingRight="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_6"
+        app:sBackgroundDrawableRes="@drawable/menu_btn_selector"
+        app:sLeftIconRes="@mipmap/ic_msg_at"
+        app:sLeftTextColor="@color/textSecondary"
+        app:sRightIconRes="@mipmap/ic_next"
+        app:sLeftTextSize="@dimen/sp_14"
+        app:sRightTextSize="@dimen/sp_10"
+        app:sRightTextColor="@color/white"
+        app:sRightTextGravity="center"
+        app:sRightTextBackground="@drawable/red_solid_btn_normal"
+        app:sLeftTextString="＠朕消息" />
+    <com.allen.library.SuperTextView
+        android:id="@+id/tv_system"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_46"
+        android:paddingLeft="@dimen/dp_10"
+        android:paddingRight="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_16"
+        app:sBackgroundDrawableRes="@drawable/menu_btn_selector"
+        app:sLeftIconRes="@mipmap/ic_msg_system"
+        app:sLeftTextColor="@color/textSecondary"
+        app:sRightIconRes="@mipmap/ic_next"
+        app:sLeftTextSize="@dimen/sp_14"
+        app:sRightTextSize="@dimen/sp_10"
+        app:sRightTextColor="@color/white"
+        app:sRightTextGravity="center"
+        app:sRightTextBackground="@drawable/red_solid_btn_normal"
+        app:sLeftTextString="系统消息" />
+
+</LinearLayout>

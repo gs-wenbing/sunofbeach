@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/dp_2"
+    android:layout_marginBottom="@dimen/dp_6"
+    android:background="@color/white"
+    android:paddingStart="@dimen/dp_16"
+    android:paddingTop="@dimen/dp_10"
+    android:paddingEnd="@dimen/dp_10"
+    android:paddingBottom="@dimen/dp_10">
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:lineSpacingExtra="@dimen/dp_6"
+        android:maxLines="2"
+        android:textColor="@color/textPrimary"
+        android:textSize="@dimen/sp_14"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/iv_cover"
+        app:layout_constraintTop_toTopOf="@+id/iv_cover"
+        tools:text="RecyclerView把item可以拖拽到任意地方具体实现，如果有很多文字的话，只显示两行...." />
+
+    <TextView
+        android:id="@+id/tv_labels"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="领券联盟 •领券联盟 •领券联盟 •领券联盟 • 安卓领券联盟 •领券联盟 • 安卓"
+        android:layout_marginTop="@dimen/dp_10"
+        android:textSize="@dimen/sp_12"
+        android:lines="1"
+        android:ellipsize="end"
+        android:gravity="left"
+        android:background="@drawable/shape_tag_background"
+        app:layout_constraintTop_toBottomOf="@+id/tv_title"
+        app:layout_constraintLeft_toLeftOf="@+id/tv_title"
+        />
+    <ImageView
+        android:id="@+id/iv_cover"
+        android:layout_width="100dp"
+        android:layout_height="80dp"
+        android:src="@drawable/shape_grey_background"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+    <com.zwb.lib_common.view.AvatarDecorView
+        android:id="@+id/iv_avatar"
+        android:layout_width="@dimen/dp_20"
+        android:layout_height="@dimen/dp_20"
+        android:layout_marginTop="@dimen/dp_10"
+        android:src="@mipmap/ic_default_avatar"
+        app:layout_constraintLeft_toLeftOf="@+id/tv_title"
+        app:layout_constraintTop_toBottomOf="@+id/iv_cover"/>
+    <TextView
+        android:id="@+id/tv_nickname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="都懂得wenbing"
+        android:layout_marginLeft="@dimen/dp_4"
+        android:textSize="@dimen/sp_12"
+        app:layout_constraintLeft_toRightOf="@+id/iv_avatar"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_avatar"
+        app:layout_constraintTop_toTopOf="@+id/iv_avatar"
+        />
+    <TextView
+        android:id="@+id/tv_star"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@mipmap/ic_likes"
+        android:drawablePadding="@dimen/dp_6"
+        android:layout_marginStart="@dimen/dp_16"
+        android:gravity="center"
+        android:textSize="@dimen/sp_12"
+        tools:text="12"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_avatar"
+        app:layout_constraintTop_toTopOf="@+id/iv_avatar"
+        app:layout_constraintLeft_toRightOf="@+id/tv_nickname"
+        />
+    <TextView
+        android:id="@+id/tv_viewCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@mipmap/ic_visible"
+        android:drawablePadding="@dimen/dp_6"
+        android:layout_marginStart="@dimen/dp_16"
+        android:gravity="center"
+        android:textSize="@dimen/sp_12"
+        tools:text="12"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_avatar"
+        app:layout_constraintTop_toTopOf="@+id/iv_avatar"
+        app:layout_constraintLeft_toRightOf="@+id/tv_star"
+        />
+    <TextView
+        android:id="@+id/tv_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/sp_12"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_avatar"
+        app:layout_constraintTop_toTopOf="@+id/iv_avatar"
+        tools:text="昨天" />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

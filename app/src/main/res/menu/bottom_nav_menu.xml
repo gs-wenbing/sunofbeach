@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/menu_home"
+        android:icon="@mipmap/ic_tab_home"
+        android:title="@string/title_home" />
+
+    <item
+        android:id="@+id/menu_moyu"
+        android:icon="@mipmap/ic_tab_moyu"
+        android:title="@string/title_moyu" />
+
+    <item
+        android:id="@+id/menu_wenda"
+        android:icon="@mipmap/ic_tab_wenda"
+        android:title="@string/title_wenda" />
+    <item
+        android:id="@+id/menu_shop"
+        android:icon="@mipmap/ic_tab_shop"
+        android:title="@string/title_shop" />
+    <item
+        android:id="@+id/menu_ucenter"
+        android:icon="@mipmap/ic_tab_ucenter"
+        android:title="@string/title_ucenter" />
+</menu>

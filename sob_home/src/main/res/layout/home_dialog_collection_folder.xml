@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/dp_10"
+    android:background="@color/white">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="选择收藏集"
+        android:textSize="@dimen/sp_14"
+        android:textColor="@color/grey_light"
+        android:textStyle="bold"/>
+    <TextView
+        android:id="@+id/tv_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="+ 新建收藏集"
+        android:textColor="@color/colorAccent"
+        android:layout_alignParentRight="true"
+        android:textSize="@dimen/sp_13"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_folder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/dp_10"
+        android:layout_marginBottom="@dimen/dp_40"
+        android:overScrollMode="never"
+        android:layout_below="@+id/tv_add"
+        android:layout_above="@+id/btn_submit"
+        />
+    <Button
+        android:id="@+id/btn_submit"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_36"
+        android:text="确 认"
+        android:textColor="@color/white"
+        android:stateListAnimator="@null"
+        android:layout_alignParentBottom="true"
+        android:visibility="gone"
+        android:background="@drawable/blue_hollow_btn_selector"
+        />
+</RelativeLayout>

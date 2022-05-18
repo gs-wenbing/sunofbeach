@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/dp_2"
+    android:background="@color/white"
+    android:paddingRight="@dimen/dp_10"
+    android:paddingLeft="@dimen/dp_10"
+    android:paddingTop="@dimen/dp_10"
+    android:paddingBottom="@dimen/dp_4">
+
+    <com.zwb.lib_common.view.AvatarDecorView
+        android:id="@+id/iv_your_avatar"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:visibility="visible"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/ic_default_avatar"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_your_nickname"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_10"
+        android:ellipsize="end"
+        android:lineSpacingExtra="@dimen/dp_6"
+        android:maxLines="3"
+        android:textColor="@color/textPrimary"
+        android:textSize="@dimen/sp_14"
+        app:layout_constraintLeft_toRightOf="@+id/iv_your_avatar"
+        app:layout_constraintTop_toTopOf="@+id/iv_your_avatar"
+        tools:text="gs_wenbing" />
+
+
+    <TextView
+        android:id="@+id/tv_be_nickname"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_4"
+        android:ellipsize="end"
+        android:lineSpacingExtra="@dimen/dp_6"
+        android:maxLines="3"
+        android:textColor="@color/colorAccent"
+        android:textSize="@dimen/sp_14"
+        app:layout_constraintLeft_toRightOf="@+id/tv_your_nickname"
+        app:layout_constraintTop_toTopOf="@+id/iv_your_avatar"
+        tools:text="回复 @gs_wenbing" />
+
+    <TextView
+        android:id="@+id/tv_comment"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:lineSpacingExtra="@dimen/dp_6"
+        android:textSize="@dimen/sp_13"
+        android:layout_marginTop="@dimen/dp_6"
+        app:layout_constraintTop_toBottomOf="@+id/tv_be_nickname"
+        app:layout_constraintLeft_toLeftOf="@+id/tv_your_nickname"
+        app:layout_constraintRight_toRightOf="parent"
+        android:text="我这里实际使用5G不到，8g的配置不算高的了[捂脸]，一般公司的是32g起步的。"/>
+
+    <TextView
+        android:id="@+id/tv_publishTime"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_10"
+        android:layout_marginBottom="@dimen/dp_6"
+        android:textColor="@color/grey_light"
+        android:textSize="@dimen/sp_12"
+        app:layout_constraintTop_toBottomOf="@+id/tv_comment"
+        app:layout_constraintLeft_toLeftOf="@+id/tv_your_nickname"
+        tools:text="2022-04-23" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_10"
+        android:layout_marginBottom="@dimen/dp_6"
+        android:src="@mipmap/ic_reply"
+        app:layout_constraintTop_toBottomOf="@+id/tv_comment"
+        app:layout_constraintRight_toRightOf="parent"
+        />
+</androidx.constraintlayout.widget.ConstraintLayout>

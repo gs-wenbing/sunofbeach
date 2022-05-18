@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="SeniorEditText">
+        <!--图片资源   使用的资源图不能使用vector形成的图片否则你懂的-->
+        <!--清除按钮图-->
+        <attr name="clearDrawable" format="reference"/>
+        <!--可见按钮图-->
+        <attr name="visibleDrawable" format="reference"/>
+        <!--不可见按钮图-->
+        <attr name="invisibleDrawable" format="reference"/>
+        <!--按钮宽度大小-->
+        <attr name="visibleDrawableWidth" format="dimension"/>
+        <!--按钮间距大小 （自己的内边距）-->
+        <attr name="visibleDrawableSpacing" format="dimension"/>
+        <!--边框颜色-->
+        <attr name="editFrameColor" format="color"/>
+        <!--边样式     rectangle(矩形)、roundRect(圆角)、animator(动画划线特效)、halfRect(半矩形样式)-->
+        <!-- 不填写样式 默认使用系统样式 -->
+        <attr name="editFrameStyle" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="LoginEditView">
+        <attr name="inputLeftIcon" format="reference"/>
+        <attr name="inputHint" format="string"/>
+        <attr name="isPassword" format="boolean"/>
+    </declare-styleable>
+
+
+    <declare-styleable name="CodeEditView">
+        <attr name="codeLeftIcon" format="reference"/>
+        <attr name="codeHint" format="string"/>
+        <attr name="isPhoneCode" format="boolean"/>
+    </declare-styleable>
+</resources>

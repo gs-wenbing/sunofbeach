@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:paddingLeft="4dp"
+    android:paddingRight="4dp">
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/sp_16"
+        android:textColor="@color/textPrimary"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:layout_marginRight="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_10"
+        android:textStyle="bold"
+        tools:text="【领券联盟】关于“加载更多loadMore”只能加载到第二页的问题"/>
+    <RelativeLayout
+        android:id="@+id/layout_visibility"
+        android:layout_width="match_parent"
+        android:visibility="visible"
+        android:layout_marginTop="@dimen/dp_10"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_publishTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:textStyle="bold"
+            android:textSize="@dimen/sp_12"
+            tools:text="发表于 2021-07-22"/>
+        <TextView
+            android:id="@+id/tv_sob"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/tv_view"
+            android:drawablePadding="@dimen/dp_6"
+            android:drawableLeft="@mipmap/ic_sob"
+            android:layout_marginRight="@dimen/dp_14"
+            android:textStyle="bold"
+            android:textSize="@dimen/sp_12"
+            tools:text="sob 币 "/>
+
+        <TextView
+            android:id="@+id/tv_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/tv_star"
+            android:drawableLeft="@mipmap/ic_visible"
+            android:drawablePadding="@dimen/dp_6"
+            android:layout_marginRight="@dimen/dp_14"
+            android:textStyle="bold"
+            android:textSize="@dimen/sp_12"
+            tools:text="123浏览 "/>
+        <TextView
+            android:id="@+id/tv_star"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:drawableLeft="@mipmap/ic_likes"
+            android:drawablePadding="@dimen/dp_6"
+            android:textSize="@dimen/sp_12"
+            android:layout_marginRight="@dimen/dp_10"
+            android:textStyle="bold"
+            tools:text="23 好问题"/>
+
+    </RelativeLayout>
+    <TextView
+        android:id="@+id/tv_labels"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:layout_marginRight="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_10"
+        android:textSize="@dimen/sp_12"
+        android:background="@drawable/shape_tag_background"
+        android:visibility="visible"
+        tools:text="android轮子,android轮子,android轮子,android轮子,android轮子,android轮子,"/>
+    <com.zwb.lib_common.view.MyCodeView
+        android:id="@+id/codeView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_10"
+        />
+    <TextView
+        android:id="@+id/tv_questioner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:layout_marginRight="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_6"
+        android:layout_marginBottom="@dimen/dp_16"
+        android:textSize="@dimen/sp_12"
+        android:textStyle="bold"
+        tools:text="gs_wenbing"/>
+</LinearLayout>

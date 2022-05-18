@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/dp_2"
+    android:layout_marginBottom="@dimen/dp_6"
+    android:background="@color/white"
+    android:paddingBottom="@dimen/dp_10"
+    android:paddingEnd="@dimen/dp_10"
+    android:paddingStart="@dimen/dp_16">
+
+
+    <com.allen.library.SuperTextView
+        android:id="@+id/tv_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        app:sDividerLineType="none"
+        app:sLeftViewMarginLeft="0dp"
+        app:sLeftTextColor="@color/grey_light"
+        app:sLeftTextSize="@dimen/sp_12"
+        app:sLeftTextString="断点-含光君断点-含光君断点@含光君断点-含光君断点-含光君"
+        app:sLeftTopLines="1"
+        app:sLeftLines="1"
+        app:sRightTextColor="@color/grey_light"
+        app:sRightTextSize="@dimen/sp_12"
+        app:sRightTextString="1小时前"
+        app:sUseRipple="false" />
+
+
+    <TextView
+        android:id="@+id/tv_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_header"
+        android:layout_marginTop="@dimen/dp_16"
+        android:lineSpacingExtra="@dimen/dp_6"
+        android:text="框中必须有一个是bai选中的,如果你想选择之后又取消du,那么要使用CheckBox来实现改zhi变它的状态"
+        android:textColor="@color/textPrimary" />
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_pic"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_content"
+        android:layout_marginTop="@dimen/dp_4"
+        android:overScrollMode="never" />
+
+    <com.allen.library.SuperTextView
+        android:id="@+id/tv_link"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@+id/rv_pic"
+        android:layout_marginTop="@dimen/dp_10"
+        app:sDividerLineType="none"
+        app:sLeftLines="1"
+        app:sLeftTextColor="@color/colorPrimary"
+        app:sLeftTextSize="@dimen/sp_12"
+        app:sLeftTextString="www.sunofbeach.net"
+        app:sLeftTvDrawableLeft="@mipmap/ic_link_blue"
+        app:sTextViewDrawablePadding="@dimen/dp_4"
+        app:sLeftTopLines="1"
+        app:sLeftTopTextSize="@dimen/sp_13"
+        app:sLeftTopTextString="Android性能测试（内存、cpu、fps、GPU"
+        app:sLeftViewGravity="left_center"
+        app:sShapeCornersRadius="@dimen/dp_4"
+        app:sShapeSelectorNormalColor="@color/main_grey"
+        app:sShapeSelectorPressedColor="@color/deep_white2"
+        app:sUseRipple="true"
+        app:sUseShape="true" />
+
+    <TextView
+        android:id="@+id/tv_topic_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_link"
+        android:layout_marginTop="@dimen/dp_10"
+        android:layout_marginRight="@dimen/dp_16"
+        android:background="@drawable/blue_hollow_btn_normal"
+        android:gravity="center"
+        android:paddingLeft="@dimen/dp_8"
+        android:paddingTop="2dp"
+        android:paddingRight="@dimen/dp_8"
+        android:paddingBottom="3dp"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/sp_12"
+        tools:text="划水摸鱼" />
+
+    <TextView
+        android:id="@+id/tv_star"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_topic_name"
+        android:layout_marginTop="@dimen/dp_16"
+        android:layout_marginRight="@dimen/dp_16"
+        android:drawableLeft="@mipmap/ic_likes"
+        android:drawablePadding="@dimen/dp_6"
+        android:gravity="center"
+        tools:text="23" />
+
+    <TextView
+        android:id="@+id/tv_reply"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_topic_name"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/dp_16"
+        android:drawableLeft="@mipmap/ic_reply"
+        android:drawablePadding="@dimen/dp_6"
+        android:gravity="center"
+        android:paddingBottom="@dimen/dp_2"
+        tools:text="23" />
+
+    <TextView
+        android:id="@+id/tv_share"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_topic_name"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="@dimen/dp_16"
+        android:drawableLeft="@mipmap/ic_share"
+        android:drawablePadding="@dimen/dp_6"
+        android:gravity="center"
+        tools:text="分享" />
+
+</RelativeLayout>

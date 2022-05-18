@@ -1,0 +1,18 @@
+<resources>
+    <style name="ucenter_TabLayoutTextStyle">
+        <item name="android:textSize">@dimen/sp_16</item>
+    </style>
+
+    <style name="ucenter_title_tab">
+        <item name="android:background">@drawable/ucenter_tab_selector</item>
+        <item name="android:textColor">@drawable/ucenter_tab_tv_clocr</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:button">@null</item>
+        <item name="android:layout_height">@dimen/dp_40</item>
+        <item name="android:padding">5dp</item>
+        <item name="android:layout_marginBottom">6dp</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:layout_width">100dp</item>
+    </style>
+</resources>

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/dp_2"
+    android:background="@color/white"
+    android:paddingRight="@dimen/dp_10"
+    android:paddingLeft="@dimen/dp_10"
+    android:paddingTop="@dimen/dp_10"
+    android:paddingBottom="@dimen/dp_4">
+
+    <com.zwb.lib_common.view.AvatarDecorView
+        android:id="@+id/iv_comment_avatar"
+        android:layout_width="26dp"
+        android:layout_height="26dp"
+        android:visibility="visible"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/ic_default_avatar"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_comment_nickname"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_10"
+        android:ellipsize="end"
+        android:lineSpacingExtra="@dimen/dp_6"
+        android:maxLines="3"
+        android:textColor="@color/textPrimary"
+        android:textSize="@dimen/sp_14"
+        app:layout_constraintLeft_toRightOf="@+id/iv_comment_avatar"
+        app:layout_constraintTop_toTopOf="@+id/iv_comment_avatar"
+        tools:text="gs_wenbing" />
+    <TextView
+        android:id="@+id/tv_solved"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="最佳答案"
+        android:textSize="@dimen/sp_12"
+        android:gravity="center_vertical"
+        android:textColor="@color/colorSuccess"
+        android:drawablePadding="@dimen/dp_6"
+        android:drawableRight="@mipmap/ic_solved"
+        app:layout_constraintTop_toTopOf="@+id/tv_comment_nickname"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_comment_nickname"
+        app:layout_constraintRight_toRightOf="parent"
+        android:visibility="gone"
+        />
+    <TextView
+        android:id="@+id/tv_comment"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_6"
+        android:lineSpacingExtra="@dimen/dp_6"
+        android:textColor="@color/textPrimary"
+        android:maxLines="2"
+        android:ellipsize="end"
+        app:layout_constraintTop_toBottomOf="@+id/iv_comment_avatar"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:text="我这里实际使用5G不到，8g的配置不算高的了[捂脸]，一般公司的是32g起步的。"/>
+    <TextView
+        android:id="@id/tv_more"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:text="查看详情"
+        android:textColor="@color/colorAccent"
+        android:gravity="center_vertical"
+        android:textSize="@dimen/sp_12"
+        app:layout_constraintTop_toBottomOf="@+id/tv_comment"
+        app:layout_constraintLeft_toLeftOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/tv_viewCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_6"
+        android:drawableLeft="@mipmap/ic_visible"
+        android:drawablePadding="@dimen/dp_6"
+        android:gravity="center"
+        android:textSize="@dimen/sp_12"
+        app:layout_constraintTop_toBottomOf="@+id/tv_more"
+        app:layout_constraintLeft_toLeftOf="parent"
+        tools:text="12" />
+
+    <TextView
+        android:id="@+id/tv_star"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_10"
+        android:drawableLeft="@mipmap/ic_likes"
+        android:drawablePadding="@dimen/dp_6"
+        android:gravity="center"
+        android:textSize="@dimen/sp_12"
+        app:layout_constraintLeft_toRightOf="@+id/tv_viewCount"
+        app:layout_constraintTop_toTopOf="@+id/tv_viewCount"
+        tools:text="23" />
+    <TextView
+        android:id="@+id/tv_reply"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_10"
+        android:drawablePadding="@dimen/dp_6"
+        android:gravity="center"
+        android:textSize="@dimen/sp_12"
+        app:layout_constraintLeft_toRightOf="@+id/tv_star"
+        app:layout_constraintTop_toTopOf="@+id/tv_viewCount"
+        tools:text="23 评论" />
+    <TextView
+        android:id="@+id/tv_publishTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/grey_light"
+        android:textSize="@dimen/sp_12"
+        app:layout_constraintTop_toTopOf="@+id/tv_viewCount"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:text="2022-04-23" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title_home">首页</string>
+    <string name="title_moyu">摸鱼</string>
+    <string name="title_wenda">问答</string>
+    <string name="title_shop">商城</string>
+    <string name="title_ucenter">我的</string>
+
+    <string name="common_website">Copyright@sunofbeach.net</string>
+    <string name="common_sunof_coin">Sob 币：</string>
+    <string name="behavior_sample_title">com.zwb.mvvm_mall.ui.home.behavior.SampleTitleBehavior</string>
+</resources>

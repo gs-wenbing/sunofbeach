@@ -1,0 +1,63 @@
+apply from: '../base_lib.gradle'
+
+android {
+    buildFeatures {
+        viewBinding = true
+    }
+
+    resourcePrefix "base_"
+}
+
+dependencies {
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+//  注意   api 和 implementation
+    api Kotlin.Kotlin
+    api Android.Material
+    api AndroidX.AppCompat
+    api AndroidX.CoreKtx
+    api AndroidX.ActivityKtx
+    api AndroidX.FragmentKtx
+    api AndroidX.MultiDex
+    api AndroidX.ConstraintLayout
+    api AndroidX.Viewpager2
+    api AndroidX.Room
+    api AndroidX.RoomKtx
+
+    api JetPack.NavigationFragment
+    api JetPack.NavigationUI
+    api JetPack.ViewModel
+    api JetPack.LiveData
+    api JetPack.Lifecycle
+
+    api GitHub.Glide
+    api GitHub.GlideOkhttp
+    api GitHub.RecyclerViewAdapter
+    api GitHub.Banner
+    api GitHub.SmartRefreshLayout
+    api GitHub.Loadsir
+    api GitHub.EventBus
+    api GitHub.ARoute
+    api GitHub.AutoService
+    api GitHub.MMKV
+    api GitHub.SuperTextView
+    api GitHub.CodeView
+
+    api SDK.TencentBugly
+    api SDK.TencentBuglyNative
+    api SDK.TencentTBSX5
+
+    api GitHub.OkHttp
+    api GitHub.Retrofit
+    api GitHub.RetrofitConverterGson
+    api GitHub.OkHttpInterceptorLogging
+
+    kapt AndroidX.RoomCompiler
+    kapt GitHub.GlideCompiler
+    kapt GitHub.ARouteCompiler
+    kapt GitHub.EventBusAPT
+    kapt GitHub.AutoServiceAnnotations
+    kapt JetPack.LifecycleCompilerAPT
+
+    debugApi GitHub.LeakCanary
+
+}

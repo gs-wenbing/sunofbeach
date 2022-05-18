@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/dp_10"
+    android:layout_marginBottom="@dimen/dp_8"
+    android:background="@color/white"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <ImageView
+        android:id="@+id/iv_goods_image"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:scaleType="center"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:src="@drawable/goods" />
+
+    <TextView
+        android:id="@+id/tv_goods_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:lineSpacingExtra="@dimen/dp_2"
+        android:textColor="@color/textPrimary"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:textSize="@dimen/sp_14"
+        tools:text="Catfour咖啡蓝山风味咖啡三合一咖啡速溶黑咖啡粉饮品袋装40条杯"
+        app:layout_constraintTop_toTopOf="@+id/iv_goods_image"
+        app:layout_constraintLeft_toRightOf="@+id/iv_goods_image"
+        app:layout_constraintRight_toRightOf="parent"/>
+    <TextView
+        android:id="@+id/tv_old_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_10"
+        android:text="原价110"
+        android:textColor="@color/grey_light"
+        android:textSize="@dimen/sp_12"
+        app:layout_constraintLeft_toLeftOf="@+id/tv_goods_name"
+        app:layout_constraintTop_toBottomOf="@+id/tv_goods_name" />
+    <TextView
+        android:id="@+id/tv_trade_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="券后价89"
+        android:textColor="@color/colorWarning"
+        android:layout_marginTop="@dimen/dp_10"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:textStyle="bold"
+        android:textSize="@dimen/sp_12"
+        app:layout_constraintLeft_toRightOf="@+id/tv_old_price"
+        app:layout_constraintTop_toBottomOf="@+id/tv_goods_name" />
+    <TextView
+        android:id="@+id/tv_volume_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/grey_light"
+        android:gravity="center_vertical"
+        android:textSize="@dimen/sp_11"
+        app:layout_constraintLeft_toLeftOf="@+id/tv_goods_name"
+        app:layout_constraintTop_toTopOf="@+id/btn_coupon"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_coupon"
+        tools:text="87427"/>
+    <TextView
+        android:id="@+id/tv_buy_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=" • 人已购买"
+        android:textColor="@color/grey_light"
+        android:gravity="center_vertical"
+        android:textSize="@dimen/sp_11"
+        app:layout_constraintLeft_toRightOf="@+id/tv_volume_count"
+        app:layout_constraintTop_toTopOf="@+id/btn_coupon"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_coupon"/>
+    <Button
+        android:id="@+id/btn_coupon"
+        android:layout_width="70dp"
+        android:layout_height="@dimen/dp_28"
+        android:background="@drawable/yellow_solid_btn_selector"
+        android:text="领 券"
+        android:textColor="@color/white"
+        android:stateListAnimator="@null"
+        android:textSize="@dimen/sp_12"
+        app:layout_constraintRight_toRightOf="@+id/tv_goods_name"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_goods_image"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

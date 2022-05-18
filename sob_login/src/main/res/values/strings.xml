@@ -1,0 +1,8 @@
+<resources>
+    <string name="login_app_name">登录</string>
+    <string name="login_agreement">登录表示同意《用户服务协议》</string>
+    <string name="login_register_agreement">注册表示已阅读并同意《用户服务协议》</string>
+    <string name="login_phone">手机号</string>
+    <string name="login_password">密码</string>
+    <string name="login_verify_code">验证码</string>
+</resources>
