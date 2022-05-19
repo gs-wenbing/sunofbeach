@@ -40,7 +40,7 @@ class MoyuListFragment : BaseListFragment<MoyuItemBean,MoyuFragmentListBinding, 
 
         mAdapter.setOnItemClickListener { adapter, view, position ->
             val item = adapter.getItem(position) as MoyuItemBean
-            MoyuServiceWrap.instance.launchDetail(item)
+            MoyuServiceWrap.instance.launchDetail(item.id)
         }
     }
 

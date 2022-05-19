@@ -9,6 +9,7 @@ import com.zwb.lib_common.bean.UserBean
 import com.zwb.lib_common.constant.Constants
 import com.zwb.sob_ucenter.bean.*
 import retrofit2.http.GET
+import retrofit2.http.PUT
 import retrofit2.http.Path
 
 interface UcenterApi {
@@ -133,6 +134,78 @@ interface UcenterApi {
         @Path("order") order: Int = 0,
     ): BaseResponse<PageViewData<FavoriteBean>?>
 
+    /**
+     * 获取消息中评论列表
+     */
+    @GET("${MESSAGE_MOMENT_URL}/{page}")
+    suspend fun messageMomentList(
+        @Path("page") page: Int,
+    ): BaseResponse<PageViewData<MsgMomentBean>?>
+
+    /**
+     * 获取消息中点赞列表
+     */
+    @GET("${MESSAGE_THUMB_URL}/{page}")
+    suspend fun messageThumbList(
+        @Path("page") page: Int,
+    ): BaseResponse<PageViewData<MsgThumbBean>?>
+
+    /**
+     * 获取消息中AT列表
+     */
+    @GET("${MESSAGE_AT_URL}/{page}")
+    suspend fun messageAtList(
+        @Path("page") page: Int,
+    ): BaseResponse<PageViewData<MsgAtBean>?>
+
+    /**
+     * 获取系统消息列表
+     */
+    @GET("${MESSAGE_SYSTEM_URL}/{page}")
+    suspend fun messageSystemList(
+        @Path("page") page: Int,
+    ): BaseResponse<PageViewData<MsgSystemBean>?>
+
+    /**
+     * 获取系统消息列表
+     */
+    @GET("${MESSAGE_ARTICLE_URL}/{page}")
+    suspend fun messageArticleList(
+        @Path("page") page: Int,
+    ): BaseResponse<PageViewData<MsgAtBean>?>
+
+    /**
+     * 更新摸鱼动态消息的状态
+     */
+    @PUT("${MESSAGE_ARTICLE_STATE_URL}/{msgId}/1")
+    suspend fun articleState(
+        @Path("msgId") msgId: String,
+    ): BaseResponse<String?>
+
+    /**
+     * 更新摸鱼动态消息的状态
+     */
+    @PUT("${MESSAGE_MOMENT_STATE_URL}/{msgId}/1")
+    suspend fun momentState(
+        @Path("msgId") msgId: String,
+    ): BaseResponse<String?>
+
+    /**
+     * 更新at动态消息的状态
+     */
+    @PUT("${MESSAGE_AT_STATE_URL}/{msgId}/1")
+    suspend fun atState(
+        @Path("msgId") msgId: String,
+    ): BaseResponse<String?>
+
+    /**
+     * 更新问题回答消息的状态
+     */
+    @PUT("${MESSAGE_WENDA_STATE_URL}/{msgId}/1")
+    suspend fun wendaState(
+        @Path("msgId") msgId: String,
+    ): BaseResponse<String?>
+
     companion object {
         const val BASE_URL = "https://api.sunofbeaches.com/"
 
@@ -184,5 +257,34 @@ interface UcenterApi {
         // 获取到收藏夹里的内容列表 {collectionId}/{page}/{order}  order：排序方式 0 表示降序，1表示升序，按添加时间
         const val FAVORITE_LIST_URL = "ct/ucenter/favorite/list"
 
+        // 获取消息中心回答列表列表 ct/ucenter/message/wenda/{page}
+        const val MESSAGE_WENDA_URL = "ct/ucenter/message/wenda"
+
+        // 获取消息中心点赞列表 ct/ucenter/message/thumb/{page}
+        const val MESSAGE_THUMB_URL = "ct/ucenter/message/thumb"
+
+        // 获取消息中心动态评论列表 ct/ucenter/message/moment/{page}
+        const val MESSAGE_MOMENT_URL = "ct/ucenter/message/moment"
+
+        // 获取消息中心at列表 ct/ucenter/message/at/{page}
+        const val MESSAGE_AT_URL = "ct/ucenter/message/at"
+
+        // 获取系统消息列表 ct/ucenter/message/system/{page}
+        const val MESSAGE_SYSTEM_URL = "ct/ucenter/message/system"
+
+        // 获取文章评论列表 ct/ucenter/message/article/{page}
+        const val MESSAGE_ARTICLE_URL = "ct/ucenter/message/article"
+
+        // 更新文章消息状态 /ct/ucenter/message/state/{msgId}/1  1表示已读，2表示已回复（可以借助前面的文章子评论回复功能）
+        const val MESSAGE_ARTICLE_STATE_URL = "ct/ucenter/message/state"
+
+        // 更新摸鱼动态消息的状态 ct/ucenter/message/moment/state/{msgId}/1
+        const val MESSAGE_MOMENT_STATE_URL = "ct/ucenter/message/moment/state"
+
+        // 更新At消息的状态 ct/ucenter/message/at/state/{msgId}/1
+        const val MESSAGE_AT_STATE_URL = "ct/ucenter/message/at/state"
+
+        // 更新问题回答消息的状态 ct/ucenter/message/wenda/state/{msgId}/1
+        const val MESSAGE_WENDA_STATE_URL = "ct/ucenter/message/wenda/state"
     }
 }

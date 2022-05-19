@@ -50,6 +50,11 @@ interface MoyuApi {
         @Path("momentId") momentId: String
     ): BaseResponse<String?>
 
+    @GET("${MOYU_DETAIL_URL}/{momentId}")
+    suspend fun moyuDetail(
+        @Path("momentId") momentId: String
+    ): BaseResponse<MoyuItemBean?>
+
 
     @POST(COMMENT_URL)
     suspend fun comment(@Body query: MomentCommentInputBean): BaseResponse<String?>
@@ -77,5 +82,9 @@ interface MoyuApi {
 
         // 获取首页话题（类似于摸鱼首页侧栏）
         const val TOPIC_INDEX_URL = "ct/moyu/topic/index"
+
+        // 获取话题详情 {momentId}
+        const val MOYU_DETAIL_URL = "ct/moyu"
+
     }
 }

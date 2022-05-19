@@ -87,7 +87,6 @@
         android:id="@+id/codeView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorVip2"
         android:layout_marginBottom="@dimen/dp_6"
         android:paddingBottom="@dimen/dp_10"
         />

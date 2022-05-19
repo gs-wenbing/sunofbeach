@@ -48,6 +48,13 @@ class UcenterServiceWrap private constructor() {
             .navigation()
     }
 
+    fun launchMsgList(pageType: Int,title: String){
+        ARouter.getInstance()
+            .build(RoutePath.Ucenter.PAGE_MSG_LIST)
+            .withInt(Constants.Ucenter.PAGE_TYPE, pageType)
+            .withString("title", title)
+            .navigation()
+    }
     companion object {
         val instance = Singleton.holder
         object Singleton {

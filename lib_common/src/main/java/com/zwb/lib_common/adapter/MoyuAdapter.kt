@@ -21,6 +21,7 @@ import com.zwb.lib_common.R
 import com.zwb.lib_common.view.HtmlImageGetter
 import com.zwb.lib_common.bean.MoyuItemBean
 import com.zwb.lib_common.view.AvatarDecorView
+import com.zwb.lib_common.view.CommonViewUtils
 
 
 class MoyuAdapter(data: MutableList<MoyuItemBean>?) :
@@ -54,16 +55,7 @@ class MoyuAdapter(data: MutableList<MoyuItemBean>?) :
                 )
             }
             // 内容
-            val tvContent: TextView = helper.getView(R.id.tv_content)
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-                tvContent.text = Html.fromHtml(
-                    it.content, Html.FROM_HTML_MODE_LEGACY,
-                    HtmlImageGetter(tvContent),
-                    null
-                )
-            } else {
-                tvContent.text = Html.fromHtml(it.content)
-            }
+            CommonViewUtils.setHtml(helper.getView(R.id.tv_content),it.content)
 
             // 链接
             val tvLink = helper.getView<SuperTextView>(R.id.tv_link)

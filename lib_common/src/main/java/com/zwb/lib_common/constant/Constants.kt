@@ -11,12 +11,12 @@ object Constants {
     const val WEBSITE_URL = "https://www.sunofbeach.net/a/"
     const val WEBSITE_PREFIX = "http://www.sunofbeach"
 
-    object URL{
+    object URL {
         const val CHECK_TOKEN_URL = "uc/user/checkToken"
     }
 
 
-    object MultiItemType{
+    object MultiItemType {
         //标题
         const val TYPE_TITLE = 1
 
@@ -34,7 +34,7 @@ object Constants {
     }
 
 
-    object Ucenter{
+    object Ucenter {
 
         const val PAGE_TYPE = "page_type"
 
@@ -55,5 +55,23 @@ object Constants {
 
         //Sob币
         const val PAGE_SOB = 6
+
+        //消息-问答
+        const val PAGE_MSG_WENDA = 7
+
+        //消息-文章
+        const val PAGE_MSG_ARTICLE = 8
+
+        //消息-动态
+        const val PAGE_MSG_DYNAMIC = 9
+
+        //消息-给朕点赞
+        const val PAGE_MSG_STAR = 10
+
+        //消息-@朕
+        const val PAGE_MSG_AT = 11
+
+        //消息-系统消息
+        const val PAGE_MSG_SYSTEM = 12
     }
 }

@@ -27,7 +27,7 @@ class UserCenterMoyuFragment :
         init(mAdapter, this.rvList, this.refreshLayout, this@UserCenterMoyuFragment)
 
         mAdapter.setOnItemClickListener { adapter, view, position ->
-            MoyuServiceWrap.instance.launchDetail(adapter.getItem(position) as MoyuItemBean)
+            MoyuServiceWrap.instance.launchDetail((adapter.getItem(position) as MoyuItemBean).id)
         }
     }
 

@@ -1,5 +1,6 @@
 package com.zwb.lib_common.view
 
+import android.text.Html
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.zwb.lib_common.R
@@ -28,6 +29,18 @@ object CommonViewUtils {
                 btn.setTextColor(ContextCompat.getColor(btn.context, R.color.white))
                 btn.setBackgroundResource(R.drawable.blue_solid_btn_selector)
             }
+        }
+    }
+
+    fun setHtml(tvContent:TextView,content:String){
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            tvContent.text = Html.fromHtml(
+                content, Html.FROM_HTML_MODE_LEGACY,
+                HtmlImageGetter(tvContent),
+                null
+            )
+        } else {
+            tvContent.text = Html.fromHtml(content)
         }
     }
 }

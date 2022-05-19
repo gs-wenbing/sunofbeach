@@ -9,25 +9,20 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
-import com.bumptech.glide.Glide
 import com.chad.library.adapter.base.entity.MultiItemEntity
-import com.scwang.smartrefresh.layout.header.ClassicsHeader
-import com.youth.banner.util.BannerUtils
 import com.zwb.lib_base.bean.ListData
 import com.zwb.lib_base.ktx.gone
 import com.zwb.lib_base.ktx.visible
 import com.zwb.lib_base.mvvm.v.BaseActivity
-import com.zwb.lib_base.net.State
-import com.zwb.lib_base.net.StateType
 import com.zwb.lib_base.utils.DateUtils
 import com.zwb.lib_base.utils.StatusBarUtil
 import com.zwb.lib_base.utils.UIUtils
 import com.zwb.lib_common.R
 import com.zwb.lib_common.adapter.ImageAdapter
-import com.zwb.lib_common.base.BaseListActivity
 import com.zwb.lib_common.bean.MoyuItemBean
 import com.zwb.lib_common.constant.RoutePath
 import com.zwb.lib_common.service.ucenter.wrap.UcenterServiceWrap
+import com.zwb.lib_common.view.CommonViewUtils
 import com.zwb.lib_common.view.HtmlImageGetter
 import com.zwb.sob_moyu.MoyuApi
 import com.zwb.sob_moyu.MoyuViewModel
@@ -42,8 +37,8 @@ class MoyuDetailActivity :
 
     override val mViewModel by viewModels<MoyuViewModel>()
 
-    @Autowired(name = RoutePath.Moyu.PARAMS_MOYU)
-    lateinit var moyuInfo: MoyuItemBean
+    @Autowired(name = RoutePath.Moyu.PARAMS_MOYU_ID)
+    lateinit var moyuId: String
 
     private var mCurrentPage = 1
 
@@ -66,7 +61,9 @@ class MoyuDetailActivity :
             loadListData(mCurrentPage)
         }, this.rvContent)
 
-        setViewData()
+        setDefaultLoad(this.rvContent,MoyuApi.MOYU_DETAIL_URL)
+
+        getMoyuDetail()
         initListener()
     }
 
@@ -76,7 +73,15 @@ class MoyuDetailActivity :
         StatusBarUtil.setPaddingSmart(this, mBinding.layoutHeaderAvatar)
     }
 
-    private fun setViewData() {
+    private fun getMoyuDetail(){
+        mViewModel.moyuDetail(moyuId,MoyuApi.MOYU_DETAIL_URL).observe(this,{
+            if(it != null){
+                setViewData(it)
+            }
+        })
+    }
+
+    private fun setViewData(moyuInfo:MoyuItemBean) {
         mBinding.tvHeaderNickname.text = moyuInfo.nickname
         mBinding.ivHeaderAvatar.loadAvatar(moyuInfo.vip,moyuInfo.avatar)
 
@@ -86,15 +91,7 @@ class MoyuDetailActivity :
         headerBinding.tvHeader.setRightString(DateUtils.timeFormat(moyuInfo.createTime))
 
         // 内容
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-            headerBinding.tvContent.text = Html.fromHtml(
-                moyuInfo.content, Html.FROM_HTML_MODE_LEGACY,
-                HtmlImageGetter(headerBinding.tvContent),
-                null
-            )
-        } else {
-            headerBinding.tvContent.text = Html.fromHtml(moyuInfo.content)
-        }
+        CommonViewUtils.setHtml(headerBinding.tvContent,moyuInfo.content)
 
         // 链接
         if (!TextUtils.isEmpty(moyuInfo.linkTitle) && !TextUtils.isEmpty(moyuInfo.linkUrl)) {
@@ -166,7 +163,7 @@ class MoyuDetailActivity :
     }
 
     private fun loadListData(page: Int) {
-        mViewModel.getFollowList(moyuInfo.id, page, MoyuApi.COMMENT_URL).observe(this, {
+        mViewModel.getFollowList(moyuId, page, MoyuApi.COMMENT_URL).observe(this, {
             setCommentData(it)
         })
     }

@@ -5,7 +5,7 @@
             <solid android:color="#ffffff"/>
         </shape>
     </item>
-    <item android:top="120dp">
+    <item android:top="100dp">
         <bitmap android:src="@mipmap/welcome"
             android:gravity="center_horizontal|top" />
     </item>

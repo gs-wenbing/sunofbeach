@@ -11,6 +11,7 @@
         <activity android:name=".activity.MsgCenterActivity"/>
         <activity android:name=".activity.UcenterListActivity"/>
         <activity android:name=".activity.FavoriteListActivity"/>
+        <activity android:name=".activity.MessageListActivity"/>
         <activity android:name=".activity.SettingActivity"/>
     </application>
 

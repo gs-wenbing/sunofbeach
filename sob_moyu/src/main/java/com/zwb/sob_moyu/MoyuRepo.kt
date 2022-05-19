@@ -44,5 +44,9 @@ class MoyuRepo(private val loadState: MutableLiveData<State>) : BaseRepository()
         return apiService.getCommentList(momentId, page).dataConvert(loadState, key)
     }
 
+    suspend fun moyuDetail(momentId: String, key: String): MoyuItemBean? {
+        return apiService.moyuDetail(momentId).dataConvert(loadState, key)
+    }
+
 
 }

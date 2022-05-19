@@ -14,6 +14,12 @@ import com.bumptech.glide.Glide
 import com.zwb.lib_common.R
 import kotlin.math.min
 
+/**
+ *    author : A Lonely Cat
+ *    github : https://github.com/anjiemo/SunnyBeach
+ *    time   : 2022/03/31
+ *    desc   : 头像装饰控件
+ */
 class AvatarDecorView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null
 ) : AppCompatImageView(context, attrs) {

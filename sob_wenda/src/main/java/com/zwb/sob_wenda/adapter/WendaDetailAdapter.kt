@@ -16,6 +16,7 @@ import com.zwb.lib_base.utils.UIUtils
 import com.zwb.lib_common.bean.TitleMultiBean
 import com.zwb.lib_common.constant.Constants
 import com.zwb.lib_common.view.AvatarDecorView
+import com.zwb.lib_common.view.CommonViewUtils
 import com.zwb.lib_common.view.HtmlImageGetter
 import com.zwb.sob_wenda.R
 import com.zwb.sob_wenda.bean.AnswerBean
@@ -43,16 +44,9 @@ class WendaDetailAdapter(data: MutableList<MultiItemEntity>?) :
                     val comment = it as AnswerBean
                     helper.setText(R.id.tv_comment_nickname, comment.nickname)
                     helper.setText(R.id.tv_publishTime, DateUtils.timeFormat(comment.publishTime))
-                    val tvContent: TextView = helper.getView(R.id.tv_comment)
-                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-                        tvContent.text = Html.fromHtml(
-                            comment.content, Html.FROM_HTML_MODE_LEGACY,
-                            HtmlImageGetter(tvContent),
-                            null
-                        )
-                    } else {
-                        tvContent.text = Html.fromHtml(comment.content)
-                    }
+
+                    CommonViewUtils.setHtml(helper.getView(R.id.tv_comment),comment.content)
+
                     helper.setText(R.id.tv_reply, "${comment.wendaSubComments.size} 评论")
                     val ivAvatar = helper.getView<AvatarDecorView>(R.id.iv_comment_avatar)
                     ivAvatar.loadAvatar(comment.isVip,comment.avatar)

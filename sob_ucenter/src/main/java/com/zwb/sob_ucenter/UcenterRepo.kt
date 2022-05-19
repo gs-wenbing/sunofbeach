@@ -97,5 +97,30 @@ class UcenterRepo(private val loadState: MutableLiveData<State>) : CommonRepo(lo
         return apiService.favoriteList(collectionId,page).dataConvert(loadState, key)
     }
 
+    suspend fun messageMomentList(page: Int,key: String): PageViewData<MsgMomentBean>? {
+        return apiService.messageMomentList(page).dataConvert(loadState, key)
+    }
 
+    suspend fun messageThumbList(page: Int,key: String): PageViewData<MsgThumbBean>? {
+        return apiService.messageThumbList(page).dataConvert(loadState, key)
+    }
+    suspend fun messageAtList(page: Int,key: String): PageViewData<MsgAtBean>? {
+        return apiService.messageAtList(page).dataConvert(loadState, key)
+    }
+    suspend fun messageSystemList(page: Int,key: String): PageViewData<MsgSystemBean>? {
+        return apiService.messageSystemList(page).dataConvert(loadState, key)
+    }
+
+    suspend fun articleState(msgId: String): BaseResponse<String?> {
+        return apiService.articleState(msgId)
+    }
+    suspend fun momentState(msgId: String): BaseResponse<String?> {
+        return apiService.momentState(msgId)
+    }
+    suspend fun atState(msgId: String): BaseResponse<String?> {
+        return apiService.atState(msgId)
+    }
+    suspend fun wendaState(msgId: String): BaseResponse<String?> {
+        return apiService.wendaState(msgId)
+    }
 }

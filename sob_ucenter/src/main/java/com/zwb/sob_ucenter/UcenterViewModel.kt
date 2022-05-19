@@ -9,6 +9,7 @@ import com.zwb.lib_base.net.BaseResponse
 import com.zwb.lib_common.CommonViewModel
 import com.zwb.lib_common.bean.MoyuItemBean
 import com.zwb.lib_common.bean.UserBean
+import com.zwb.lib_common.constant.Constants
 import com.zwb.lib_common.constant.Constants.Ucenter.PAGE_FOLLOW
 import com.zwb.sob_ucenter.bean.*
 
@@ -213,6 +214,105 @@ class UcenterViewModel : CommonViewModel() {
         initiateRequest({
             response.value = userRepo.favoriteList(collectionId,page,key)
         }, loadState,key)
+        return response
+    }
+
+    /**
+     * 获取系统消息列表
+     */
+    fun messageSystemList(page: Int,key: String): MutableLiveData<PageViewData<MsgSystemBean>?> {
+        val response: MutableLiveData<PageViewData<MsgSystemBean>?> = MutableLiveData()
+        initiateRequest({
+            response.value = userRepo.messageSystemList(page,key)
+        }, loadState,key)
+        return response
+    }
+
+    /**
+     * 获取消息中评论列表
+     */
+    fun messageMomentList(page: Int,key: String): MutableLiveData<PageViewData<MsgMomentBean>?> {
+        val response: MutableLiveData<PageViewData<MsgMomentBean>?> = MutableLiveData()
+        initiateRequest({
+            response.value = userRepo.messageMomentList(page,key)
+        }, loadState,key)
+        return response
+    }
+
+    /**
+     * 获取消息中点赞列表
+     */
+    fun messageThumbList(page: Int,key: String): MutableLiveData<PageViewData<MsgThumbBean>?> {
+        val response: MutableLiveData<PageViewData<MsgThumbBean>?> = MutableLiveData()
+        initiateRequest({
+            response.value = userRepo.messageThumbList(page,key)
+        }, loadState,key)
+        return response
+    }
+
+    /**
+     * 获取消息中AT列表
+     */
+    fun messageAtList(page: Int,key: String): MutableLiveData<PageViewData<MsgAtBean>?> {
+        val response: MutableLiveData<PageViewData<MsgAtBean>?> = MutableLiveData()
+        initiateRequest({
+            response.value = userRepo.messageAtList(page,key)
+        }, loadState,key)
+        return response
+    }
+    /**
+     * 文章已读
+     */
+    fun articleState(msgId: String): MutableLiveData<BaseResponse<String?>> {
+        val response: MutableLiveData<BaseResponse<String?>> = MutableLiveData()
+        initiateRequest({
+            response.value = userRepo.articleState(msgId)
+        }, loadState)
+        return response
+    }
+    /**
+     * 更新摸鱼动态消息的状态
+     */
+    fun momentState(msgId: String): MutableLiveData<BaseResponse<String?>> {
+        val response: MutableLiveData<BaseResponse<String?>> = MutableLiveData()
+        initiateRequest({
+            response.value = userRepo.momentState(msgId)
+        }, loadState)
+        return response
+    }
+    /**
+     * at已读
+     */
+    fun atState(msgId: String): MutableLiveData<BaseResponse<String?>> {
+        val response: MutableLiveData<BaseResponse<String?>> = MutableLiveData()
+        initiateRequest({
+            response.value = userRepo.atState(msgId)
+        }, loadState)
+        return response
+    }
+    /**
+     * 问答已读
+     */
+    fun wendaState(msgId: String): MutableLiveData<BaseResponse<String?>> {
+        val response: MutableLiveData<BaseResponse<String?>> = MutableLiveData()
+        initiateRequest({
+            response.value = userRepo.wendaState(msgId)
+        }, loadState)
+        return response
+    }
+
+    /**
+     * 更新消息已读（动态、at）
+     */
+    fun updateMsgState(pageType:Int, msgId: String): MutableLiveData<BaseResponse<String?>> {
+        val response: MutableLiveData<BaseResponse<String?>> = MutableLiveData()
+        initiateRequest({
+            when (pageType) {
+                Constants.Ucenter.PAGE_MSG_DYNAMIC -> response.value = userRepo.momentState(msgId)
+                Constants.Ucenter.PAGE_MSG_AT -> response.value = userRepo.atState(msgId)
+            }
+
+        }, loadState)
         return response
     }
 

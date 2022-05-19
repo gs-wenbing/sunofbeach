@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingTop="@dimen/dp_10"
+    android:paddingBottom="@dimen/dp_10"
+    android:paddingLeft="@dimen/dp_16"
+    android:paddingRight="@dimen/dp_16"
+    android:background="@color/white"
+    android:layout_marginTop="@dimen/dp_6"
+    android:layout_marginBottom="@dimen/dp_2"
+    xmlns:tools="http://schemas.android.com/tools">
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:textColor="@color/textPrimary"
+        android:textSize="@dimen/sp_14"
+        tools:text="每日登录奖励"/>
+    <TextView
+        android:id="@+id/tv_createTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="2022-05-14"
+        android:textSize="@dimen/sp_12"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_title"
+        />
+    <TextView
+        android:id="@+id/tv_content"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_10"
+        android:textSize="@dimen/sp_12"
+        app:layout_constraintLeft_toLeftOf="@+id/tv_title"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_title"
+        tools:text="每日登录奖励2个sunof币 感谢有你！"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

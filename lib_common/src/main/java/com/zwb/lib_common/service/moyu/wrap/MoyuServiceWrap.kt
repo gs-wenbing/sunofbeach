@@ -21,10 +21,10 @@ class MoyuServiceWrap private constructor() {
     }
 
 
-    fun launchDetail(moyu: MoyuItemBean) {
+    fun launchDetail(moyuId: String) {
         ARouter.getInstance()
             .build(RoutePath.Moyu.PAGE_DETAIL)
-            .withParcelable(RoutePath.Moyu.PARAMS_MOYU, moyu)
+            .withString(RoutePath.Moyu.PARAMS_MOYU_ID, moyuId)
             .navigation()
     }
 

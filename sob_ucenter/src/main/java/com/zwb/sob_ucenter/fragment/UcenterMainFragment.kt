@@ -6,6 +6,7 @@ import android.text.style.ForegroundColorSpan
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
+import com.scwang.smartrefresh.layout.header.ClassicsHeader
 import com.youth.banner.util.BannerUtils
 import com.zwb.lib_base.ktx.gone
 import com.zwb.lib_base.ktx.visible
@@ -41,10 +42,15 @@ class UcenterMainFragment : BaseFragment<UcenterFragmentMainBinding, UcenterView
             SpUtils.getString(SpKey.USER_AVATAR, ""),
             SpUtils.getString(SpKey.USER_NICKNAME, "")
         )
+        mBinding.refreshLayout.setRefreshHeader(ClassicsHeader(requireContext()))
         initListener()
     }
 
     private fun initListener() {
+        mBinding.refreshLayout.setOnRefreshListener {
+            initRequestData()
+            mBinding.refreshLayout.finishRefresh()
+        }
         mBinding.ivSetting.setOnClickListener {
             SettingActivity.launch(requireActivity())
         }

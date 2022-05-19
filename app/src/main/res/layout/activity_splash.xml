@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:paddingTop="120dp">
+    android:paddingTop="100dp">
 
     <ImageView
         android:layout_width="wrap_content"
@@ -22,7 +22,7 @@
             android:id="@+id/ic_launcher"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/dp_34"
+            android:layout_marginBottom="@dimen/dp_40"
             android:src="@mipmap/ic_launcher"
             app:layout_constraintBottom_toTopOf="@+id/web"
             app:layout_constraintLeft_toLeftOf="parent"

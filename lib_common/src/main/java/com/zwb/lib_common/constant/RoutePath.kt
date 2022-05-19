@@ -27,7 +27,7 @@ object RoutePath{
         const val FRAGMENT_MOYU = "$MOYU/MoyuMainFragment"
         const val SERVICE_MOYU = "${MOYU}/moyu_service"
         const val PAGE_DETAIL = "${MOYU}/MoyuDetailActivity"
-        const val PARAMS_MOYU = "moyu"
+        const val PARAMS_MOYU_ID = "moyu_id"
     }
 
     object Wenda{
@@ -51,6 +51,7 @@ object RoutePath{
 
         const val PAGE_MESSAGE = "${UCENTER}/MsgCenterActivity"
         const val PAGE_UCENTER_LIST = "${UCENTER}/UcenterListActivity"
+        const val PAGE_MSG_LIST = "${UCENTER}/MessageListActivity"
         const val PAGE_FAVORITE_LIST = "${UCENTER}/FavoriteListActivity"
 
     }

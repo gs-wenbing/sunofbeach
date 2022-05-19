@@ -67,4 +67,12 @@ class MoyuViewModel : BaseViewModel() {
         return response
     }
 
+    fun moyuDetail(momentId: String, key: String): MutableLiveData<MoyuItemBean?> {
+        val response: MutableLiveData<MoyuItemBean?> = MutableLiveData()
+        initiateRequest({
+            response.value = repository.moyuDetail(momentId, key)
+        }, loadState, key)
+        return response
+    }
+
 }
