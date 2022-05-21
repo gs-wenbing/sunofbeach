@@ -227,6 +227,16 @@ class UcenterViewModel : CommonViewModel() {
         }, loadState,key)
         return response
     }
+    /**
+     * 获取文章消息列表
+     */
+    fun messageArticleList(page: Int,key: String): MutableLiveData<PageViewData<MsgArticleBean>?> {
+        val response: MutableLiveData<PageViewData<MsgArticleBean>?> = MutableLiveData()
+        initiateRequest({
+            response.value = userRepo.messageArticleList(page,key)
+        }, loadState,key)
+        return response
+    }
 
     /**
      * 获取消息中评论列表
@@ -310,6 +320,7 @@ class UcenterViewModel : CommonViewModel() {
             when (pageType) {
                 Constants.Ucenter.PAGE_MSG_DYNAMIC -> response.value = userRepo.momentState(msgId)
                 Constants.Ucenter.PAGE_MSG_AT -> response.value = userRepo.atState(msgId)
+                Constants.Ucenter.PAGE_MSG_ARTICLE -> response.value = userRepo.articleState(msgId)
             }
 
         }, loadState)

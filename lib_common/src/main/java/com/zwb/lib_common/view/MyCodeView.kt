@@ -58,6 +58,11 @@ class MyCodeView: CodeView {
     fun getTitleList(): List<ArticleTitleBean>{
         return titleList
     }
+
+    private var imageList:MutableList<String> = mutableListOf()
+    fun getImageList(): List<String>{
+        return imageList
+    }
     private fun parseTitle(all: Elements){
         val allHTag = all.filter { it.tag().name.toLowerCase() in arrayListOf(
             "h1",
@@ -78,6 +83,14 @@ class MyCodeView: CodeView {
         }
     }
 
+    private fun parseImages(imgs: Elements){
+        for ((index,element) in imgs.withIndex()) {
+            // -webkit-backface-visibility: hidden; 这个很神奇，解决一些意想不到的问题
+            element.attr("style", "max-width:100%;height:auto;-webkit-backface-visibility: hidden;")
+            element.attr("onclick", "javascript:native.showBigImage($index)")
+            imageList.add(element.attr("src"))
+        }
+    }
     /**
      * 修改html的样式
      */
@@ -97,11 +110,12 @@ class MyCodeView: CodeView {
             val doc: Document = Jsoup.parse(newHtml)
             doc.head().append("\n<script src=\"file:///android_asset/scrollhelper.js\"></script>\n")
             parseTitle(doc.allElements)
-            val imgs: Elements = doc.getElementsByTag("img")
-            for (element in imgs) {
-                // -webkit-backface-visibility: hidden; 这个很神奇，解决一些意想不到的问题
-                element.attr("style", "max-width:100%;height:auto;-webkit-backface-visibility: hidden;")
-            }
+            parseImages(doc.getElementsByTag("img"))
+//            val imgs: Elements = doc.getElementsByTag("img")
+//            for (element in imgs) {
+//                // -webkit-backface-visibility: hidden; 这个很神奇，解决一些意想不到的问题
+//                element.attr("style", "max-width:100%;height:auto;-webkit-backface-visibility: hidden;")
+//            }
             val h1s: Elements = doc.getElementsByTag("h1")
             for (element in h1s) {
                 element.attr("style", "font-size:18px")

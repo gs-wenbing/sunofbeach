@@ -41,15 +41,23 @@ class WendaDetailAdapter(data: MutableList<MultiItemEntity>?) :
                     helper.setText(R.id.tv_title, title.title)
                 }
                 Constants.MultiItemType.TYPE_COMMENT -> {
+                    // 回答item
                     val comment = it as AnswerBean
+                    // 昵称
                     helper.setText(R.id.tv_comment_nickname, comment.nickname)
+                    // 发布时间
                     helper.setText(R.id.tv_publishTime, DateUtils.timeFormat(comment.publishTime))
-
+                    // 回答内容（显示一部分）
                     CommonViewUtils.setHtml(helper.getView(R.id.tv_comment),comment.content)
-
+                    //隐藏浏览量
+                    helper.getView<View>(R.id.tv_viewCount).gone()
+                    //回答的点赞数
+                    helper.setText(R.id.tv_thumb,comment.thumbUp.toString())
+                    // 回答的评论数
                     helper.setText(R.id.tv_reply, "${comment.wendaSubComments.size} 评论")
                     val ivAvatar = helper.getView<AvatarDecorView>(R.id.iv_comment_avatar)
                     ivAvatar.loadAvatar(comment.isVip,comment.avatar)
+                    // 是否是最近答案
                     if(comment.bestAs=="1"){
                         helper.getView<View>(R.id.tv_solved).visible()
                     }else{
@@ -58,14 +66,32 @@ class WendaDetailAdapter(data: MutableList<MultiItemEntity>?) :
                     helper.addOnClickListener(R.id.tv_comment_nickname, R.id.iv_comment_avatar)
                 }
                 Constants.MultiItemType.TYPE_RECOMMEND -> {
+                    // 相关推荐item
                     val wenda = it as WendaBean
+                    // 昵称
                     helper.setText(R.id.tv_comment_nickname, wenda.nickname)
+                    // 发布时间
                     helper.setText(R.id.tv_publishTime,  DateUtils.timeFormat(wenda.createTime))
+                    // 发布标题
                     helper.setText(R.id.tv_comment, wenda.title)
                     val ivAvatar = helper.getView<AvatarDecorView>(R.id.iv_comment_avatar)
                     ivAvatar.loadAvatar(wenda.isVip=="1",wenda.avatar)
                     helper.addOnClickListener(R.id.tv_comment_nickname, R.id.iv_comment_avatar)
+                    // 隐藏查看详情（和回答的item共有一个layout）
                     helper.getView<View>(R.id.tv_more).gone()
+                    // 浏览量
+                    helper.setText(R.id.tv_viewCount,wenda.viewCount.toString())
+                    // 隐藏问题的点赞数
+                    helper.getView<View>(R.id.tv_thumb).gone()
+                    // 回答数
+                    helper.setText(R.id.tv_reply, "${wenda.answerCount} 回答")
+                    // 是否已经解决
+                    if(wenda.isResolve=="1"){
+                        helper.setText(R.id.tv_solved, "已解决")
+                        helper.getView<View>(R.id.tv_solved).visible()
+                    }else{
+                        helper.getView<View>(R.id.tv_solved).gone()
+                    }
                 }
                 else ->{}
             }

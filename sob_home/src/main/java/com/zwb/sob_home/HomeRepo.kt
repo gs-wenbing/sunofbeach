@@ -53,18 +53,33 @@ class HomeRepo(private val loadState: MutableLiveData<State>) : CommonRepo(loadS
 //    }
 
 
-    suspend fun getArticleRecommend(articleId: String, size: Int, key: String): List<ArticleRecommendBean>? {
-        return apiService.getArticleRecommend(articleId,size).dataConvert(loadState,key)
+    suspend fun getArticleRecommend(
+        articleId: String,
+        size: Int,
+        key: String
+    ): List<ArticleRecommendBean>? {
+        return apiService.getArticleRecommend(articleId, size).dataConvert(loadState, key)
     }
 
-    suspend fun getArticleCommentList(articleId: String, page: Int, key: String): PageViewData<CommentBean>? {
-        return apiService.getArticleCommentList(articleId,page).dataConvert(loadState,key)
+    suspend fun getArticleCommentList(
+        articleId: String,
+        page: Int,
+        key: String
+    ): PageViewData<CommentBean>? {
+        return apiService.getArticleCommentList(articleId, page).dataConvert(loadState, key)
     }
 
     suspend fun commentArticle(comment: CommentInputBean): BaseResponse<String?> {
         return apiService.commentArticle(comment)
     }
 
+    suspend fun priseArticle(prise: PriseArticleInputBean): BaseResponse<String?> {
+        return apiService.priseArticle(prise)
+    }
+
+    suspend fun getPriseArticleList(articleId: String, key: String): List<PriseArticleBean>? {
+        return apiService.getPriseArticleList(articleId).dataConvert(loadState, key)
+    }
 
 
 }

@@ -1,13 +1,9 @@
 package com.zwb.sob_wenda.adapter
 
-import android.widget.ImageView
 import androidx.core.content.ContextCompat
 import com.allen.library.SuperTextView
-import com.bumptech.glide.Glide
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
-import com.youth.banner.util.BannerUtils
-import com.zwb.lib_base.utils.UIUtils
 import com.zwb.lib_common.view.AvatarDecorView
 import com.zwb.sob_wenda.R
 import com.zwb.sob_wenda.bean.WendaBean

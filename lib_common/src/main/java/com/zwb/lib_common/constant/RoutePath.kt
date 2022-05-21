@@ -10,6 +10,8 @@ object RoutePath{
 
     const val PATH = "path"
 
+    const val PAGE_PHONE = "/common/PhotoBrowse"
+
     object Login{
         private const val LOGIN = "/login"
         const val PAGE_LOGIN = "$LOGIN/LoginActivity"
@@ -20,6 +22,7 @@ object RoutePath{
         const val SERVICE_HOME = "${HOME}/home_service"
         const val FRAGMENT_HOME = "$HOME/HomeMainFragment"
         const val PAGE_ARTICLE = "${HOME}/ArticleDetailActivity"
+        const val PAGE_WEBVIEW = "${HOME}/WebViewActivity"
     }
 
     object Moyu{

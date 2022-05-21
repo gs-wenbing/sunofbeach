@@ -80,6 +80,9 @@ open class CommonViewModel : BaseViewModel() {
         return response
     }
 
+    /**
+     * 关注 or 取消关注
+     */
     fun follow(userId: String): MutableLiveData<BaseResponse<Int?>> {
         val response: MutableLiveData<BaseResponse<Int?>> = MutableLiveData()
         initiateRequest({
@@ -99,7 +102,9 @@ open class CommonViewModel : BaseViewModel() {
         return response
     }
 
-
+    /**
+     * 关注状态
+     */
     fun followState(userId: String): MutableLiveData<BaseResponse<Int?>> {
         val response: MutableLiveData<BaseResponse<Int?>> = MutableLiveData()
         initiateRequest({
@@ -107,4 +112,6 @@ open class CommonViewModel : BaseViewModel() {
         }, loadState)
         return response
     }
+
+
 }

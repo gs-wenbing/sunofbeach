@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import com.zwb.lib_base.bean.ListData
 import com.zwb.lib_base.ktx.initiateRequest
 import com.zwb.lib_base.mvvm.vm.BaseViewModel
+import com.zwb.lib_base.net.BaseResponse
 import com.zwb.lib_common.CommonViewModel
 import com.zwb.lib_common.view.CommonViewUtils
 import com.zwb.sob_wenda.bean.AnswerBean
@@ -57,5 +58,52 @@ class WendaViewModel: CommonViewModel() {
         return response
     }
 
+    fun wendaThumbCheck(wendaId: String): MutableLiveData<BaseResponse<Int?>> {
+        val response: MutableLiveData<BaseResponse<Int?>> = MutableLiveData()
+        initiateRequest({
+            response.value = wendaRepo.wendaThumbCheck(wendaId)
+        }, loadState)
+        return response
+    }
+
+    fun wendaThumb(wendaId: String): MutableLiveData<BaseResponse<Int?>> {
+        val response: MutableLiveData<BaseResponse<Int?>> = MutableLiveData()
+        initiateRequest({
+            response.value = wendaRepo.wendaThumb(wendaId)
+        }, loadState)
+        return response
+    }
+
+    fun commentThumbCheck(wendaId: String): MutableLiveData<BaseResponse<Int?>> {
+        val response: MutableLiveData<BaseResponse<Int?>> = MutableLiveData()
+        initiateRequest({
+            response.value = wendaRepo.commentThumbCheck(wendaId)
+        }, loadState)
+        return response
+    }
+
+    fun commentThumb(wendaId: String): MutableLiveData<BaseResponse<Int?>> {
+        val response: MutableLiveData<BaseResponse<Int?>> = MutableLiveData()
+        initiateRequest({
+            response.value = wendaRepo.commentThumb(wendaId)
+        }, loadState)
+        return response
+    }
+
+    fun commentBest(wendaId: String, wendaCommentId: String): MutableLiveData<BaseResponse<Int?>> {
+        val response: MutableLiveData<BaseResponse<Int?>> = MutableLiveData()
+        initiateRequest({
+            response.value = wendaRepo.commentBest(wendaId, wendaCommentId)
+        }, loadState)
+        return response
+    }
+
+    fun commentPrise(commentId: String, count: Int, thumbUp: Boolean): MutableLiveData<BaseResponse<Int?>> {
+        val response: MutableLiveData<BaseResponse<Int?>> = MutableLiveData()
+        initiateRequest({
+            response.value = wendaRepo.commentPrise(commentId, count, thumbUp)
+        }, loadState)
+        return response
+    }
 
 }

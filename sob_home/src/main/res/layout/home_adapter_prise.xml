@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="@dimen/dp_10"
+    android:layout_marginTop="@dimen/dp_4"
+    android:background="@color/white"
+    xmlns:tools="http://schemas.android.com/tools">
+    <com.zwb.lib_common.view.AvatarDecorView
+        android:id="@+id/iv_avatar"
+        android:layout_width="@dimen/dp_40"
+        android:layout_height="@dimen/dp_40"
+        android:src="@mipmap/ic_default_avatar"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+
+        />
+    <TextView
+        android:id="@+id/tv_nickname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_10"
+        app:layout_constraintTop_toTopOf="@+id/iv_avatar"
+        app:layout_constraintLeft_toRightOf="@+id/iv_avatar"
+        tools:text="gs_wenbing"
+        android:textColor="@color/textPrimary"
+        android:textStyle="bold"
+        android:textSize="@dimen/sp_14"
+        />
+    <TextView
+        android:id="@+id/tv_prise_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="打赏 3 Sob币"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_avatar"
+        app:layout_constraintLeft_toLeftOf="@+id/tv_nickname"
+        android:textSize="@dimen/sp_13"
+        />
+    <TextView
+        android:id="@+id/tv_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="2022-05-14 15:44"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_prise_value"
+        app:layout_constraintRight_toRightOf="parent"
+        android:textSize="@dimen/sp_13"
+        />
+</androidx.constraintlayout.widget.ConstraintLayout>

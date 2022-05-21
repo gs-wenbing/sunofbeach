@@ -110,6 +110,9 @@ class UcenterRepo(private val loadState: MutableLiveData<State>) : CommonRepo(lo
     suspend fun messageSystemList(page: Int,key: String): PageViewData<MsgSystemBean>? {
         return apiService.messageSystemList(page).dataConvert(loadState, key)
     }
+    suspend fun messageArticleList(page: Int,key: String): PageViewData<MsgArticleBean>? {
+        return apiService.messageArticleList(page).dataConvert(loadState, key)
+    }
 
     suspend fun articleState(msgId: String): BaseResponse<String?> {
         return apiService.articleState(msgId)

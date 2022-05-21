@@ -1,30 +1,28 @@
 package com.zwb.lib_common.adapter
 
 import android.graphics.Typeface
-import android.text.Html
 import android.text.TextUtils
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.allen.library.SuperTextView
-import com.bumptech.glide.Glide
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
-import com.youth.banner.util.BannerUtils
 import com.zwb.lib_base.ktx.gone
 import com.zwb.lib_base.ktx.visible
 import com.zwb.lib_base.utils.DateUtils
+import com.zwb.lib_base.utils.SpUtils
 import com.zwb.lib_base.utils.UIUtils
 import com.zwb.lib_common.R
-import com.zwb.lib_common.view.HtmlImageGetter
 import com.zwb.lib_common.bean.MoyuItemBean
+import com.zwb.lib_common.constant.SpKey
 import com.zwb.lib_common.view.AvatarDecorView
 import com.zwb.lib_common.view.CommonViewUtils
 
 
-class MoyuAdapter(data: MutableList<MoyuItemBean>?) :
+class MoyuAdapter(val fragment: Fragment, data: MutableList<MoyuItemBean>?) :
     BaseQuickAdapter<MoyuItemBean, BaseViewHolder>(R.layout.common_moyu_adapter, data) {
 
     override fun convert(helper: BaseViewHolder, item: MoyuItemBean?) {
@@ -86,7 +84,10 @@ class MoyuAdapter(data: MutableList<MoyuItemBean>?) :
 
             helper.setText(R.id.tv_star, it.thumbUpList.size.toString())
             helper.setText(R.id.tv_reply, it.commentCount.toString())
-            helper.addOnClickListener(R.id.iv_avatar,R.id.tv_nickname)
+            helper.addOnClickListener(R.id.iv_avatar,R.id.tv_nickname,R.id.tv_link)
+            // 判断是否已经点赞该条动态
+            val loginUserId = SpUtils.getString(SpKey.USER_ID,"")
+            CommonViewUtils.setThumbStyle(helper.getView(R.id.tv_star),it.thumbUpList.contains(loginUserId))
         }
     }
 
@@ -105,6 +106,10 @@ class MoyuAdapter(data: MutableList<MoyuItemBean>?) :
                 rvPic.layoutManager = GridLayoutManager(mContext, 3)
             }
         }
-        rvPic.adapter = ImageAdapter(width, pics.toMutableList())
+        val adapter = ImageAdapter(width, pics.toMutableList())
+        rvPic.adapter = adapter
+        adapter.setOnItemClickListener { _, _, position ->
+            CommonViewUtils.showBigImage(rvPic,R.id.iv_image, pics, position)
+        }
     }
 }

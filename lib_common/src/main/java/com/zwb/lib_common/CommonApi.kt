@@ -77,6 +77,7 @@ interface CommonApi {
         @Path("userId") userId: String
     ): BaseResponse<Int?>
 
+
     companion object {
         const val BASE_URL = "https://api.sunofbeaches.com/"
 
@@ -106,5 +107,6 @@ interface CommonApi {
         //        2表示已经关注对方，可以显示为：已关注
         //        3表示相互关注，可以显示为：相互关注
         const val FOLLOW_STATE_URL = "uc/fans/state"
+
     }
 }

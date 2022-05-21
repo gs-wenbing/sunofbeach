@@ -67,7 +67,7 @@ class MsgCenterActivity : BaseActivity<UcenterActivityMsgBinding, UcenterViewMod
             toast("问题回答===开发中...")
         }
         mBinding.tvArticle.setOnClickListener {
-            toast("文章回复===开发中...")
+            UcenterServiceWrap.instance.launchMsgList(Constants.Ucenter.PAGE_MSG_ARTICLE, "文章评论")
         }
 
         mBinding.tvDynamic.setOnClickListener {

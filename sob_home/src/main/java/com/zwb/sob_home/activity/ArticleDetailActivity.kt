@@ -2,14 +2,17 @@ package com.zwb.sob_home.activity
 
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList
+import android.graphics.Paint
 import android.text.TextUtils
 import android.util.Log
+import android.webkit.JavascriptInterface
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.alibaba.android.arouter.facade.annotation.Autowired
@@ -25,13 +28,12 @@ import com.zwb.lib_base.utils.KeyBoardUtils
 import com.zwb.lib_base.utils.StatusBarUtil
 import com.zwb.lib_base.utils.UIUtils
 import com.zwb.lib_common.CommonApi
-import com.zwb.lib_common.bean.ArticleTitleBean
-import com.zwb.lib_common.bean.CollectInputBean
-import com.zwb.lib_common.bean.CollectionBean
-import com.zwb.lib_common.bean.TitleMultiBean
-import com.zwb.lib_common.constant.Constants
+import com.zwb.lib_common.adapter.CommonPriseAdapter
+import com.zwb.lib_common.bean.*
+import com.zwb.lib_common.constant.Constants.UCENTER_URL
 import com.zwb.lib_common.constant.Constants.WEBSITE_URL
 import com.zwb.lib_common.constant.RoutePath
+import com.zwb.lib_common.databinding.CommonPriseDialogBinding
 import com.zwb.lib_common.service.home.wrap.HomeServiceWrap
 import com.zwb.lib_common.service.ucenter.wrap.UcenterServiceWrap
 import com.zwb.lib_common.view.CommonViewUtils
@@ -70,28 +72,16 @@ class ArticleDetailActivity : BaseActivity<HomeActivityArticleDetailBinding, Hom
     private var switchScrollY = 0
 
     override fun HomeActivityArticleDetailBinding.initView() {
-        Log.e("articleId=====", articleId)
         mBinding.includeBar.tvTitle.text = articleTitle
         mBinding.includeBar.tvSearch.gone()
         mBinding.includeBar.ivBack.setOnClickListener { finish() }
         mBinding.ivSwitch.tag = 0
         mBinding.tvReplyNum.gone()
+        mBinding.tvStarNum.gone()
         setDefaultLoad(this.refreshLayout, HomeApi.ARTICLE_DETAIL_URL)
         contentBinding = HomeDetailContentLayoutBinding.inflate(layoutInflater)
-        contentBinding.codeView.webViewClient = object : WebViewClient() {
+        initWebView()
 
-            override fun shouldOverrideUrlLoading(
-                view: WebView,
-                request: WebResourceRequest
-            ): Boolean {
-                if(request.url.toString().startsWith(Constants.WEBSITE_PREFIX)){
-                    val arr = request.url.toString().split("/")
-                    HomeServiceWrap.instance.launchDetail(arr[arr.size-1],"")
-                    return true
-                }
-                return true
-            }
-        }
         mAdapter = HomeDetailAdapter(this@ArticleDetailActivity, mutableListOf())
         this.rvContent.setHasFixedSize(true)
         this.rvContent.adapter = mAdapter
@@ -104,6 +94,10 @@ class ArticleDetailActivity : BaseActivity<HomeActivityArticleDetailBinding, Hom
             UIUtils.getScreenHeight() * 2 / 3
         )
 
+        initListener()
+    }
+
+    private fun initListener(){
         mBinding.ivHeaderAvatar.setOnClickListener {
             article?.let {
                 UcenterServiceWrap.instance.launchDetail(article!!.userId)
@@ -127,12 +121,12 @@ class ArticleDetailActivity : BaseActivity<HomeActivityArticleDetailBinding, Hom
             if (mBinding.ivSwitch.tag == 1) {
                 mBinding.ivSwitch.setImageResource(R.mipmap.ic_detail_reply)
 //                this.rvContent.scrollBy(0, -10000)
-                this.rvContent.scrollToPosition(0)
+                mBinding.rvContent.scrollToPosition(0)
                 mBinding.ivSwitch.tag = 0
             } else {
                 switchScrollY = scrollY
                 mBinding.ivSwitch.setImageResource(R.mipmap.ic_detail_back)
-                this.rvContent.scrollToPosition(2)
+                mBinding.rvContent.scrollToPosition(2)
                 mBinding.ivSwitch.tag = 1
             }
         }
@@ -154,6 +148,15 @@ class ArticleDetailActivity : BaseActivity<HomeActivityArticleDetailBinding, Hom
             }
             getCollectFolder()
         }
+
+        mBinding.tvReward.setOnClickListener {
+            showPriseDialog()
+        }
+
+        contentBinding.tvPriseList.setOnClickListener {
+            PriseListActivity.launch(this,articleId)
+        }
+
         mBinding.rvContent.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
@@ -222,6 +225,42 @@ class ArticleDetailActivity : BaseActivity<HomeActivityArticleDetailBinding, Hom
         StatusBarUtil.setPaddingSmart(this, mBinding.includeBar.toolbar)
         StatusBarUtil.setPaddingSmart(this, mBinding.layoutHeaderAvatar)
         mBinding.layoutHeaderAvatar.gone()
+    }
+
+
+    @SuppressLint("JavascriptInterface")
+    private fun initWebView() {
+        contentBinding.codeView.addJavascriptInterface(this, "native")
+        contentBinding.codeView.webViewClient = object : WebViewClient() {
+
+            override fun shouldOverrideUrlLoading(
+                view: WebView,
+                request: WebResourceRequest
+            ): Boolean {
+                when {
+                    request.url.toString().startsWith(WEBSITE_URL) -> {
+                        val arr = request.url.toString().split("/")
+                        HomeServiceWrap.instance.launchDetail(arr[arr.size - 1], "")
+                        return true
+                    }
+                    request.url.toString().startsWith(UCENTER_URL) -> {
+                        val arr = request.url.toString().split("/")
+                        UcenterServiceWrap.instance.launchDetail(arr[arr.size - 1])
+                        return true
+                    }
+                    else -> {
+                        HomeServiceWrap.instance.launchWebView("",request.url.toString())
+                    }
+                }
+
+                return true
+            }
+        }
+    }
+
+    @JavascriptInterface
+    fun showBigImage(index: Int) {
+        CommonViewUtils.showBigImage(this, contentBinding.codeView.getImageList(), index)
     }
 
     override fun initRequestData() {
@@ -312,6 +351,7 @@ class ArticleDetailActivity : BaseActivity<HomeActivityArticleDetailBinding, Hom
         }
         mViewModel.articleThumbUp(articleId).observe(this@ArticleDetailActivity, {
             if (it.success) {
+                mBinding.tvStarNum.visible()
                 mBinding.tvStarNum.text = it.data.toString()
                 setStarStyle()
             }
@@ -433,9 +473,15 @@ class ArticleDetailActivity : BaseActivity<HomeActivityArticleDetailBinding, Hom
         contentBinding.tvPublishTime.text = "发表于 ${DateUtils.timeFormat(article.createTime)}"
         contentBinding.tvViewCount.text = "热度：${article.viewCount}"
         contentBinding.tvLabels.text = article.labels.toString()
+
+        contentBinding.tvPriseList.paint.flags = Paint.UNDERLINE_TEXT_FLAG
+
         mBinding.tvHeaderNickname.text = article.nickname
         mBinding.ivHeaderAvatar.loadAvatar(article.isVip == 1, article.avatar)
-        mBinding.tvStarNum.text = article.thumbUp.toString()
+        if (article.thumbUp > 0) {
+            mBinding.tvStarNum.visible()
+            mBinding.tvStarNum.text = article.thumbUp.toString()
+        }
     }
 
     /**
@@ -443,13 +489,9 @@ class ArticleDetailActivity : BaseActivity<HomeActivityArticleDetailBinding, Hom
      */
     private fun setStarStyle() {
         mBinding.tvStarNum.setTextColor(ContextCompat.getColor(this, R.color.colorAccent))
+        mBinding.tvStarNum.visible()
         mBinding.tvStarNum.tag = true
-        mBinding.ivStar.setImageDrawable(
-            UIUtils.tintDrawable(
-                mBinding.ivStar.drawable,
-                ColorStateList.valueOf(ContextCompat.getColor(this, R.color.colorAccent))
-            )
-        )
+        mBinding.ivStar.setImageResource(R.mipmap.ic_detail_likes_checked)
     }
 
     /**
@@ -457,17 +499,7 @@ class ArticleDetailActivity : BaseActivity<HomeActivityArticleDetailBinding, Hom
      */
     private fun setCollectStyle(isCollect: Boolean, favoriteId: String = "") {
         mBinding.ivCollection.tag = favoriteId
-        mBinding.ivCollection.setImageDrawable(
-            UIUtils.tintDrawable(
-                mBinding.ivCollection.drawable,
-                ColorStateList.valueOf(
-                    ContextCompat.getColor(
-                        this,
-                        if (isCollect) R.color.colorAccent else R.color.icon_color
-                    )
-                )
-            )
-        )
+        mBinding.ivCollection.setImageResource(if (isCollect) R.mipmap.ic_detail_collect_checked else R.mipmap.ic_detail_collect)
     }
 
     /**
@@ -506,7 +538,6 @@ class ArticleDetailActivity : BaseActivity<HomeActivityArticleDetailBinding, Hom
      */
     private fun showContentList() {
         val titleList = contentBinding.codeView.getTitleList()
-        Log.e("titleList=====", titleList.toString())
         val dialogBinding = HomeDialogContentListBinding.inflate(layoutInflater)
         dialogBinding.ivClose.setOnClickListener { bottomSheetDialog.dismiss() }
         dialogBinding.rvList.layoutManager = LinearLayoutManager(this)
@@ -572,4 +603,40 @@ class ArticleDetailActivity : BaseActivity<HomeActivityArticleDetailBinding, Hom
         }
     }
 
+    private fun showPriseDialog() {
+        if (!isLoginIntercept(true) && article != null) {
+            return
+        }
+        val dialogBinding = CommonPriseDialogBinding.inflate(layoutInflater)
+        bottomSheetDialog.setContentView(dialogBinding.root)
+        bottomSheetDialog.show()
+
+        dialogBinding.ivAvatar.loadAvatar(false, article!!.avatar)
+        dialogBinding.tvNickname.text = article!!.nickname
+        dialogBinding.ivClose.setOnClickListener { bottomSheetDialog.dismiss() }
+
+        dialogBinding.rvSob.layoutManager = GridLayoutManager(this, 3)
+        val adapter = CommonPriseAdapter()
+        dialogBinding.rvSob.adapter = adapter
+        var selectItem: PriseSobBean? = null
+        adapter.setOnItemClickListener { _, _, position ->
+            adapter.data.forEach {
+                selectItem = (adapter.getItem(position) as PriseSobBean)
+                it.isChecked = selectItem == it
+            }
+            adapter.notifyDataSetChanged()
+        }
+        dialogBinding.btnPrise.setOnClickListener {
+            selectItem?.let { priseArticle(it.value) }
+            bottomSheetDialog.dismiss()
+        }
+    }
+
+    private fun priseArticle(count: Int) {
+        mViewModel.priseArticle(PriseArticleInputBean(articleId, count)).observe(this, {
+            if (it.success) {
+                toast("谢谢老板打赏!!!")
+            }
+        })
+    }
 }

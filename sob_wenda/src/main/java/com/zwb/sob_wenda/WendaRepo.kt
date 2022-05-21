@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import com.zwb.lib_base.bean.ListData
 import com.zwb.lib_base.ktx.dataConvert
 import com.zwb.lib_base.mvvm.m.BaseRepository
+import com.zwb.lib_base.net.BaseResponse
 import com.zwb.lib_base.net.RetrofitFactory
 import com.zwb.lib_base.net.State
 import com.zwb.lib_common.CommonRepo
@@ -36,6 +37,29 @@ class WendaRepo(private val loadState: MutableLiveData<State>) : CommonRepo(load
 
     suspend fun getWendaRelative(wendaId: String, key: String): List<WendaBean>? {
         return apiService.getWendaRelative(wendaId).dataConvert(loadState, key)
+    }
+
+    suspend fun wendaThumbCheck(wendaId: String): BaseResponse<Int?> {
+        return apiService.wendaThumbCheck(wendaId)
+    }
+
+    suspend fun wendaThumb(wendaId: String): BaseResponse<Int?> {
+        return apiService.wendaThumb(wendaId)
+    }
+    suspend fun commentThumbCheck(wendaId: String): BaseResponse<Int?> {
+        return apiService.commentThumbCheck(wendaId)
+    }
+
+    suspend fun commentThumb(wendaId: String): BaseResponse<Int?> {
+        return apiService.commentThumb(wendaId)
+    }
+
+    suspend fun commentBest(wendaId: String, wendaCommentId: String): BaseResponse<Int?> {
+        return apiService.commentBest(wendaId,wendaCommentId)
+    }
+
+    suspend fun commentPrise(commentId: String, count: Int, thumbUp: Boolean): BaseResponse<Int?> {
+        return apiService.commentPrise(commentId, count, thumbUp)
     }
 
 

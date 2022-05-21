@@ -50,24 +50,24 @@
             android:id="@+id/tv_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toLeftOf="@+id/tv_star"
+            android:layout_alignParentRight="true"
             android:drawableLeft="@mipmap/ic_visible"
             android:drawablePadding="@dimen/dp_6"
-            android:layout_marginRight="@dimen/dp_14"
+            android:layout_marginRight="@dimen/dp_10"
             android:textStyle="bold"
             android:textSize="@dimen/sp_12"
             tools:text="123浏览 "/>
-        <TextView
-            android:id="@+id/tv_star"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:drawableLeft="@mipmap/ic_likes"
-            android:drawablePadding="@dimen/dp_6"
-            android:textSize="@dimen/sp_12"
-            android:layout_marginRight="@dimen/dp_10"
-            android:textStyle="bold"
-            tools:text="23 好问题"/>
+<!--        <TextView-->
+<!--            android:id="@+id/tv_star"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_alignParentRight="true"-->
+<!--            android:drawableLeft="@mipmap/ic_likes"-->
+<!--            android:drawablePadding="@dimen/dp_2"-->
+<!--            android:textSize="@dimen/sp_12"-->
+<!--            android:layout_marginRight="@dimen/dp_10"-->
+<!--            android:textStyle="bold"-->
+<!--            tools:text="23 好问题"/>-->
 
     </RelativeLayout>
     <TextView

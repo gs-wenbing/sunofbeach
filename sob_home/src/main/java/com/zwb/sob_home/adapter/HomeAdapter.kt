@@ -15,6 +15,7 @@ import com.youth.banner.util.BannerUtils
 import com.zwb.lib_base.utils.DateUtils
 import com.zwb.lib_base.utils.UIUtils
 import com.zwb.lib_common.view.AvatarDecorView
+import com.zwb.lib_common.view.CommonViewUtils
 import com.zwb.sob_home.R
 import com.zwb.sob_home.bean.BannerBean
 import com.zwb.sob_home.bean.BannerList
@@ -54,13 +55,18 @@ class HomeAdapter(data: MutableList<MultiItemEntity>?) :
             } else {
                 val rvPic: RecyclerView = helper.getView(R.id.rv_pic)
                 rvPic.layoutManager = GridLayoutManager(mContext, 3)
-                rvPic.adapter = ImageAdapter(w, bean.covers.toMutableList())
+                val adapter = ImageAdapter(w, bean.covers.toMutableList())
+                rvPic.adapter = adapter
+                adapter.setOnItemClickListener { _, _, position ->
+                    CommonViewUtils.showBigImage(rvPic,R.id.iv_image, bean.covers, position)
+                }
             }
 
             helper.addOnClickListener(
                 R.id.tv_content,
                 R.id.iv_avatar,
                 R.id.tv_nickName,
+                R.id.iv_cover
             )
         }
     }

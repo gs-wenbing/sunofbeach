@@ -3,6 +3,7 @@ package com.zwb.lib_common
 import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
+import android.text.TextUtils
 import android.util.Log
 import com.alibaba.android.arouter.launcher.ARouter
 import com.google.auto.service.AutoService
@@ -15,10 +16,16 @@ import com.zwb.lib_base.app.ApplicationLifecycle
 import com.zwb.lib_base.callback.EmptyCallback
 import com.zwb.lib_base.callback.ErrorCallback
 import com.zwb.lib_base.callback.LoadingCallback
+import com.zwb.lib_base.net.RetrofitFactory
 import com.zwb.lib_base.utils.ProcessUtils
 import com.zwb.lib_base.utils.SpUtils
 import com.zwb.lib_base.utils.VersionStatus
 import com.zwb.lib_base.utils.network.NetworkStateClient
+import net.mikaelzero.mojito.Mojito
+import net.mikaelzero.mojito.loader.glide.GlideImageLoader
+import net.mikaelzero.mojito.view.sketch.SketchImageLoadFactory
+import okhttp3.Interceptor
+import okhttp3.OkHttpClient
 
 @AutoService(ApplicationLifecycle::class)
 class CommonApplication : ApplicationLifecycle {
@@ -61,10 +68,12 @@ class CommonApplication : ApplicationLifecycle {
             list.add { initARouter() }
             list.add { initNetworkStateClient() }
             list.add { initLoadSir() }
+            list.add { initMojito() }
         }
         list.add { initTencentBugly() }
         return list
     }
+
 
     /**
      * 不需要立即初始化的放在这里进行后台初始化
@@ -74,6 +83,37 @@ class CommonApplication : ApplicationLifecycle {
     }
 
 
+    private fun initMojito(): String {
+        val okHttpClient = OkHttpClient.Builder()
+            .addInterceptor(initIntercept())
+            .build()
+        Mojito.initialize(
+            GlideImageLoader.with(BaseApplication.context, okHttpClient),
+            SketchImageLoadFactory()
+        )
+        return "Mojito -->> init complete"
+    }
+
+    private fun initIntercept(): Interceptor {
+        return Interceptor { chain ->
+            val request = chain.request()
+            val response = chain.proceed(request)
+
+            val responseHeaders = response.headers
+
+            val responseHeadersLength: Int = responseHeaders.size
+            for (i in 0 until responseHeadersLength) {
+                val headerName = responseHeaders.name(i)
+                val headerValue = responseHeaders[headerName]
+                if(headerName == RetrofitFactory.L_C_I && !TextUtils.isEmpty(headerValue)){
+                    Log.e("获取的headers=${RetrofitFactory.L_C_I}", headerValue!!)
+                    SpUtils.putString(RetrofitFactory.L_C_I, headerValue)
+                    break
+                }
+            }
+            response
+        }
+    }
     /**
      * 初始化网络状态监听客户端
      * @return Unit

@@ -46,7 +46,7 @@ interface UcenterApi {
     ): BaseResponse<ListData<ArticleBean>?>
 
     /**
-     * 获取用户文章列表
+     * 获取用户动态列表
      */
     @GET("${USER_MOYU_LIST_URL}/{userId}/{page}")
     suspend fun getUserMoyuList(
@@ -167,12 +167,12 @@ interface UcenterApi {
     ): BaseResponse<PageViewData<MsgSystemBean>?>
 
     /**
-     * 获取系统消息列表
+     * 获取文章消息列表
      */
     @GET("${MESSAGE_ARTICLE_URL}/{page}")
     suspend fun messageArticleList(
         @Path("page") page: Int,
-    ): BaseResponse<PageViewData<MsgAtBean>?>
+    ): BaseResponse<PageViewData<MsgArticleBean>?>
 
     /**
      * 更新摸鱼动态消息的状态

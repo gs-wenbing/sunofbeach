@@ -82,4 +82,8 @@ data class MoyuItemBean(
             return arrayOfNulls(size)
         }
     }
+
+    override fun equals(other: Any?): Boolean {
+        return this.id == (other as MoyuItemBean).id
+    }
 }

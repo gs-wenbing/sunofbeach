@@ -10,6 +10,7 @@ function getElementTop(id) {
     return actualTop
 }
 
+
 function initGif(){
     if ('getContext' in document.createElement('canvas')) {
         HTMLImageElement.prototype.play = function() {

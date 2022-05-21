@@ -2,6 +2,7 @@ package com.zwb.sob_moyu
 
 import com.zwb.lib_base.bean.ListData
 import com.zwb.lib_base.net.BaseResponse
+import com.zwb.lib_common.CommonApi
 import com.zwb.lib_common.bean.MoyuItemBean
 import com.zwb.lib_common.bean.TokenBean
 import com.zwb.lib_common.constant.Constants
@@ -56,6 +57,14 @@ interface MoyuApi {
     ): BaseResponse<MoyuItemBean?>
 
 
+    /**
+     * 动态点赞
+     */
+    @PUT("${MOYU_THUMB_URL}/{momentId}")
+    suspend fun moyuThumb(
+        @Path("momentId") momentId: String
+    ): BaseResponse<Int?>
+
     @POST(COMMENT_URL)
     suspend fun comment(@Body query: MomentCommentInputBean): BaseResponse<String?>
 
@@ -86,5 +95,7 @@ interface MoyuApi {
         // 获取话题详情 {momentId}
         const val MOYU_DETAIL_URL = "ct/moyu"
 
+        // 动态点赞 PUT ct/moyu/thumb-up/{momentId}
+        const val MOYU_THUMB_URL = "ct/moyu/thumb-up"
     }
 }

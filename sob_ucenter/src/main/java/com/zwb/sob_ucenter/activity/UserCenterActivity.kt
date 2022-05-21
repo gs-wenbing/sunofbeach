@@ -106,6 +106,7 @@ class UserCenterActivity : BaseActivity<UcenterActivityUserCenterBinding, Ucente
         mBinding.ivBack.setOnClickListener {
             finish()
         }
+
         mBinding.ivMore.setOnClickListener {
             toast("更多")
         }
@@ -216,6 +217,10 @@ class UserCenterActivity : BaseActivity<UcenterActivityUserCenterBinding, Ucente
     @SuppressLint("SetTextI18n")
     private fun setUserData(user: UserBean) {
         mBinding.ivBigAvatar.loadAvatar(user.vip,user.avatar)
+        mBinding.ivBigAvatar.setOnClickListener {
+            CommonViewUtils.showBigImage(it, user.avatar)
+        }
+
         mBinding.ivToolbarAvatar.loadAvatar(user.vip,user.avatar)
 
         var position = if (TextUtils.isEmpty(user.position)) "" else user.position

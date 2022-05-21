@@ -9,6 +9,7 @@ package com.zwb.lib_common.constant
 object Constants {
 
     const val WEBSITE_URL = "https://www.sunofbeach.net/a/"
+    const val UCENTER_URL = "https://www.sunofbeach.net/u/"
     const val WEBSITE_PREFIX = "http://www.sunofbeach"
 
     object URL {

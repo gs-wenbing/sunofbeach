@@ -2,18 +2,23 @@ package com.zwb.sob_moyu.fragment
 
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.alibaba.android.arouter.launcher.ARouter
-import com.zwb.lib_common.base.BaseListFragment
+import com.zwb.lib_base.utils.EventBusRegister
 import com.zwb.lib_common.adapter.MoyuAdapter
-import com.zwb.sob_moyu.MoyuApi
-import com.zwb.sob_moyu.MoyuViewModel
+import com.zwb.lib_common.base.BaseListFragment
 import com.zwb.lib_common.bean.MoyuItemBean
-import com.zwb.lib_common.constant.RoutePath
+import com.zwb.lib_common.event.StringEvent
+import com.zwb.lib_common.event.UpdateItemEvent
+import com.zwb.lib_common.service.home.wrap.HomeServiceWrap
 import com.zwb.lib_common.service.moyu.wrap.MoyuServiceWrap
 import com.zwb.lib_common.service.ucenter.wrap.UcenterServiceWrap
+import com.zwb.sob_moyu.MoyuApi
+import com.zwb.sob_moyu.MoyuViewModel
 import com.zwb.sob_moyu.R
 import com.zwb.sob_moyu.databinding.MoyuFragmentListBinding
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 
+@EventBusRegister
 class MoyuListFragment : BaseListFragment<MoyuItemBean,MoyuFragmentListBinding, MoyuViewModel>(),
     BaseListFragment.RecyclerListener {
 
@@ -25,7 +30,7 @@ class MoyuListFragment : BaseListFragment<MoyuItemBean,MoyuFragmentListBinding, 
 
     override fun MoyuFragmentListBinding.initView() {
         topicId = requireArguments().getString("topicId", "1")
-        mAdapter = MoyuAdapter(mutableListOf())
+        mAdapter = MoyuAdapter(this@MoyuListFragment, mutableListOf())
         this.rvList.setHasFixedSize(true)
         this.rvList.layoutManager = LinearLayoutManager(mContext)
         this.rvList.adapter = mAdapter
@@ -33,14 +38,25 @@ class MoyuListFragment : BaseListFragment<MoyuItemBean,MoyuFragmentListBinding, 
 
         mAdapter.setOnItemChildClickListener { adapter, view, position ->
             val item = adapter.getItem(position) as MoyuItemBean
-            if(view.id == com.zwb.lib_common.R.id.iv_avatar || view.id ==R.id.tv_nickname){
+            if(view.id == R.id.iv_avatar || view.id ==R.id.tv_nickname){
                 UcenterServiceWrap.instance.launchDetail(item.userId)
+            }else if(view.id == R.id.tv_link){
+                item.linkUrl?.let {
+                    HomeServiceWrap.instance.launchWebView("", it)
+                }
             }
         }
 
         mAdapter.setOnItemClickListener { adapter, view, position ->
-            val item = adapter.getItem(position) as MoyuItemBean
-            MoyuServiceWrap.instance.launchDetail(item.id)
+            when(val item = adapter.getItem(position)){
+                is MoyuItemBean -> {
+                    MoyuServiceWrap.instance.launchDetail(item.id)
+                }
+                is String->{
+
+                }
+            }
+
         }
     }
 
@@ -60,7 +76,30 @@ class MoyuListFragment : BaseListFragment<MoyuItemBean,MoyuFragmentListBinding, 
         })
     }
 
+    /**
+     * 更新某一条item
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onEventUpdateItem(event: UpdateItemEvent){
+        when (event.event) {
+            UpdateItemEvent.Event.UPDATE_MOYU -> {
+                updateItem(event.id)
+            }
+        }
+    }
 
+    private fun updateItem(id: String){
+        mViewModel.moyuDetail(id,"").observe(viewLifecycleOwner,{ moyu ->
+            if(moyu!=null){
+                val index = mAdapter.data.indexOf(moyu)
+                val item = mAdapter.data[index]
+                moyu.commentCount = item?.commentCount?:moyu.commentCount
+                moyu.thumbUpCount = item?.thumbUpCount?:moyu.thumbUpCount
+                moyu.hasThumbUp = item?.hasThumbUp?:moyu.hasThumbUp
+                mAdapter.notifyItemChanged(index)
+            }
+        })
+    }
 
 
 }

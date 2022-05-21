@@ -21,7 +21,7 @@ class UserCenterMoyuFragment :
 
     override fun UcenterFragmentListBinding.initView() {
         userId = requireArguments().getString("userId", "")
-        mAdapter = MoyuAdapter(mutableListOf())
+        mAdapter = MoyuAdapter(this@UserCenterMoyuFragment, mutableListOf())
         this.rvList.layoutManager = LinearLayoutManager(mContext)
         this.rvList.adapter = mAdapter
         init(mAdapter, this.rvList, this.refreshLayout, this@UserCenterMoyuFragment)

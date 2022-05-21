@@ -54,4 +54,7 @@ open class CommonRepo(private val loadState: MutableLiveData<State>) : BaseRepos
     suspend fun followState(userId: String): BaseResponse<Int?> {
         return apiService.followState(userId)
     }
+
+
+
 }

@@ -108,13 +108,17 @@ object GitHub {
     const val Banner = "com.youth.banner:banner:2.1.0"
     const val SmartRefreshLayout = "com.scwang.smartrefresh:SmartRefreshLayout:1.1.0"
     const val MagicIndicator = "com.github.hackware1993:MagicIndicator:1.5.0"
-    const val Glide = "com.github.bumptech.glide:glide:4.9.0"
-    const val GlideOkhttp = "com.github.bumptech.glide:okhttp3-integration:4.9.0"
-    const val GlideCompiler = "com.github.bumptech.glide:compiler:4.9.0"
+    const val Glide = "com.github.bumptech.glide:glide:4.11.0"
+    const val GlideOkhttp = "com.github.bumptech.glide:okhttp3-integration:4.11.0"
+    const val GlideCompiler = "com.github.bumptech.glide:compiler:4.11.0"
     const val GSYVideoPlayer = "com.shuyu:GSYVideoPlayer:7.1.5"
     const val Loadsir = "com.kingja.loadsir:loadsir:1.3.8"
     const val SuperTextView = "com.github.lygttpod:SuperTextView:2.4.6"
     const val CodeView = "thereisnospon.codeview:codeview:0.3.1"
+    const val Mojito = "com.github.mikaelzero.mojito:mojito:1.8.5"
+    const val Mojito_GlideImageLoader = "com.github.mikaelzero.mojito:GlideImageLoader:1.8.5"
+    const val Mojito_SketchImageViewLoader = "com.github.mikaelzero.mojito:SketchImageViewLoader:1.8.5"
+
 
 }
 

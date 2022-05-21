@@ -96,6 +96,22 @@ interface HomeApi {
         @Path("page") page: Int
     ): BaseResponse<PageViewData<CommentBean>?>
 
+    /**
+     * 打赏列表
+     */
+    @GET("${PRISE_ARTICLE_URL}/{articleId}")
+    suspend fun getPriseArticleList(
+        @Path("articleId") articleId: String,
+    ): BaseResponse<List<PriseArticleBean>?>
+
+    /**
+     * 打赏文章
+     */
+    @POST(PRISE_ARTICLE_URL)
+    suspend fun priseArticle(
+        @Body priseArticle: PriseArticleInputBean,
+    ): BaseResponse<String?>
+
 
     companion object {
         const val BASE_URL = "https://api.sunofbeaches.com/"
@@ -140,5 +156,6 @@ interface HomeApi {
 
         //  回复文章评论
         const val ARTICLE_SUB_COMMENT_URL = "ct/article/sub-comment"
+
     }
 }

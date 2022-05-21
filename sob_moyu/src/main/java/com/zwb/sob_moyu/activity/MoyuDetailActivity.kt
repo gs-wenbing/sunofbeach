@@ -1,7 +1,6 @@
 package com.zwb.sob_moyu.activity
 
 import android.graphics.Typeface
-import android.text.Html
 import android.text.TextUtils
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
@@ -14,16 +13,14 @@ import com.zwb.lib_base.bean.ListData
 import com.zwb.lib_base.ktx.gone
 import com.zwb.lib_base.ktx.visible
 import com.zwb.lib_base.mvvm.v.BaseActivity
-import com.zwb.lib_base.utils.DateUtils
-import com.zwb.lib_base.utils.StatusBarUtil
-import com.zwb.lib_base.utils.UIUtils
+import com.zwb.lib_base.utils.*
 import com.zwb.lib_common.R
 import com.zwb.lib_common.adapter.ImageAdapter
 import com.zwb.lib_common.bean.MoyuItemBean
 import com.zwb.lib_common.constant.RoutePath
+import com.zwb.lib_common.event.UpdateItemEvent
 import com.zwb.lib_common.service.ucenter.wrap.UcenterServiceWrap
 import com.zwb.lib_common.view.CommonViewUtils
-import com.zwb.lib_common.view.HtmlImageGetter
 import com.zwb.sob_moyu.MoyuApi
 import com.zwb.sob_moyu.MoyuViewModel
 import com.zwb.sob_moyu.adapter.CommentAdapter
@@ -39,6 +36,8 @@ class MoyuDetailActivity :
 
     @Autowired(name = RoutePath.Moyu.PARAMS_MOYU_ID)
     lateinit var moyuId: String
+
+    private var moyuInfo: MoyuItemBean? = null
 
     private var mCurrentPage = 1
 
@@ -61,7 +60,7 @@ class MoyuDetailActivity :
             loadListData(mCurrentPage)
         }, this.rvContent)
 
-        setDefaultLoad(this.rvContent,MoyuApi.MOYU_DETAIL_URL)
+        setDefaultLoad(this.rvContent, MoyuApi.MOYU_DETAIL_URL)
 
         getMoyuDetail()
         initListener()
@@ -73,17 +72,18 @@ class MoyuDetailActivity :
         StatusBarUtil.setPaddingSmart(this, mBinding.layoutHeaderAvatar)
     }
 
-    private fun getMoyuDetail(){
-        mViewModel.moyuDetail(moyuId,MoyuApi.MOYU_DETAIL_URL).observe(this,{
-            if(it != null){
+    private fun getMoyuDetail() {
+        mViewModel.moyuDetail(moyuId, MoyuApi.MOYU_DETAIL_URL).observe(this, {
+            if (it != null) {
                 setViewData(it)
             }
         })
     }
 
-    private fun setViewData(moyuInfo:MoyuItemBean) {
+    private fun setViewData(moyuInfo: MoyuItemBean) {
+        this.moyuInfo = moyuInfo
         mBinding.tvHeaderNickname.text = moyuInfo.nickname
-        mBinding.ivHeaderAvatar.loadAvatar(moyuInfo.vip,moyuInfo.avatar)
+        mBinding.ivHeaderAvatar.loadAvatar(moyuInfo.vip, moyuInfo.avatar)
 
         var desc = if (TextUtils.isEmpty(moyuInfo.position)) "" else moyuInfo.position
         desc = if (TextUtils.isEmpty(moyuInfo.company)) desc else "${desc}@${moyuInfo.company}"
@@ -91,7 +91,7 @@ class MoyuDetailActivity :
         headerBinding.tvHeader.setRightString(DateUtils.timeFormat(moyuInfo.createTime))
 
         // 内容
-        CommonViewUtils.setHtml(headerBinding.tvContent,moyuInfo.content)
+        CommonViewUtils.setHtml(headerBinding.tvContent, moyuInfo.content)
 
         // 链接
         if (!TextUtils.isEmpty(moyuInfo.linkTitle) && !TextUtils.isEmpty(moyuInfo.linkUrl)) {
@@ -116,8 +116,18 @@ class MoyuDetailActivity :
         } else {
             headerBinding.tvTopicName.gone()
         }
-        headerBinding.tvStar.text = moyuInfo.thumbUpList.size.toString()
+        headerBinding.tvDetailStar.text = moyuInfo.thumbUpList.size.toString()
         headerBinding.tvReply.text = moyuInfo.commentCount.toString()
+        setThumbStyle(moyuInfo.hasThumbUp)
+    }
+
+    /**
+     * 设置点赞后的样式
+     */
+    private fun setThumbStyle(hasThumbUp:Boolean){
+        // 已经点赞后 标记tvDetailStar的tag为true
+        headerBinding.tvDetailStar.tag = hasThumbUp
+        CommonViewUtils.setThumbStyle(headerBinding.tvDetailStar,hasThumbUp)
     }
 
     private fun setImageData(pics: List<String>, rvPic: RecyclerView) {
@@ -132,7 +142,11 @@ class MoyuDetailActivity :
                 rvPic.layoutManager = GridLayoutManager(this, 3)
             }
         }
-        rvPic.adapter = ImageAdapter(width, pics.toMutableList())
+        val adapter = ImageAdapter(width, pics.toMutableList())
+        rvPic.adapter = adapter
+        adapter.setOnItemClickListener { _, _, position ->
+            CommonViewUtils.showBigImage(rvPic, R.id.iv_image, pics, position)
+        }
     }
 
     private fun initListener() {
@@ -144,9 +158,15 @@ class MoyuDetailActivity :
                 UcenterServiceWrap.instance.launchDetail(item.userId)
             }
         }
-
-        headerBinding.tvStar.setOnClickListener {
-            toast("点赞===开发中...")
+        mBinding.tvHeaderFollow.setOnClickListener {
+            if (isLoginIntercept(true) && moyuInfo != null) {
+                follow()
+            }
+        }
+        headerBinding.tvDetailStar.setOnClickListener {
+            if (isLoginIntercept(true) && it.tag == null || it.tag == false) {
+                moyuThumb()
+            }
         }
 
         headerBinding.tvReply.setOnClickListener {
@@ -163,15 +183,15 @@ class MoyuDetailActivity :
     }
 
     private fun loadListData(page: Int) {
-        mViewModel.getFollowList(moyuId, page, MoyuApi.COMMENT_URL).observe(this, {
+        mViewModel.getCommentList(moyuId, page, MoyuApi.COMMENT_URL).observe(this, {
             setCommentData(it)
         })
     }
 
-    private fun setCommentData(listData: ListData<MomentCommentBean>?){
-        if(listData==null || listData.list.isNullOrEmpty()){
+    private fun setCommentData(listData: ListData<MomentCommentBean>?) {
+        if (listData == null || listData.list.isNullOrEmpty()) {
             mAdapter.loadMoreEnd()
-        }else{
+        } else {
             val list = mutableListOf<MultiItemEntity>()
             listData.list.forEach { item ->
                 list.add(item)
@@ -182,7 +202,7 @@ class MoyuDetailActivity :
             if (list.size < listData.pageSize) {
                 //加载的数据少于一页时
                 mAdapter.loadMoreEnd()
-            }else{
+            } else {
                 mAdapter.loadMoreComplete()
             }
         }
@@ -194,5 +214,39 @@ class MoyuDetailActivity :
 
     override fun initRequestData() {
         loadListData(mCurrentPage)
+    }
+
+    /**
+     * 关注状态
+     */
+    private fun getFollowState(userId: String) {
+        mViewModel.followState(userId).observe(this, {
+            mBinding.tvHeaderFollow.visible()
+            if (it.success && it.data != null) {
+                CommonViewUtils.setFollowState(mBinding.tvHeaderFollow, it.data!!)
+            }
+        })
+    }
+
+    /**
+     * 关注
+     */
+    private fun follow() {
+        mViewModel.follow(moyuInfo!!.userId).observe(this, {
+            getFollowState(moyuInfo!!.userId)
+        })
+    }
+
+    /**
+     * 点赞
+     */
+    private fun moyuThumb(){
+        mViewModel.moyuThumb(moyuId).observe(this,{
+            if(it.success){
+                setThumbStyle(true)
+                EventBusUtils.postEvent(UpdateItemEvent(UpdateItemEvent.Event.UPDATE_MOYU,moyuId))
+                headerBinding.tvDetailStar.text = (moyuInfo!!.thumbUpList.size+1).toString()
+            }
+        })
     }
 }

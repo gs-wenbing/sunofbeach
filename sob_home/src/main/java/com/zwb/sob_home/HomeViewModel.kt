@@ -141,4 +141,27 @@ class HomeViewModel : CommonViewModel() {
         return response
     }
 
+    /**
+     * 打赏文章
+     */
+    fun priseArticle(prise: PriseArticleInputBean): MutableLiveData<BaseResponse<String?>> {
+        val response: MutableLiveData<BaseResponse<String?>> = MutableLiveData()
+        initiateRequest({
+            response.value = homeRepo.priseArticle(prise)
+        }, loadState)
+        return response
+    }
+
+    /**
+     * 打赏列表
+     */
+    fun getPriseArticleList(articleId: String, key: String): MutableLiveData<List<PriseArticleBean>?> {
+        val response: MutableLiveData<List<PriseArticleBean>?> = MutableLiveData()
+        initiateRequest({
+            response.value = homeRepo.getPriseArticleList(articleId,key)
+        }, loadState,key)
+        return response
+    }
+
+
 }

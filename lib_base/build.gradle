@@ -41,6 +41,10 @@ dependencies {
     api GitHub.MMKV
     api GitHub.SuperTextView
     api GitHub.CodeView
+    api GitHub.Mojito
+    api GitHub.Mojito_GlideImageLoader
+    api GitHub.Mojito_SketchImageViewLoader
+
 
     api SDK.TencentBugly
     api SDK.TencentBuglyNative

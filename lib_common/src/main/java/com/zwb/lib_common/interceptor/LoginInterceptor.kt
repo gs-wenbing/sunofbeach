@@ -29,6 +29,7 @@ class LoginInterceptor: IInterceptor {
             when (path) {
                 RoutePath.Home.PAGE_ARTICLE,
                 RoutePath.Ucenter.PAGE_UCENTER,
+                RoutePath.Moyu.PAGE_DETAIL,
                 RoutePath.Wenda.PAGE_DETAIL,
                 RoutePath.Wenda.PAGE_ANSWER_DETAIL,
                 RoutePath.Login.PAGE_LOGIN -> {

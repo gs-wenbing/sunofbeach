@@ -3,10 +3,10 @@
         <item name="android:windowBackground">@drawable/launcher</item>
         <item name="android:windowFullscreen">true</item>
     </style>
-    <style name="AnimFade" parent="@android:style/Animation.Activity">
-        <item name="android:activityOpenEnterAnimation">@anim/fragment_fade_enter</item>
-        <item name="android:activityOpenExitAnimation">@anim/fragment_fade_exit</item>
-        <item name="android:activityCloseExitAnimation">@anim/fragment_fade_enter</item>
-        <item name="android:activityCloseEnterAnimation">@anim/fragment_fade_exit</item>
-    </style>
+<!--    <style name="AnimFade" parent="@android:style/Animation.Activity">-->
+<!--        <item name="android:activityOpenEnterAnimation">@anim/fragment_fade_enter</item>-->
+<!--        <item name="android:activityOpenExitAnimation">@anim/fragment_fade_exit</item>-->
+<!--        <item name="android:activityCloseExitAnimation">@anim/fragment_fade_enter</item>-->
+<!--        <item name="android:activityCloseEnterAnimation">@anim/fragment_fade_exit</item>-->
+<!--    </style>-->
 </resources>

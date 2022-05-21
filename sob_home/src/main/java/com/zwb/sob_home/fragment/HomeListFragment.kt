@@ -9,6 +9,7 @@ import com.youth.banner.indicator.CircleIndicator
 import com.zwb.lib_common.base.BaseListFragment
 import com.zwb.lib_common.service.home.wrap.HomeServiceWrap
 import com.zwb.lib_common.service.ucenter.wrap.UcenterServiceWrap
+import com.zwb.lib_common.view.CommonViewUtils
 import com.zwb.sob_home.HomeApi
 import com.zwb.sob_home.HomeViewModel
 import com.zwb.sob_home.R
@@ -52,6 +53,9 @@ class HomeListFragment :
                 }
                 R.id.iv_avatar, R.id.tv_nickName -> {
                     UcenterServiceWrap.instance.launchDetail(item.userId)
+                }
+                R.id.iv_cover ->{
+                    CommonViewUtils.showBigImage(view, item.covers[0])
                 }
             }
         }

@@ -90,7 +90,6 @@ class AvatarDecorView @JvmOverloads constructor(
         canvas ?: return
         if (isVip) {
             val scale = min(scaleFactor * width / badgeBitmap.width,1f)
-            Log.e("=====",scale.toString())
             val dx = 1f * width - badgeBitmap.width * scale
             val dy = 1f * height - badgeBitmap.height * scale
             // 画布默认是在左上角，需要先调整画布的位置

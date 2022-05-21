@@ -6,19 +6,18 @@ import com.zwb.lib_base.mvvm.m.BaseRepository
 import com.zwb.lib_base.net.RetrofitFactory
 import com.zwb.lib_base.net.State
 import com.zwb.lib_base.bean.ListData
+import com.zwb.lib_base.net.BaseResponse
+import com.zwb.lib_common.CommonRepo
 import com.zwb.lib_common.bean.TokenBean
 import com.zwb.lib_common.bean.MoyuItemBean
 import com.zwb.sob_moyu.bean.MomentCommentBean
 import com.zwb.sob_moyu.bean.TopicIndexBean
 
-class MoyuRepo(private val loadState: MutableLiveData<State>) : BaseRepository() {
+class MoyuRepo(private val loadState: MutableLiveData<State>) : CommonRepo(loadState) {
     private val apiService by lazy {
         RetrofitFactory.instance.getService(MoyuApi::class.java, MoyuApi.BASE_URL)
     }
 
-    suspend fun checkToken(key: String): TokenBean? {
-        return apiService.checkToken().dataConvert(loadState, key)
-    }
 
     suspend fun topicIndex(key: String): List<TopicIndexBean>? {
         return apiService.topicIndex().dataConvert(loadState, key)
@@ -36,7 +35,7 @@ class MoyuRepo(private val loadState: MutableLiveData<State>) : BaseRepository()
         return apiService.getFollowList(page).dataConvert(loadState, key)
     }
 
-    suspend fun getFollowList(
+    suspend fun getCommentList(
         momentId: String,
         page: Int,
         key: String
@@ -48,5 +47,7 @@ class MoyuRepo(private val loadState: MutableLiveData<State>) : BaseRepository()
         return apiService.moyuDetail(momentId).dataConvert(loadState, key)
     }
 
-
+    suspend fun moyuThumb(momentId: String): BaseResponse<Int?> {
+        return apiService.moyuThumb(momentId)
+    }
 }

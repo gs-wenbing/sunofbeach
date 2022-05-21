@@ -3,6 +3,7 @@ package com.zwb.sob_wenda.activity
 import android.annotation.SuppressLint
 import android.text.style.AbsoluteSizeSpan
 import android.text.style.ForegroundColorSpan
+import android.webkit.JavascriptInterface
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -63,7 +64,16 @@ class WendaDetailActivity : BaseActivity<WendaActivityDetailBinding, WendaViewMo
         this.rvContent.adapter = mAdapter
         this.rvContent.layoutManager = LinearLayoutManager(this@WendaDetailActivity)
         mAdapter.addHeaderView(contentBinding.root)
+        initListener()
+    }
 
+    override fun setStatusBar() {
+        super.setStatusBar()
+        StatusBarUtil.setPaddingSmart(this, mBinding.includeBar.toolbar)
+        StatusBarUtil.setPaddingSmart(this, mBinding.layoutHeaderAvatar)
+    }
+
+    private fun initListener(){
         mAdapter.setOnItemChildClickListener { adapter, view, position ->
             if (view.id == R.id.tv_comment_nickname || view.id == R.id.iv_comment_avatar) {
                 when (val item = adapter.getItem(position)) {
@@ -97,12 +107,17 @@ class WendaDetailActivity : BaseActivity<WendaActivityDetailBinding, WendaViewMo
                 UcenterServiceWrap.instance.launchDetail(wendaContent!!.userId)
             }
         }
-    }
-
-    override fun setStatusBar() {
-        super.setStatusBar()
-        StatusBarUtil.setPaddingSmart(this, mBinding.includeBar.toolbar)
-        StatusBarUtil.setPaddingSmart(this, mBinding.layoutHeaderAvatar)
+        mBinding.tvThumb.setOnClickListener {
+            if (isLoginIntercept(true) && it.tag == null) {
+                wendaThumb()
+            }
+        }
+        mBinding.tvInvite.setOnClickListener {
+            toast("邀请回答==开发中...")
+        }
+        mBinding.tvReply.setOnClickListener {
+            toast("写答案==开发中...")
+        }
     }
 
     override fun initObserve() {
@@ -123,6 +138,7 @@ class WendaDetailActivity : BaseActivity<WendaActivityDetailBinding, WendaViewMo
             }
             getWendaRelative()
         })
+        wendaThumbCheck()
     }
 
     private fun getWendaRelative() {
@@ -135,6 +151,9 @@ class WendaDetailActivity : BaseActivity<WendaActivityDetailBinding, WendaViewMo
     }
 
     private fun getFollowState(userId: String) {
+        if (!isLoginIntercept(false)) {
+            return
+        }
         mViewModel.followState(userId).observe(this, {
             mBinding.tvHeaderFollow.visible()
             if (it.success && it.data != null) {
@@ -149,6 +168,38 @@ class WendaDetailActivity : BaseActivity<WendaActivityDetailBinding, WendaViewMo
     private fun follow(userId: String) {
         mViewModel.follow(userId).observe(this, {
             getFollowState(userId)
+        })
+    }
+
+    /**
+     * 查询当前用户是否有点赞该问题
+     */
+    private fun wendaThumbCheck(){
+        if (!isLoginIntercept(false)) {
+            return
+        }
+        mViewModel.wendaThumbCheck(wendaId).observe(this,{
+            if(it.success && it.data != 0){
+                mBinding.tvThumb.tag = true
+                CommonViewUtils.setThumbStyle(mBinding.tvThumb,true)
+            }
+        })
+    }
+
+    /**
+     * 点赞问题
+     */
+    @SuppressLint("SetTextI18n")
+    private fun wendaThumb(){
+        if (!isLoginIntercept(true)) {
+            return
+        }
+        mViewModel.wendaThumb(wendaId).observe(this,{
+            if(it.success){
+                mBinding.tvThumb.tag = true
+                mBinding.tvThumb.text = "${(wendaContent!!.thumbUp+1)}好问题"
+                CommonViewUtils.setThumbStyle(mBinding.tvThumb,true)
+            }
         })
     }
 
@@ -173,9 +224,14 @@ class WendaDetailActivity : BaseActivity<WendaActivityDetailBinding, WendaViewMo
                 view: WebView,
                 request: WebResourceRequest
             ): Boolean {
-                if(request.url.toString().startsWith(Constants.WEBSITE_PREFIX)){
+                if(request.url.toString().startsWith(Constants.WEBSITE_URL)){
                     val arr = request.url.toString().split("/")
                     HomeServiceWrap.instance.launchDetail(arr[arr.size-1],"")
+                    return true
+                }
+                if (request.url.toString().startsWith(Constants.UCENTER_URL)) {
+                    val arr = request.url.toString().split("/")
+                    UcenterServiceWrap.instance.launchDetail(arr[arr.size - 1])
                     return true
                 }
                 return true
@@ -183,8 +239,8 @@ class WendaDetailActivity : BaseActivity<WendaActivityDetailBinding, WendaViewMo
         }
         //这里的CODE 为需要显示的代码，类型为String，使用的时候自己替换下。
         contentBinding.codeView.showCode(wenda.description)
-
-        contentBinding.tvStar.text = "${wenda.thumbUp} 好问题"
+        contentBinding.codeView.addJavascriptInterface(this,"native")
+        mBinding.tvThumb.text = "${wenda.thumbUp} 好问题"
         contentBinding.tvSob.text = wenda.sob.toString()
         contentBinding.tvView.text = "${wenda.viewCount} 浏览"
         contentBinding.tvPublishTime.text = "发表于 ${DateUtils.timeFormat(wenda.createTime)}"
@@ -195,4 +251,10 @@ class WendaDetailActivity : BaseActivity<WendaActivityDetailBinding, WendaViewMo
         mBinding.tvHeaderNickname.text = wenda.nickname
         mBinding.ivHeaderAvatar.loadAvatar(wenda.isVip=="1",wenda.avatar)
     }
+
+    @JavascriptInterface
+    fun showBigImage(index: Int){
+        CommonViewUtils.showBigImage(this,contentBinding.codeView.getImageList(), index)
+    }
+
 }
