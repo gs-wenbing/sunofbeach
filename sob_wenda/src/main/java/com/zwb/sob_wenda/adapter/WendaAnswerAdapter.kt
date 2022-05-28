@@ -40,7 +40,7 @@ class WendaAnswerAdapter(data: MutableList<MultiItemEntity>?) :
                     helper.setText(R.id.tv_comment, subComment.content)
                     val ivAvatar = helper.getView<AvatarDecorView>(R.id.iv_your_avatar)
                     ivAvatar.loadAvatar(subComment.vip,subComment.yourAvatar)
-                    helper.addOnClickListener(R.id.tv_your_nickname, R.id.iv_your_avatar,R.id.tv_be_nickname)
+                    helper.addOnClickListener(R.id.tv_your_nickname, R.id.iv_your_avatar,R.id.tv_be_nickname,R.id.iv_comment_reply)
                 }
                 else ->{}
             }

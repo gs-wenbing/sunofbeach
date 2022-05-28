@@ -2,7 +2,9 @@ package com.zwb.sob_ucenter.fragment
 
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.zwb.lib_base.utils.EventBusUtils
 import com.zwb.lib_common.base.BaseListFragment
+import com.zwb.lib_common.event.StringEvent
 import com.zwb.sob_ucenter.UcenterApi
 import com.zwb.sob_ucenter.UcenterViewModel
 import com.zwb.sob_ucenter.adapter.MsgSystemAdapter
@@ -41,7 +43,8 @@ class UserMessageSystemFragment :
     override fun loadListData(action: Int, pageSize: Int, page: Int) {
         mViewModel.messageSystemList(page, loadKey()).observe(viewLifecycleOwner, {
             it?.let {
-                loadCompleted(action, list = it.content)
+                loadCompleted(action, list = it.content, it.size)
+                EventBusUtils.postEvent(StringEvent(StringEvent.Event.MSG_READ))
             }
         })
     }

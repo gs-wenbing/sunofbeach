@@ -17,6 +17,7 @@ import com.bumptech.glide.Glide
 import com.google.android.material.tabs.TabLayoutMediator
 import com.youth.banner.util.BannerUtils
 import com.zwb.lib_base.ktx.gone
+import com.zwb.lib_base.ktx.reduceDragSensitivity
 import com.zwb.lib_base.ktx.visible
 import com.zwb.lib_base.mvvm.v.BaseActivity
 import com.zwb.lib_base.utils.SpUtils
@@ -90,6 +91,7 @@ class UserCenterActivity : BaseActivity<UcenterActivityUserCenterBinding, Ucente
             }
         }
         mBinding.vpContent.adapter = mAdapter
+        mBinding.vpContent.reduceDragSensitivity()
         TabLayoutMediator(mBinding.tabLayout, mBinding.vpContent) { tab, position ->
             tab.text = titles[position]
         }.attach()

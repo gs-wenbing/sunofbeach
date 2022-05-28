@@ -10,6 +10,10 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.zwb.lib_base.utils.UIUtils
 import com.zwb.lib_common.R
+import com.zwb.lib_common.constant.Constants
+import com.zwb.lib_common.service.home.wrap.HomeServiceWrap
+import com.zwb.lib_common.service.ucenter.wrap.UcenterServiceWrap
+import com.zwb.lib_common.service.wenda.wrap.WendaServiceWrap
 import net.mikaelzero.mojito.Mojito
 import net.mikaelzero.mojito.ext.mojito
 import net.mikaelzero.mojito.impl.DefaultPercentProgress
@@ -106,6 +110,27 @@ object CommonViewUtils {
             )
             progressLoader {
                 DefaultPercentProgress()
+            }
+            setIndicator(NumIndicator())
+        }
+    }
+
+    fun toWebView(url: String){
+        when {
+            url.startsWith(Constants.WEBSITE_URL) -> {
+                val arr = url.split("/")
+                HomeServiceWrap.instance.launchDetail(arr[arr.size - 1], "")
+            }
+            url.startsWith(Constants.UCENTER_URL) -> {
+                val arr = url.split("/")
+                UcenterServiceWrap.instance.launchDetail(arr[arr.size - 1])
+            }
+            url.startsWith(Constants.WENDA_URL) -> {
+                val arr = url.split("/")
+                WendaServiceWrap.instance.launchDetail(arr[arr.size - 1])
+            }
+            else -> {
+                HomeServiceWrap.instance.launchWebView(url)
             }
         }
     }

@@ -79,6 +79,14 @@ interface HomeApi {
         @Path("size") size: Int
     ): BaseResponse<List<ArticleRecommendBean>?>
 
+
+    /**
+     * 回复评论 POST
+     */
+    @POST(ARTICLE_SUB_COMMENT_URL)
+    suspend fun replyComment(
+        @Body comment: SubCommentInputBean
+    ): BaseResponse<String?>
     /**
      * 评论文章 POST
      */

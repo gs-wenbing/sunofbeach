@@ -8,6 +8,8 @@ import com.zwb.lib_common.CommonViewModel
 import com.zwb.lib_common.bean.TokenBean
 import com.zwb.lib_common.bean.MoyuItemBean
 import com.zwb.sob_moyu.bean.MomentCommentBean
+import com.zwb.sob_moyu.bean.MomentCommentInputBean
+import com.zwb.sob_moyu.bean.SubCommentInputBean
 import com.zwb.sob_moyu.bean.TopicIndexBean
 
 class MoyuViewModel : CommonViewModel() {
@@ -74,6 +76,28 @@ class MoyuViewModel : CommonViewModel() {
         val response: MutableLiveData<BaseResponse<Int?>> = MutableLiveData()
         initiateRequest({
             response.value = moyuRepo.moyuThumb(momentId)
+        }, loadState)
+        return response
+    }
+
+    /**
+     * 评论动态
+     */
+    fun comment(body: MomentCommentInputBean): MutableLiveData<BaseResponse<String?>> {
+        val response: MutableLiveData<BaseResponse<String?>> = MutableLiveData()
+        initiateRequest({
+            response.value = moyuRepo.comment(body)
+        }, loadState)
+        return response
+    }
+
+    /**
+     * 回复动态
+     */
+    fun replyComment(body:SubCommentInputBean): MutableLiveData<BaseResponse<String?>> {
+        val response: MutableLiveData<BaseResponse<String?>> = MutableLiveData()
+        initiateRequest({
+            response.value = moyuRepo.replyComment(body)
         }, loadState)
         return response
     }

@@ -111,11 +111,7 @@ class MyCodeView: CodeView {
             doc.head().append("\n<script src=\"file:///android_asset/scrollhelper.js\"></script>\n")
             parseTitle(doc.allElements)
             parseImages(doc.getElementsByTag("img"))
-//            val imgs: Elements = doc.getElementsByTag("img")
-//            for (element in imgs) {
-//                // -webkit-backface-visibility: hidden; 这个很神奇，解决一些意想不到的问题
-//                element.attr("style", "max-width:100%;height:auto;-webkit-backface-visibility: hidden;")
-//            }
+
             val h1s: Elements = doc.getElementsByTag("h1")
             for (element in h1s) {
                 element.attr("style", "font-size:18px")

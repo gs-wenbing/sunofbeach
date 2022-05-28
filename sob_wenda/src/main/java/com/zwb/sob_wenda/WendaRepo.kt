@@ -8,10 +8,7 @@ import com.zwb.lib_base.net.BaseResponse
 import com.zwb.lib_base.net.RetrofitFactory
 import com.zwb.lib_base.net.State
 import com.zwb.lib_common.CommonRepo
-import com.zwb.sob_wenda.bean.AnswerBean
-import com.zwb.sob_wenda.bean.WendaBean
-import com.zwb.sob_wenda.bean.WendaContentBean
-import com.zwb.sob_wenda.bean.WendaRankingBean
+import com.zwb.sob_wenda.bean.*
 
 class WendaRepo(private val loadState: MutableLiveData<State>) : CommonRepo(loadState) {
 
@@ -62,5 +59,12 @@ class WendaRepo(private val loadState: MutableLiveData<State>) : CommonRepo(load
         return apiService.commentPrise(commentId, count, thumbUp)
     }
 
+    suspend fun answer(body: AnswerInputBean): BaseResponse<Int?> {
+        return apiService.answer(body)
+    }
+
+    suspend fun replyAnswer(body: WendaSubCommentInputBean): BaseResponse<Int?> {
+        return apiService.replyAnswer(body)
+    }
 
 }

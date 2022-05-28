@@ -1,10 +1,8 @@
 package com.zwb.sob_home.activity
 
 import android.annotation.SuppressLint
-import android.content.res.ColorStateList
 import android.graphics.Paint
 import android.text.TextUtils
-import android.util.Log
 import android.webkit.JavascriptInterface
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
@@ -20,17 +18,16 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.bumptech.glide.Glide
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
+import com.chad.library.adapter.base.entity.MultiItemEntity
 import com.zwb.lib_base.ktx.gone
 import com.zwb.lib_base.ktx.visible
 import com.zwb.lib_base.mvvm.v.BaseActivity
 import com.zwb.lib_base.utils.DateUtils
-import com.zwb.lib_base.utils.KeyBoardUtils
 import com.zwb.lib_base.utils.StatusBarUtil
 import com.zwb.lib_base.utils.UIUtils
 import com.zwb.lib_common.CommonApi
 import com.zwb.lib_common.adapter.CommonPriseAdapter
 import com.zwb.lib_common.bean.*
-import com.zwb.lib_common.constant.Constants.UCENTER_URL
 import com.zwb.lib_common.constant.Constants.WEBSITE_URL
 import com.zwb.lib_common.constant.RoutePath
 import com.zwb.lib_common.databinding.CommonPriseDialogBinding
@@ -38,6 +35,7 @@ import com.zwb.lib_common.service.home.wrap.HomeServiceWrap
 import com.zwb.lib_common.service.ucenter.wrap.UcenterServiceWrap
 import com.zwb.lib_common.view.CommonViewUtils
 import com.zwb.lib_common.view.FixedHeightBottomSheetDialog
+import com.zwb.lib_common.view.ReplyBottomSheetDialog
 import com.zwb.sob_home.HomeApi
 import com.zwb.sob_home.HomeViewModel
 import com.zwb.sob_home.R
@@ -63,8 +61,11 @@ class ArticleDetailActivity : BaseActivity<HomeActivityArticleDetailBinding, Hom
     private lateinit var contentBinding: HomeDetailContentLayoutBinding
 
     private lateinit var mAdapter: HomeDetailAdapter
+    private var commentList = mutableListOf<MultiItemEntity>()
 
     private lateinit var bottomSheetDialog: FixedHeightBottomSheetDialog
+
+    private lateinit var replyDialog: ReplyBottomSheetDialog
 
     //记录当前RecycleView 滚动的距离
     private var scrollY = 0
@@ -93,11 +94,14 @@ class ArticleDetailActivity : BaseActivity<HomeActivityArticleDetailBinding, Hom
             R.style.BottomSheetDialog,
             UIUtils.getScreenHeight() * 2 / 3
         )
-
+        replyDialog = ReplyBottomSheetDialog(
+            this@ArticleDetailActivity,
+            R.style.BottomSheetDialog
+        )
         initListener()
     }
 
-    private fun initListener(){
+    private fun initListener() {
         mBinding.ivHeaderAvatar.setOnClickListener {
             article?.let {
                 UcenterServiceWrap.instance.launchDetail(article!!.userId)
@@ -154,7 +158,7 @@ class ArticleDetailActivity : BaseActivity<HomeActivityArticleDetailBinding, Hom
         }
 
         contentBinding.tvPriseList.setOnClickListener {
-            PriseListActivity.launch(this,articleId)
+            PriseListActivity.launch(this, articleId)
         }
 
         mBinding.rvContent.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -206,6 +210,10 @@ class ArticleDetailActivity : BaseActivity<HomeActivityArticleDetailBinding, Hom
                     val comment = adapter.getItem(position) as CommentBean
                     UcenterServiceWrap.instance.launchDetail(comment.userId)
                 }
+                R.id.iv_comment_reply -> {
+                    val comment = adapter.getItem(position) as CommentBean
+                    showReplyDialog(comment)
+                }
             }
         }
 
@@ -237,22 +245,7 @@ class ArticleDetailActivity : BaseActivity<HomeActivityArticleDetailBinding, Hom
                 view: WebView,
                 request: WebResourceRequest
             ): Boolean {
-                when {
-                    request.url.toString().startsWith(WEBSITE_URL) -> {
-                        val arr = request.url.toString().split("/")
-                        HomeServiceWrap.instance.launchDetail(arr[arr.size - 1], "")
-                        return true
-                    }
-                    request.url.toString().startsWith(UCENTER_URL) -> {
-                        val arr = request.url.toString().split("/")
-                        UcenterServiceWrap.instance.launchDetail(arr[arr.size - 1])
-                        return true
-                    }
-                    else -> {
-                        HomeServiceWrap.instance.launchWebView("",request.url.toString())
-                    }
-                }
-
+                CommonViewUtils.toWebView(request.url.toString())
                 return true
             }
         }
@@ -274,6 +267,7 @@ class ArticleDetailActivity : BaseActivity<HomeActivityArticleDetailBinding, Hom
             }
         })
         getArticleCommentList()
+        getArticleRecommend()
         if (!isLoginIntercept(false)) {
             return
         }
@@ -304,18 +298,33 @@ class ArticleDetailActivity : BaseActivity<HomeActivityArticleDetailBinding, Hom
 
     /**
      * 文章评论列表
+     * commentList : 评论列表（包括自评论）
+     * isRefresh : 评论成功后重新获取列表 true
      */
-    private fun getArticleCommentList() {
-        mViewModel.getArticleCommentList(articleId, 1, HomeApi.ARTICLE_COMMENT_URL).observe(this, {
-            mAdapter.addData(TitleMultiBean("文章评论"))
-            it.forEach { comment ->
-                mAdapter.addData(comment)
-                mAdapter.addData(comment.subComments)
-
+    private fun getArticleCommentList(isRefresh: Boolean = true){
+        mViewModel.getArticleCommentList(articleId, 1, HomeApi.ARTICLE_COMMENT_URL).observe(this, {cList->
+            commentList.forEach {
+                mAdapter.data.remove(it)
             }
+            commentList.clear()
+            commentList.add(TitleMultiBean("文章评论"))
+            cList.forEach { comment ->
+                commentList.add(comment)
+                commentList.addAll(comment.subComments)
+            }
+            mAdapter.addData(0,commentList)
+
+            if(isRefresh && mAdapter.data.size > commentList.size){
+                mAdapter.notifyItemChanged(commentList.size+1)
+            }
+
+//            mAdapter.addData(TitleMultiBean("文章评论"))
+//            cList.forEach { comment ->
+//                mAdapter.addData(comment)
+//                mAdapter.addData(comment.subComments)
+//            }
             mBinding.tvReplyNum.visible()
-            mBinding.tvReplyNum.text = it.size.toString()
-            getArticleRecommend()
+            mBinding.tvReplyNum.text = cList.size.toString()
         })
     }
 
@@ -410,19 +419,42 @@ class ArticleDetailActivity : BaseActivity<HomeActivityArticleDetailBinding, Hom
     }
 
     /**
-     * 评论
+     * 评论文章
      */
-    private fun sendReply(str: String) {
+    private fun commentArticle(str: String) {
         if (!isLoginIntercept(true)) {
             return
         }
-        toast("评论内容：$str")
-//        mViewModel.commentArticle(CommentInputBean(articleId = articleId, commentContent = str))
-//            .observe(this, {
-//                if (it.success) {
-//                    toast("评论成功")
-//                }
-//            })
+        mViewModel.commentArticle(CommentInputBean(articleId = articleId, commentContent = str))
+            .observe(this, {
+                if (it.success) {
+                    toast("评论成功")
+                    getArticleCommentList()
+                }
+            })
+    }
+
+    /**
+     * 回复评论
+     */
+    private fun replyComment(comment: CommentBean, str: String) {
+        if (!isLoginIntercept(true)) {
+            return
+        }
+        mViewModel.replyComment(
+            SubCommentInputBean(
+                articleId = articleId,
+                parentId = comment._id,
+                beUid = comment.userId,
+                beNickname = comment.nickname,
+                content = str
+            )
+        ).observe(this, {
+            if (it.success) {
+                toast("回复成功")
+                getArticleCommentList()
+            }
+        })
     }
 
     /**
@@ -582,25 +614,24 @@ class ArticleDetailActivity : BaseActivity<HomeActivityArticleDetailBinding, Hom
         bottomSheetDialog.show()
     }
 
-    private fun showReplyDialog() {
+    private fun showReplyDialog(comment: CommentBean? = null) {
         if (!isLoginIntercept(true)) {
             return
         }
-        val dialogBinding = HomeDialogReplyBinding.inflate(layoutInflater)
-        bottomSheetDialog.setContentView(dialogBinding.root)
-        bottomSheetDialog.show()
-
-        dialogBinding.editReply.isFocusable = true
-        dialogBinding.editReply.isFocusableInTouchMode = true
-        dialogBinding.editReply.requestFocus()
-        dialogBinding.btnSend.setOnClickListener {
-            if (!TextUtils.isEmpty(dialogBinding.editReply.text)) {
-                sendReply(dialogBinding.editReply.text.toString())
+        replyDialog.show()
+        comment?.let { replyDialog.setReplyTitle("回复 @${comment.nickname}") }
+        replyDialog.sendListener(object : ReplyBottomSheetDialog.OnSendListener {
+            override fun onSend(v: String) {
+                if (comment == null) {
+                    // 评论文章
+                    commentArticle(v)
+                } else {
+                    // 回复评论
+                    replyComment(comment, v)
+                }
+                replyDialog.dismiss()
             }
-        }
-        dialogBinding.editReply.post {
-            KeyBoardUtils.showInput(this, dialogBinding.editReply)
-        }
+        })
     }
 
     private fun showPriseDialog() {

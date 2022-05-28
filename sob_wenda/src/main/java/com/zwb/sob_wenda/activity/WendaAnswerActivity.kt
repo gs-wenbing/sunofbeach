@@ -17,6 +17,7 @@ import com.zwb.lib_base.ktx.gone
 import com.zwb.lib_base.ktx.visible
 import com.zwb.lib_base.mvvm.v.BaseActivity
 import com.zwb.lib_base.utils.DateUtils
+import com.zwb.lib_base.utils.EventBusUtils
 import com.zwb.lib_base.utils.StatusBarUtil
 import com.zwb.lib_base.utils.UIUtils
 import com.zwb.lib_common.adapter.CommonPriseAdapter
@@ -26,15 +27,20 @@ import com.zwb.lib_common.bean.TitleMultiBean
 import com.zwb.lib_common.constant.Constants
 import com.zwb.lib_common.constant.RoutePath
 import com.zwb.lib_common.databinding.CommonPriseDialogBinding
+import com.zwb.lib_common.event.UpdateItemEvent
 import com.zwb.lib_common.service.home.wrap.HomeServiceWrap
 import com.zwb.lib_common.service.ucenter.wrap.UcenterServiceWrap
 import com.zwb.lib_common.view.CommonViewUtils
 import com.zwb.lib_common.view.FixedHeightBottomSheetDialog
+import com.zwb.lib_common.view.ReplyBottomSheetDialog
 import com.zwb.sob_wenda.R
+import com.zwb.sob_wenda.WendaApi
 import com.zwb.sob_wenda.WendaViewModel
 import com.zwb.sob_wenda.adapter.WendaAnswerAdapter
 import com.zwb.sob_wenda.bean.AnswerBean
+import com.zwb.sob_wenda.bean.AnswerInputBean
 import com.zwb.sob_wenda.bean.WendaContentBean
+import com.zwb.sob_wenda.bean.WendaSubCommentInputBean
 import com.zwb.sob_wenda.databinding.WendaActivityAnswerBinding
 import com.zwb.sob_wenda.databinding.WendaDetailHeaderBinding
 
@@ -57,6 +63,8 @@ class WendaAnswerActivity : BaseActivity<WendaActivityAnswerBinding, WendaViewMo
 
     private lateinit var bottomSheetDialog: FixedHeightBottomSheetDialog
 
+    private lateinit var replyDialog: ReplyBottomSheetDialog
+
     override fun WendaActivityAnswerBinding.initView() {
         mBinding.includeBar.tvSearch.gone()
         mBinding.includeBar.ivBack.setOnClickListener { finish() }
@@ -76,8 +84,12 @@ class WendaAnswerActivity : BaseActivity<WendaActivityAnswerBinding, WendaViewMo
             R.style.BottomSheetDialog,
             UIUtils.getScreenHeight() * 2 / 3
         )
-
+        replyDialog = ReplyBottomSheetDialog(
+            this@WendaAnswerActivity,
+            R.style.BottomSheetDialog
+        )
         initListener()
+        setViewData()
     }
 
     override fun setStatusBar() {
@@ -97,6 +109,9 @@ class WendaAnswerActivity : BaseActivity<WendaActivityAnswerBinding, WendaViewMo
                     R.id.tv_be_nickname -> {
                         UcenterServiceWrap.instance.launchDetail(item.beUid)
                     }
+                    R.id.iv_comment_reply -> {
+                        showReplyDialog(item)
+                    }
                 }
             }
 
@@ -113,7 +128,7 @@ class WendaAnswerActivity : BaseActivity<WendaActivityAnswerBinding, WendaViewMo
         }
 
         mBinding.tvReply.setOnClickListener {
-            toast("写评价===开发中...")
+            showReplyDialog()
         }
         mBinding.tvThumb.setOnClickListener {
             if (isLoginIntercept(true) && it.tag == null && answerBean != null) {
@@ -128,8 +143,12 @@ class WendaAnswerActivity : BaseActivity<WendaActivityAnswerBinding, WendaViewMo
     override fun initObserve() {
     }
 
-    @SuppressLint("SetTextI18n", "JavascriptInterface")
     override fun initRequestData() {
+
+    }
+
+    @SuppressLint("SetTextI18n", "JavascriptInterface")
+    private fun setViewData(){
         answerBean?.let {
             mBinding.tvHeaderNickname.text = it.nickname
             mBinding.ivHeaderAvatar.loadAvatar(it.isVip, it.avatar)
@@ -140,21 +159,7 @@ class WendaAnswerActivity : BaseActivity<WendaActivityAnswerBinding, WendaViewMo
                     view: WebView,
                     request: WebResourceRequest
                 ): Boolean {
-                    when {
-                        request.url.toString().startsWith(Constants.WEBSITE_URL) -> {
-                            val arr = request.url.toString().split("/")
-                            HomeServiceWrap.instance.launchDetail(arr[arr.size - 1], "")
-                            return true
-                        }
-                        request.url.toString().startsWith(Constants.UCENTER_URL) -> {
-                            val arr = request.url.toString().split("/")
-                            UcenterServiceWrap.instance.launchDetail(arr[arr.size - 1])
-                            return true
-                        }
-                        else -> {
-                            HomeServiceWrap.instance.launchWebView("",request.url.toString())
-                        }
-                    }
+                    CommonViewUtils.toWebView(request.url.toString())
                     return true
                 }
             }
@@ -249,9 +254,9 @@ class WendaAnswerActivity : BaseActivity<WendaActivityAnswerBinding, WendaViewMo
         })
     }
 
-    private fun commentPrise(count: Int){
-        mViewModel.commentPrise(answerBean!!._id,count,false).observe(this,{
-            if(it.success){
+    private fun commentPrise(count: Int) {
+        mViewModel.commentPrise(answerBean!!._id, count, false).observe(this, {
+            if (it.success) {
                 toast("谢谢老板打赏!!!")
             }
         })
@@ -276,7 +281,7 @@ class WendaAnswerActivity : BaseActivity<WendaActivityAnswerBinding, WendaViewMo
         adapter.setOnItemClickListener { _, _, position ->
             adapter.data.forEach {
                 selectItem = (adapter.getItem(position) as PriseSobBean)
-                it.isChecked = selectItem ==it
+                it.isChecked = selectItem == it
             }
             adapter.notifyDataSetChanged()
         }
@@ -287,4 +292,69 @@ class WendaAnswerActivity : BaseActivity<WendaActivityAnswerBinding, WendaViewMo
     }
 
 
+    private fun showReplyDialog(subComment: SubCommentBean? = null) {
+        if (!isLoginIntercept(true)) {
+            return
+        }
+        replyDialog.show()
+        if (subComment == null) {
+            answerBean?.let {
+                replyDialog.setReplyTitle("评论 @${answerBean!!.nickname}")
+            }
+        } else {
+            replyDialog.setReplyTitle("评论 @${subComment.beNickname}")
+        }
+        replyDialog.sendListener(object : ReplyBottomSheetDialog.OnSendListener {
+            override fun onSend(v: String) {
+                if (subComment == null) {
+                    replyAnswer(v)
+                } else {
+                    replyComment(v, subComment)
+                }
+                replyDialog.dismiss()
+            }
+        })
+    }
+
+    private fun replyAnswer(str: String) {
+        if (!isLoginIntercept(true)) {
+            return
+        }
+        answerBean?.let {
+            mViewModel.replyAnswer(
+                WendaSubCommentInputBean(
+                    parentId = it._id,
+                    beNickname = it.nickname,
+                    beUid = it.uid,
+                    wendaId = it.wendaId,
+                    content = str
+                )
+            ).observe(this,{res->
+                if (res.success) {
+                    toast("评论成功")
+                    EventBusUtils.postEvent(UpdateItemEvent(UpdateItemEvent.Event.UPDATE_WENDA, answerBean!!.wendaId))
+                }
+            })
+        }
+    }
+
+    private fun replyComment(str: String, subComment: SubCommentBean) {
+        if (!isLoginIntercept(true)) {
+            return
+        }
+        mViewModel.replyAnswer(
+            WendaSubCommentInputBean(
+                parentId = subComment.parentId!!,
+                beNickname = subComment.beNickname!!,
+                beUid = subComment.beUid,
+                wendaId = answerBean!!.wendaId,
+                content = str
+            )
+        ).observe(this,{res->
+            if (res.success) {
+                toast("评论成功")
+//                EventBusUtils.postEvent(UpdateItemEvent(UpdateItemEvent.Event.UPDATE_WENDA, answerBean!!.wendaId))
+            }
+        })
+    }
 }

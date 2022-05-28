@@ -7,10 +7,7 @@ import com.zwb.lib_base.mvvm.vm.BaseViewModel
 import com.zwb.lib_base.net.BaseResponse
 import com.zwb.lib_common.CommonViewModel
 import com.zwb.lib_common.view.CommonViewUtils
-import com.zwb.sob_wenda.bean.AnswerBean
-import com.zwb.sob_wenda.bean.WendaBean
-import com.zwb.sob_wenda.bean.WendaContentBean
-import com.zwb.sob_wenda.bean.WendaRankingBean
+import com.zwb.sob_wenda.bean.*
 
 class WendaViewModel: CommonViewModel() {
 
@@ -102,6 +99,21 @@ class WendaViewModel: CommonViewModel() {
         val response: MutableLiveData<BaseResponse<Int?>> = MutableLiveData()
         initiateRequest({
             response.value = wendaRepo.commentPrise(commentId, count, thumbUp)
+        }, loadState)
+        return response
+    }
+    fun answer(body: AnswerInputBean): MutableLiveData<BaseResponse<Int?>> {
+        val response: MutableLiveData<BaseResponse<Int?>> = MutableLiveData()
+        initiateRequest({
+            response.value = wendaRepo.answer(body)
+        }, loadState)
+        return response
+    }
+
+    fun replyAnswer(body: WendaSubCommentInputBean): MutableLiveData<BaseResponse<Int?>> {
+        val response: MutableLiveData<BaseResponse<Int?>> = MutableLiveData()
+        initiateRequest({
+            response.value = wendaRepo.replyAnswer(body)
         }, loadState)
         return response
     }

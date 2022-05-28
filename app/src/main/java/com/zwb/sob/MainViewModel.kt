@@ -1,7 +1,5 @@
 package com.zwb.sob
 
-import com.zwb.lib_base.mvvm.vm.BaseViewModel
+import com.zwb.lib_common.CommonViewModel
 
-class MainViewModel:BaseViewModel() {
-
-}
+class MainViewModel:CommonViewModel()

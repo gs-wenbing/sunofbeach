@@ -8,6 +8,7 @@ import com.zwb.lib_common.bean.TokenBean
 import com.zwb.lib_common.constant.Constants
 import com.zwb.sob_moyu.bean.MomentCommentBean
 import com.zwb.sob_moyu.bean.MomentCommentInputBean
+import com.zwb.sob_moyu.bean.SubCommentInputBean
 import com.zwb.sob_moyu.bean.TopicIndexBean
 import retrofit2.http.*
 
@@ -45,17 +46,10 @@ interface MoyuApi {
         @Query("sort") sort: Int = 1
     ): BaseResponse<ListData<MomentCommentBean>?>
 
-
-    @PUT("${THUMB_UP_URL}/{momentId}")
-    suspend fun thumbUp(
-        @Path("momentId") momentId: String
-    ): BaseResponse<String?>
-
     @GET("${MOYU_DETAIL_URL}/{momentId}")
     suspend fun moyuDetail(
         @Path("momentId") momentId: String
     ): BaseResponse<MoyuItemBean?>
-
 
     /**
      * 动态点赞
@@ -65,8 +59,17 @@ interface MoyuApi {
         @Path("momentId") momentId: String
     ): BaseResponse<Int?>
 
+    /**
+     * 评论动态
+     */
     @POST(COMMENT_URL)
     suspend fun comment(@Body query: MomentCommentInputBean): BaseResponse<String?>
+
+    /**
+     * 回复评论
+     */
+    @POST(SUB_COMMENT_URL)
+    suspend fun replyComment(@Body query: SubCommentInputBean): BaseResponse<String?>
 
     companion object {
         const val BASE_URL = "https://api.sunofbeaches.com/"
@@ -85,6 +88,8 @@ interface MoyuApi {
 
         // 获取动态评论/发表评论(评论动态)
         const val COMMENT_URL = "ct/moyu/comment"
+        //回复评论
+        const val SUB_COMMENT_URL = "ct/moyu/sub-comment"
 
         // 动态点赞
         const val THUMB_UP_URL = "ct/moyu/thumb-up"

@@ -118,8 +118,7 @@ object GitHub {
     const val Mojito = "com.github.mikaelzero.mojito:mojito:1.8.5"
     const val Mojito_GlideImageLoader = "com.github.mikaelzero.mojito:GlideImageLoader:1.8.5"
     const val Mojito_SketchImageViewLoader = "com.github.mikaelzero.mojito:SketchImageViewLoader:1.8.5"
-
-
+    const val ToastUtils = "com.github.getActivity:ToastUtils:10.3"
 }
 
 /**

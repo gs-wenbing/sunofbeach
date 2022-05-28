@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayoutMediator
+import com.zwb.lib_base.ktx.reduceDragSensitivity
 import com.zwb.lib_base.mvvm.v.BaseFragment
 import com.zwb.lib_base.utils.StatusBarUtil
 import com.zwb.sob_shop.ShopViewModel
@@ -43,6 +44,7 @@ class ShopMainFragment:BaseFragment<ShopFragmentMainBinding,ShopViewModel>() {
             }
         }
         mBinding.vpContent.adapter = mAdapter
+        mBinding.vpContent.reduceDragSensitivity()
         TabLayoutMediator(mBinding.tabLayout, mBinding.vpContent) { tab, position ->
             tab.text = titles[position]
         }.attach()

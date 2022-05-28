@@ -8,4 +8,11 @@ data class TitleMultiBean(var title: String): MultiItemEntity{
         return Constants.MultiItemType.TYPE_TITLE
     }
 
+    override fun equals(other: Any?): Boolean {
+        return this.title == (other as TitleMultiBean).title
+    }
+
+    override fun hashCode(): Int {
+        return title.hashCode()
+    }
 }

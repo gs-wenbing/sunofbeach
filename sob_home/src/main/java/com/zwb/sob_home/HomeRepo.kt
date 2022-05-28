@@ -69,6 +69,10 @@ class HomeRepo(private val loadState: MutableLiveData<State>) : CommonRepo(loadS
         return apiService.getArticleCommentList(articleId, page).dataConvert(loadState, key)
     }
 
+    suspend fun replyComment(comment: SubCommentInputBean): BaseResponse<String?> {
+        return apiService.replyComment(comment)
+    }
+
     suspend fun commentArticle(comment: CommentInputBean): BaseResponse<String?> {
         return apiService.commentArticle(comment)
     }

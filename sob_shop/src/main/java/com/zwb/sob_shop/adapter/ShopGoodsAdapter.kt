@@ -11,35 +11,30 @@ import com.youth.banner.util.BannerUtils
 import com.zwb.lib_base.utils.UIUtils
 import com.zwb.sob_shop.R
 import com.zwb.sob_shop.bean.DiscoverGoodsBean
+import com.zwb.sob_shop.bean.IGoodsItem
+import com.zwb.sob_shop.bean.RecommendGoodsBean
 import com.zwb.sob_shop.bean.ShopItemGoodsBean
 
-class ShopGoodsAdapter(data: MutableList<ShopItemGoodsBean>?) :
-    BaseQuickAdapter<ShopItemGoodsBean, BaseViewHolder>(R.layout.shop_adapter_goods, data) {
+class ShopGoodsAdapter(data: MutableList<IGoodsItem>?) :
+    BaseQuickAdapter<IGoodsItem, BaseViewHolder>(R.layout.shop_adapter_goods, data) {
 
     @SuppressLint("SetTextI18n")
-    override fun convert(helper: BaseViewHolder, item: ShopItemGoodsBean?) {
-
-            if(item is DiscoverGoodsBean){
-                helper.setText(R.id.tv_goods_name, item.title)
-
-                val tvOldPrice = helper.getView<TextView>(R.id.tv_old_price)
-
-                val ivGoodsImage = helper.getView<ImageView>(R.id.iv_goods_image)
-                BannerUtils.setBannerRound(ivGoodsImage,UIUtils.dp2px(5f).toFloat())
-                Glide.with(ivGoodsImage.context)
-                    .load("https:${item.pict_url}")
-                    .placeholder(R.drawable.shape_grey_background)
-                    .into(ivGoodsImage)
-
-                tvOldPrice.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
-                tvOldPrice.text = "原价 ${item.zk_final_price}"
-                helper.setText(R.id.tv_trade_price, "券后价 ${String.format("%.2f",(item.zk_final_price - item.coupon_amount))}")
-
-                helper.setText(R.id.tv_volume_count, item.volume.toString())
-
-                helper.addOnClickListener(R.id.btn_coupon)
-            }
-
+    override fun convert(helper: BaseViewHolder, item: IGoodsItem?) {
+        item?.let {
+            helper.setText(R.id.tv_goods_name, item.getGoodsTitle())
+            val tvOldPrice = helper.getView<TextView>(R.id.tv_old_price)
+            val ivGoodsImage = helper.getView<ImageView>(R.id.iv_goods_image)
+            BannerUtils.setBannerRound(ivGoodsImage, UIUtils.dp2px(5f).toFloat())
+            Glide.with(ivGoodsImage.context)
+                .load(item.getPicUrl())
+                .placeholder(R.drawable.shape_grey_background)
+                .into(ivGoodsImage)
+            tvOldPrice.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
+            tvOldPrice.text = "原价 ${item.getOriginPrice()}"
+            helper.setText(R.id.tv_trade_price, "券后价 ${String.format("%.2f",(item.getOriginPrice() - item.getCouponAmount()))}")
+            helper.setText(R.id.tv_volume_count, item.getSaleNum().toString())
+            helper.addOnClickListener(R.id.btn_coupon)
+        }
     }
 
 }

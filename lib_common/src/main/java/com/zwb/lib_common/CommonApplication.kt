@@ -7,6 +7,7 @@ import android.text.TextUtils
 import android.util.Log
 import com.alibaba.android.arouter.launcher.ARouter
 import com.google.auto.service.AutoService
+import com.hjq.toast.ToastUtils
 import com.kingja.loadsir.core.LoadSir
 import com.tencent.smtt.export.external.TbsCoreSettings
 import com.tencent.smtt.sdk.QbSdk
@@ -69,6 +70,7 @@ class CommonApplication : ApplicationLifecycle {
             list.add { initNetworkStateClient() }
             list.add { initLoadSir() }
             list.add { initMojito() }
+            list.add { initToast() }
         }
         list.add { initTencentBugly() }
         return list
@@ -82,6 +84,17 @@ class CommonApplication : ApplicationLifecycle {
         initX5WebViewCore()
     }
 
+    private fun initToast(): String {
+//        val okHttpClient = OkHttpClient.Builder()
+//            .addInterceptor(initIntercept())
+//            .build()
+//        Mojito.initialize(
+//            GlideImageLoader.with(BaseApplication.context, okHttpClient),
+//            SketchImageLoadFactory()
+//        )
+        ToastUtils.init(BaseApplication.application)
+        return "Mojito -->> init complete"
+    }
 
     private fun initMojito(): String {
         val okHttpClient = OkHttpClient.Builder()

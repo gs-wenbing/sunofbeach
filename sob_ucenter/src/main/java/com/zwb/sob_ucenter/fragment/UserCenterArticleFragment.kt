@@ -8,6 +8,7 @@ import com.zwb.lib_common.base.BaseListFragment
 import com.zwb.lib_common.constant.RoutePath
 import com.zwb.lib_common.service.home.wrap.HomeServiceWrap
 import com.zwb.lib_common.service.wenda.wrap.WendaServiceWrap
+import com.zwb.lib_common.view.CommonViewUtils
 import com.zwb.sob_ucenter.R
 import com.zwb.sob_ucenter.UcenterApi
 import com.zwb.sob_ucenter.UcenterViewModel
@@ -54,7 +55,7 @@ class UserCenterArticleFragment :
                 }
                 adapter.getItem(position) is ShareBean -> {
                     val item = adapter.getItem(position) as ShareBean
-                    toast("分享详情=${item.title}")
+                    CommonViewUtils.toWebView(item.url)
                 }
                 adapter.getItem(position) is UserWendaBean -> {
                     val item = adapter.getItem(position) as UserWendaBean

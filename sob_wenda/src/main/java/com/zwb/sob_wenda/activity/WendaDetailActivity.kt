@@ -14,30 +14,37 @@ import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.bumptech.glide.Glide
+import com.chad.library.adapter.base.entity.MultiItemEntity
+import com.scwang.smartrefresh.layout.header.ClassicsHeader
 import com.youth.banner.util.BannerUtils
 import com.zwb.lib_base.ktx.gone
 import com.zwb.lib_base.ktx.visible
 import com.zwb.lib_base.mvvm.v.BaseActivity
 import com.zwb.lib_base.utils.DateUtils
+import com.zwb.lib_base.utils.EventBusRegister
 import com.zwb.lib_base.utils.StatusBarUtil
 import com.zwb.lib_base.utils.UIUtils
+import com.zwb.lib_common.bean.SubCommentBean
 import com.zwb.lib_common.bean.TitleMultiBean
 import com.zwb.lib_common.constant.Constants
 import com.zwb.lib_common.constant.RoutePath
+import com.zwb.lib_common.event.UpdateItemEvent
 import com.zwb.lib_common.service.home.wrap.HomeServiceWrap
 import com.zwb.lib_common.service.ucenter.wrap.UcenterServiceWrap
 import com.zwb.lib_common.service.wenda.wrap.WendaServiceWrap
 import com.zwb.lib_common.view.CommonViewUtils
+import com.zwb.lib_common.view.ReplyBottomSheetDialog
 import com.zwb.sob_wenda.R
 import com.zwb.sob_wenda.WendaApi
 import com.zwb.sob_wenda.WendaViewModel
 import com.zwb.sob_wenda.adapter.WendaDetailAdapter
-import com.zwb.sob_wenda.bean.AnswerBean
-import com.zwb.sob_wenda.bean.WendaBean
-import com.zwb.sob_wenda.bean.WendaContentBean
+import com.zwb.sob_wenda.bean.*
 import com.zwb.sob_wenda.databinding.WendaActivityDetailBinding
 import com.zwb.sob_wenda.databinding.WendaDetailHeaderBinding
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 
+@EventBusRegister
 @Route(path = RoutePath.Wenda.PAGE_DETAIL)
 class WendaDetailActivity : BaseActivity<WendaActivityDetailBinding, WendaViewModel>() {
 
@@ -50,7 +57,10 @@ class WendaDetailActivity : BaseActivity<WendaActivityDetailBinding, WendaViewMo
 
     private lateinit var contentBinding: WendaDetailHeaderBinding
 
+    private lateinit var replyDialog: ReplyBottomSheetDialog
+
     private lateinit var mAdapter: WendaDetailAdapter
+    private var answerList = mutableListOf<MultiItemEntity>()
 
     override fun WendaActivityDetailBinding.initView() {
         mBinding.includeBar.tvSearch.gone()
@@ -64,6 +74,13 @@ class WendaDetailActivity : BaseActivity<WendaActivityDetailBinding, WendaViewMo
         this.rvContent.adapter = mAdapter
         this.rvContent.layoutManager = LinearLayoutManager(this@WendaDetailActivity)
         mAdapter.addHeaderView(contentBinding.root)
+        mBinding.refreshLayout.setEnableRefresh(false)
+//        mBinding.refreshLayout.setRefreshHeader(ClassicsHeader(this@WendaDetailActivity))
+        replyDialog = ReplyBottomSheetDialog(
+            this@WendaDetailActivity,
+            R.style.BottomSheetDialog
+        )
+
         initListener()
     }
 
@@ -74,6 +91,11 @@ class WendaDetailActivity : BaseActivity<WendaActivityDetailBinding, WendaViewMo
     }
 
     private fun initListener(){
+//        mBinding.refreshLayout.setOnRefreshListener {
+//            getAnswerList()
+//            mBinding.refreshLayout.finishRefresh()
+//        }
+
         mAdapter.setOnItemChildClickListener { adapter, view, position ->
             if (view.id == R.id.tv_comment_nickname || view.id == R.id.iv_comment_avatar) {
                 when (val item = adapter.getItem(position)) {
@@ -116,7 +138,7 @@ class WendaDetailActivity : BaseActivity<WendaActivityDetailBinding, WendaViewMo
             toast("邀请回答==开发中...")
         }
         mBinding.tvReply.setOnClickListener {
-            toast("写答案==开发中...")
+            showReplyDialog()
         }
     }
 
@@ -131,14 +153,26 @@ class WendaDetailActivity : BaseActivity<WendaActivityDetailBinding, WendaViewMo
                 getFollowState(it.userId)
             }
         })
-        mViewModel.getWendaAnswerList(wendaId, 1, WendaApi.WENDA_ANSWER_LIST_URL).observe(this, {
-            if (it != null && it.isNotEmpty()) {
-                mAdapter.addData(TitleMultiBean("回答 （${it.size}）"))
-                mAdapter.addData(it)
-            }
-            getWendaRelative()
-        })
+        getAnswerList()
         wendaThumbCheck()
+        getWendaRelative()
+    }
+
+    private fun getAnswerList(isRefresh: Boolean = true){
+        mViewModel.getWendaAnswerList(wendaId, 1, WendaApi.WENDA_ANSWER_LIST_URL).observe(this, {aList->
+            if (aList != null && aList.isNotEmpty()) {
+                answerList.forEach {
+                    mAdapter.data.remove(it)
+                }
+                answerList.clear()
+                answerList.add(TitleMultiBean("回答 （${aList.size}）"))
+                answerList.addAll(aList)
+                mAdapter.addData(0,answerList)
+                if(isRefresh && mAdapter.data.size > answerList.size){
+                    mAdapter.notifyItemChanged(answerList.size+1)
+                }
+            }
+        })
     }
 
     private fun getWendaRelative() {
@@ -224,16 +258,7 @@ class WendaDetailActivity : BaseActivity<WendaActivityDetailBinding, WendaViewMo
                 view: WebView,
                 request: WebResourceRequest
             ): Boolean {
-                if(request.url.toString().startsWith(Constants.WEBSITE_URL)){
-                    val arr = request.url.toString().split("/")
-                    HomeServiceWrap.instance.launchDetail(arr[arr.size-1],"")
-                    return true
-                }
-                if (request.url.toString().startsWith(Constants.UCENTER_URL)) {
-                    val arr = request.url.toString().split("/")
-                    UcenterServiceWrap.instance.launchDetail(arr[arr.size - 1])
-                    return true
-                }
+                CommonViewUtils.toWebView(request.url.toString())
                 return true
             }
         }
@@ -257,4 +282,46 @@ class WendaDetailActivity : BaseActivity<WendaActivityDetailBinding, WendaViewMo
         CommonViewUtils.showBigImage(this,contentBinding.codeView.getImageList(), index)
     }
 
+    private fun showReplyDialog() {
+        if (!isLoginIntercept(true)) {
+            return
+        }
+        replyDialog.show()
+        wendaContent?.let {
+            replyDialog.setReplyTitle("回答 @${wendaContent!!.nickname}")
+        }
+        replyDialog.sendListener(object : ReplyBottomSheetDialog.OnSendListener {
+            override fun onSend(v: String) {
+                answer(v)
+                replyDialog.dismiss()
+            }
+        })
+    }
+
+    private fun answer(str: String) {
+        if (!isLoginIntercept(true)) {
+            return
+        }
+        mViewModel.answer(
+            AnswerInputBean(
+                wendaId = wendaId,
+                content = str
+            )
+        ).observe(this,{res->
+            if (res.success) {
+                toast("回答成功")
+                getAnswerList(true)
+            }
+        })
+    }
+
+    /**
+     * 问答详情-->更新答案
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onEventUpdateAnswer(event: UpdateItemEvent){
+        if (event.event == UpdateItemEvent.Event.UPDATE_WENDA && event.id == wendaId) {
+            getAnswerList(true)
+        }
+    }
 }

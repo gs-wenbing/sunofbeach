@@ -12,6 +12,7 @@ import com.zwb.lib_common.bean.CollectionBean
 import com.zwb.lib_common.constant.Constants.WEBSITE_URL
 import com.zwb.lib_common.constant.RoutePath
 import com.zwb.lib_common.service.home.wrap.HomeServiceWrap
+import com.zwb.lib_common.view.CommonViewUtils
 import com.zwb.sob_ucenter.UcenterApi
 import com.zwb.sob_ucenter.UcenterViewModel
 import com.zwb.sob_ucenter.adapter.FavoriteAdapter
@@ -59,7 +60,7 @@ class FavoriteListActivity :
         mBinding.includeBar.ivBack.setOnClickListener { finish() }
         mAdapter.setOnItemClickListener { adapter, view, position ->
             val item = adapter.getItem(position) as FavoriteBean
-            HomeServiceWrap.instance.launchDetail(item.url.replace(WEBSITE_URL, ""), item.title)
+            CommonViewUtils.toWebView(item.url)
         }
     }
 

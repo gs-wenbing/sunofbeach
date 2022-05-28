@@ -8,11 +8,20 @@ import com.zwb.lib_base.net.BaseResponse
 import com.zwb.lib_common.bean.CollectInputBean
 import com.zwb.lib_common.bean.CollectionBean
 import com.zwb.lib_common.bean.PriseQrCode
+import com.zwb.lib_common.bean.TokenBean
 
 open class CommonViewModel : BaseViewModel() {
 
     private val repository by lazy {
         CommonRepo(loadState)
+    }
+
+    fun checkToken(key: String): MutableLiveData<TokenBean?> {
+        val response: MutableLiveData<TokenBean?> = MutableLiveData()
+        initiateRequest({
+            response.value = repository.checkToken(key)
+        }, loadState)
+        return response
     }
 
     /**

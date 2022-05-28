@@ -44,7 +44,7 @@ dependencies {
     api GitHub.Mojito
     api GitHub.Mojito_GlideImageLoader
     api GitHub.Mojito_SketchImageViewLoader
-
+    api GitHub.ToastUtils
 
     api SDK.TencentBugly
     api SDK.TencentBuglyNative

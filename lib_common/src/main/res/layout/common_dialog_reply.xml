@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/layout_reply"
+    android:background="@color/white"
+    android:padding="@dimen/dp_10">
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="发表评论"
+        android:textSize="@dimen/sp_14"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:textColor="@color/grey_light"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:textStyle="bold"/>
+    <EditText
+        android:id="@+id/edit_reply"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_grey_background"
+        android:focusable="true"
+        android:gravity="left|top"
+        android:hint="快来发表评论吧~"
+        android:lineSpacingExtra="@dimen/dp_6"
+        android:inputType="textMultiLine"
+        android:maxHeight="240dp"
+        android:minHeight="120dp"
+        android:padding="@dimen/dp_10"
+        android:textSize="@dimen/sp_14"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_title"
+        android:layout_marginTop="@dimen/dp_10"
+        android:layout_marginBottom="@dimen/dp_40"/>
+
+    <Button
+        android:id="@+id/btn_send"
+        android:layout_width="@dimen/dp_60"
+        android:layout_height="@dimen/dp_28"
+        android:background="@drawable/blue_solid_btn_selector"
+        android:text="发送"
+        android:layout_marginTop="@dimen/dp_10"
+        app:layout_constraintTop_toBottomOf="@+id/edit_reply"
+        app:layout_constraintRight_toRightOf="parent"
+        android:textColor="@color/white"
+        android:stateListAnimator="@null"
+        android:textSize="@dimen/sp_13" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/dp_10"
+        android:text="1000"
+        android:textColor="@color/grey_light"
+        android:layout_below="@+id/edit_reply"
+        app:layout_constraintTop_toTopOf="@+id/btn_send"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_send"
+        app:layout_constraintRight_toLeftOf="@+id/btn_send"
+        android:textSize="@dimen/sp_13" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

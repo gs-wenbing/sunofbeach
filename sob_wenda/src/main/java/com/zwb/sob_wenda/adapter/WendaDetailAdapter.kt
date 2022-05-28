@@ -1,14 +1,10 @@
 package com.zwb.sob_wenda.adapter
 
-import android.text.Html
+import android.util.Log
 import android.view.View
-import android.widget.ImageView
-import android.widget.TextView
-import com.bumptech.glide.Glide
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.chad.library.adapter.base.entity.MultiItemEntity
-import com.youth.banner.util.BannerUtils
 import com.zwb.lib_base.ktx.gone
 import com.zwb.lib_base.ktx.visible
 import com.zwb.lib_base.utils.DateUtils
@@ -17,7 +13,6 @@ import com.zwb.lib_common.bean.TitleMultiBean
 import com.zwb.lib_common.constant.Constants
 import com.zwb.lib_common.view.AvatarDecorView
 import com.zwb.lib_common.view.CommonViewUtils
-import com.zwb.lib_common.view.HtmlImageGetter
 import com.zwb.sob_wenda.R
 import com.zwb.sob_wenda.bean.AnswerBean
 import com.zwb.sob_wenda.bean.WendaBean

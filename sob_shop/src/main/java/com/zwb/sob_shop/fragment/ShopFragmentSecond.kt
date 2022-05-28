@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayoutMediator
+import com.zwb.lib_base.ktx.reduceDragSensitivity
 import com.zwb.lib_base.mvvm.v.BaseFragment
 import com.zwb.sob_shop.ShopApi
 import com.zwb.sob_shop.ShopViewModel
@@ -71,6 +72,7 @@ class ShopFragmentSecond : BaseFragment<ShopFragmentSecondBinding, ShopViewModel
             }
         }
         mBinding.vpContent2.adapter = mAdapter
+        mBinding.vpContent2.reduceDragSensitivity()
         TabLayoutMediator(mBinding.tabLayout2, mBinding.vpContent2) { tab, position ->
             if (titles[position] is DiscoverCategoryBean) {
                 tab.text = (titles[position] as DiscoverCategoryBean).title

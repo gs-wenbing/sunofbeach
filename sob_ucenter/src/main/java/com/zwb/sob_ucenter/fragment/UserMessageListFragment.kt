@@ -9,6 +9,7 @@ import com.zwb.lib_common.event.StringEvent
 import com.zwb.lib_common.service.home.wrap.HomeServiceWrap
 import com.zwb.lib_common.service.moyu.wrap.MoyuServiceWrap
 import com.zwb.lib_common.service.ucenter.wrap.UcenterServiceWrap
+import com.zwb.lib_common.service.wenda.wrap.WendaServiceWrap
 import com.zwb.sob_ucenter.R
 import com.zwb.sob_ucenter.UcenterApi
 import com.zwb.sob_ucenter.UcenterViewModel
@@ -46,10 +47,10 @@ class UserMessageListFragment :
                     if (item.hasRead == "0") {
                         updateState(item, position)
                     }
-                    if (item.type== "moment") {
-                        MoyuServiceWrap.instance.launchDetail(item.exId)
-                    }else if(item.type== "article"){
-                        MoyuServiceWrap.instance.launchDetail(item.exId)
+                    when (item.type) {
+                        "moment" -> MoyuServiceWrap.instance.launchDetail(item.exId)
+                        "article" -> HomeServiceWrap.instance.launchDetail(item.exId,"")
+                        "wenda" -> WendaServiceWrap.instance.launchDetail(item.exId)
                     }
                 }
                 is MsgMomentBean -> {
@@ -110,7 +111,7 @@ class UserMessageListFragment :
     private fun messageArticleList(action: Int, page: Int) {
         mViewModel.messageArticleList(page, loadKey()).observe(viewLifecycleOwner, {
             it?.let {
-                loadCompleted(action, list = it.content)
+                loadCompleted(action, list = it.content, it.size)
             }
         })
     }
@@ -118,7 +119,7 @@ class UserMessageListFragment :
     private fun messageAtList(action: Int, page: Int) {
         mViewModel.messageAtList(page, loadKey()).observe(viewLifecycleOwner, {
             it?.let {
-                loadCompleted(action, list = it.content)
+                loadCompleted(action, list = it.content, it.size)
             }
         })
     }
@@ -126,7 +127,7 @@ class UserMessageListFragment :
     private fun messageMomentList(action: Int, page: Int) {
         mViewModel.messageMomentList(page, loadKey()).observe(viewLifecycleOwner, {
             it?.let {
-                loadCompleted(action, list = it.content)
+                loadCompleted(action, list = it.content, it.size)
             }
         })
     }
@@ -134,7 +135,7 @@ class UserMessageListFragment :
     private fun messageThumbList(action: Int, page: Int) {
         mViewModel.messageThumbList(page, loadKey()).observe(viewLifecycleOwner, {
             it?.let {
-                loadCompleted(action, list = it.content)
+                loadCompleted(action, list = it.content, it.size)
                 EventBusUtils.postEvent(StringEvent(StringEvent.Event.MSG_READ))
             }
         })
@@ -144,6 +145,7 @@ class UserMessageListFragment :
         val id = when (msgBean) {
             is MsgAtBean -> msgBean._id
             is MsgMomentBean -> msgBean._id
+            is MsgArticleBean -> msgBean._id
             else -> ""
         }
         mViewModel.updateMsgState(pageType, id).observe(viewLifecycleOwner, {

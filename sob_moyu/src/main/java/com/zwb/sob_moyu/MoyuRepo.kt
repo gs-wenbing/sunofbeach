@@ -11,6 +11,8 @@ import com.zwb.lib_common.CommonRepo
 import com.zwb.lib_common.bean.TokenBean
 import com.zwb.lib_common.bean.MoyuItemBean
 import com.zwb.sob_moyu.bean.MomentCommentBean
+import com.zwb.sob_moyu.bean.MomentCommentInputBean
+import com.zwb.sob_moyu.bean.SubCommentInputBean
 import com.zwb.sob_moyu.bean.TopicIndexBean
 
 class MoyuRepo(private val loadState: MutableLiveData<State>) : CommonRepo(loadState) {
@@ -49,5 +51,13 @@ class MoyuRepo(private val loadState: MutableLiveData<State>) : CommonRepo(loadS
 
     suspend fun moyuThumb(momentId: String): BaseResponse<Int?> {
         return apiService.moyuThumb(momentId)
+    }
+
+    suspend fun comment(body: MomentCommentInputBean): BaseResponse<String?> {
+        return apiService.comment(body)
+    }
+
+    suspend fun replyComment(body: SubCommentInputBean): BaseResponse<String?> {
+        return apiService.replyComment(body)
     }
 }

@@ -86,4 +86,27 @@ data class MoyuItemBean(
     override fun equals(other: Any?): Boolean {
         return this.id == (other as MoyuItemBean).id
     }
+
+    override fun hashCode(): Int {
+        var result = id.hashCode()
+        result = 31 * result + userId.hashCode()
+        result = 31 * result + nickname.hashCode()
+        result = 31 * result + avatar.hashCode()
+        result = 31 * result + (company?.hashCode() ?: 0)
+        result = 31 * result + (position?.hashCode() ?: 0)
+        result = 31 * result + content.hashCode()
+        result = 31 * result + (linkCover?.hashCode() ?: 0)
+        result = 31 * result + (linkTitle?.hashCode() ?: 0)
+        result = 31 * result + (linkUrl?.hashCode() ?: 0)
+        result = 31 * result + commentCount
+        result = 31 * result + thumbUpCount
+        result = 31 * result + images.hashCode()
+        result = 31 * result + topicName.hashCode()
+        result = 31 * result + topicId.hashCode()
+        result = 31 * result + createTime.hashCode()
+        result = 31 * result + hasThumbUp.hashCode()
+        result = 31 * result + thumbUpList.hashCode()
+        result = 31 * result + vip.hashCode()
+        return result
+    }
 }

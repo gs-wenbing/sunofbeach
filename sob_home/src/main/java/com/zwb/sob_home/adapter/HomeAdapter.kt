@@ -17,8 +17,6 @@ import com.zwb.lib_base.utils.UIUtils
 import com.zwb.lib_common.view.AvatarDecorView
 import com.zwb.lib_common.view.CommonViewUtils
 import com.zwb.sob_home.R
-import com.zwb.sob_home.bean.BannerBean
-import com.zwb.sob_home.bean.BannerList
 import com.zwb.sob_home.bean.HomeItemBean
 
 

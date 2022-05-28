@@ -6,11 +6,13 @@ import com.zwb.lib_base.utils.EventBusRegister
 import com.zwb.lib_common.adapter.MoyuAdapter
 import com.zwb.lib_common.base.BaseListFragment
 import com.zwb.lib_common.bean.MoyuItemBean
+import com.zwb.lib_common.constant.Constants
 import com.zwb.lib_common.event.StringEvent
 import com.zwb.lib_common.event.UpdateItemEvent
 import com.zwb.lib_common.service.home.wrap.HomeServiceWrap
 import com.zwb.lib_common.service.moyu.wrap.MoyuServiceWrap
 import com.zwb.lib_common.service.ucenter.wrap.UcenterServiceWrap
+import com.zwb.lib_common.view.CommonViewUtils
 import com.zwb.sob_moyu.MoyuApi
 import com.zwb.sob_moyu.MoyuViewModel
 import com.zwb.sob_moyu.R
@@ -42,7 +44,7 @@ class MoyuListFragment : BaseListFragment<MoyuItemBean,MoyuFragmentListBinding, 
                 UcenterServiceWrap.instance.launchDetail(item.userId)
             }else if(view.id == R.id.tv_link){
                 item.linkUrl?.let {
-                    HomeServiceWrap.instance.launchWebView("", it)
+                    CommonViewUtils.toWebView(it)
                 }
             }
         }

@@ -1,9 +1,12 @@
 package com.zwb.sob_home.activity
 
-import android.os.Build
+import android.content.ActivityNotFoundException
+import android.content.Intent
+import android.net.Uri
 import android.text.TextUtils
-import android.util.Log
+import android.view.KeyEvent
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.activity.viewModels
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
@@ -19,14 +22,11 @@ import com.zwb.lib_common.constant.RoutePath
 import com.zwb.sob_home.HomeViewModel
 import com.zwb.sob_home.databinding.HomeActivityWebviewBinding
 
+
 @Route(path = RoutePath.Home.PAGE_WEBVIEW)
 class WebViewActivity : BaseActivity<HomeActivityWebviewBinding, HomeViewModel>() {
 
     override val mViewModel by viewModels<HomeViewModel>()
-
-    @JvmField
-    @Autowired
-    var title: String? = null
 
     @Autowired
     lateinit var url: String
@@ -39,10 +39,10 @@ class WebViewActivity : BaseActivity<HomeActivityWebviewBinding, HomeViewModel>(
     private fun initX5WebView() {
         val webSetting = mBinding.x5webview.settings
         webSetting.javaScriptEnabled = true
-        webSetting.builtInZoomControls = true;
-        webSetting.javaScriptCanOpenWindowsAutomatically = true;
-        webSetting.domStorageEnabled = true;
-        webSetting.allowFileAccess = true;
+        webSetting.builtInZoomControls = true
+        webSetting.javaScriptCanOpenWindowsAutomatically = true
+        webSetting.domStorageEnabled = true
+        webSetting.allowFileAccess = true
         webSetting.layoutAlgorithm = WebSettings.LayoutAlgorithm.SINGLE_COLUMN
         webSetting.useWideViewPort = true
         webSetting.loadWithOverviewMode = true
@@ -60,9 +60,14 @@ class WebViewActivity : BaseActivity<HomeActivityWebviewBinding, HomeViewModel>(
         mBinding.x5webview.loadUrl(url)
         mBinding.x5webview.webViewClient = object : WebViewClient() {
 
-            override fun shouldOverrideUrlLoading(p0: WebView?, p1: String?): Boolean {
+            override fun shouldOverrideUrlLoading(p0: WebView?, url: String?): Boolean {
                 //这里可以对特殊scheme进行拦截处理
-                return true;//要返回true否则内核会继续处理
+                url?.let {
+                    if (url.startsWith("http") || url.startsWith("https")) {
+                        mBinding.x5webview.loadUrl(url)
+                    }
+                }
+                return true//要返回true否则内核会继续处理
             }
         }
         mBinding.x5webview.webChromeClient = object : WebChromeClient() {
@@ -97,9 +102,14 @@ class WebViewActivity : BaseActivity<HomeActivityWebviewBinding, HomeViewModel>(
     override fun initRequestData() {
     }
 
-//    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
-//        return mBinding.x5webview.handleKeyEvent(keyCode,event)
-//    }
+
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        if (keyCode == KeyEvent.KEYCODE_BACK &&  mBinding.x5webview.canGoBack()) {
+            mBinding.x5webview.goBack() // goBack()表示返回WebView的上一页面
+            return true
+        }
+        return super.onKeyDown(keyCode, event)
+    }
 
     override fun onDestroy() {
         mBinding.x5webview.destroy()

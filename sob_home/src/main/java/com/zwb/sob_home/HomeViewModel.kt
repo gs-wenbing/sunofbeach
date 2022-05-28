@@ -131,6 +131,17 @@ class HomeViewModel : CommonViewModel() {
     }
 
     /**
+     * 回复评论
+     */
+    fun replyComment(comment: SubCommentInputBean): MutableLiveData<BaseResponse<String?>> {
+        val response: MutableLiveData<BaseResponse<String?>> = MutableLiveData()
+        initiateRequest({
+            response.value = homeRepo.replyComment(comment)
+        }, loadState)
+        return response
+    }
+
+    /**
      * 评论文章
      */
     fun commentArticle(comment: CommentInputBean): MutableLiveData<BaseResponse<String?>> {

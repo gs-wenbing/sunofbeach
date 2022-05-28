@@ -19,12 +19,16 @@ import com.zwb.lib_common.adapter.ImageAdapter
 import com.zwb.lib_common.bean.MoyuItemBean
 import com.zwb.lib_common.constant.RoutePath
 import com.zwb.lib_common.event.UpdateItemEvent
+import com.zwb.lib_common.service.home.wrap.HomeServiceWrap
 import com.zwb.lib_common.service.ucenter.wrap.UcenterServiceWrap
 import com.zwb.lib_common.view.CommonViewUtils
+import com.zwb.lib_common.view.ReplyBottomSheetDialog
 import com.zwb.sob_moyu.MoyuApi
 import com.zwb.sob_moyu.MoyuViewModel
 import com.zwb.sob_moyu.adapter.CommentAdapter
 import com.zwb.sob_moyu.bean.MomentCommentBean
+import com.zwb.sob_moyu.bean.MomentCommentInputBean
+import com.zwb.sob_moyu.bean.SubCommentInputBean
 import com.zwb.sob_moyu.databinding.MoyuActivityDetailBinding
 import com.zwb.sob_moyu.databinding.MoyuDetailHeaderBinding
 
@@ -45,6 +49,8 @@ class MoyuDetailActivity :
 
     private lateinit var headerBinding: MoyuDetailHeaderBinding
 
+    private lateinit var replyDialog: ReplyBottomSheetDialog
+
     override fun MoyuActivityDetailBinding.initView() {
         mBinding.includeBar.tvSearch.gone()
 
@@ -60,8 +66,12 @@ class MoyuDetailActivity :
             loadListData(mCurrentPage)
         }, this.rvContent)
 
-        setDefaultLoad(this.rvContent, MoyuApi.MOYU_DETAIL_URL)
+        replyDialog = ReplyBottomSheetDialog(
+            this@MoyuDetailActivity,
+            R.style.BottomSheetDialog
+        )
 
+        setDefaultLoad(this.rvContent, MoyuApi.MOYU_DETAIL_URL)
         getMoyuDetail()
         initListener()
     }
@@ -154,8 +164,10 @@ class MoyuDetailActivity :
 
         mAdapter.setOnItemChildClickListener { adapter, view, position ->
             val item = adapter.getItem(position) as MomentCommentBean
-            if (view.id == com.zwb.sob_moyu.R.id.tv_comment_nickname || view.id == R.id.iv_comment_avatar) {
+            if (view.id == R.id.tv_comment_nickname || view.id == R.id.iv_comment_avatar) {
                 UcenterServiceWrap.instance.launchDetail(item.userId)
+            }else if(view.id == R.id.iv_comment_reply){
+                showReplyDialog(item)
             }
         }
         mBinding.tvHeaderFollow.setOnClickListener {
@@ -170,7 +182,7 @@ class MoyuDetailActivity :
         }
 
         headerBinding.tvReply.setOnClickListener {
-            toast("评论===开发中...")
+            showReplyDialog()
         }
 
         headerBinding.tvShare.setOnClickListener {
@@ -178,7 +190,9 @@ class MoyuDetailActivity :
         }
 
         headerBinding.tvLink.setOnClickListener {
-            toast("链接===开发中...")
+            moyuInfo?.linkUrl?.let {
+                CommonViewUtils.toWebView(it)
+            }
         }
     }
 
@@ -249,4 +263,65 @@ class MoyuDetailActivity :
             }
         })
     }
+    /**
+     * 评论动态
+     */
+    private fun commentMoyu(str: String) {
+        if (!isLoginIntercept(true)) {
+            return
+        }
+        mViewModel.comment(MomentCommentInputBean(momentId = moyuId, content = str))
+            .observe(this, {
+                if (it.success) {
+                    toast("评论成功")
+                    mCurrentPage = 1
+                    mAdapter.data.clear()
+                    initRequestData()
+                }
+            })
+    }
+    /**
+     * 回复评论
+     */
+    private fun replyComment(comment: MomentCommentBean, str: String) {
+        if (!isLoginIntercept(true)) {
+            return
+        }
+        mViewModel.replyComment(
+            SubCommentInputBean(
+                momentId = moyuId,
+                commentId = comment.id,
+                targetUserId = comment.userId,
+                content = str
+            )
+        ).observe(this, {
+            if (it.success) {
+                toast("回复成功")
+                mCurrentPage = 1
+                mAdapter.data.clear()
+                initRequestData()
+            }
+        })
+    }
+
+    private fun showReplyDialog(momentComment: MomentCommentBean? = null){
+        if (!isLoginIntercept(true)) {
+            return
+        }
+        replyDialog.show()
+        momentComment?.let { replyDialog.setReplyTitle("回复 @${momentComment.nickname}") }
+        replyDialog.sendListener(object : ReplyBottomSheetDialog.OnSendListener {
+            override fun onSend(v: String) {
+                if (momentComment == null) {
+                    // 评论文章
+                    commentMoyu(v)
+                } else {
+                    // 回复评论
+                    replyComment(momentComment, v)
+                }
+                replyDialog.dismiss()
+            }
+        })
+    }
+
 }

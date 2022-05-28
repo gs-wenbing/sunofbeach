@@ -58,7 +58,7 @@ class HomeDetailAdapter(context: Activity, data: MutableList<MultiItemEntity>?) 
                     helper.setText(R.id.tv_comment, comment.commentContent)
                     val ivAvatar = helper.getView<AvatarDecorView>(R.id.iv_comment_avatar)
                     ivAvatar.loadAvatar(comment.vip,comment.avatar)
-                    helper.addOnClickListener(R.id.tv_comment_nickname, R.id.iv_comment_avatar)
+                    helper.addOnClickListener(R.id.tv_comment_nickname, R.id.iv_comment_avatar, R.id.iv_comment_reply)
                 }
                 Constants.MultiItemType.TYPE_SUB_COMMENT -> {
                     val subComment = it as SubCommentBean

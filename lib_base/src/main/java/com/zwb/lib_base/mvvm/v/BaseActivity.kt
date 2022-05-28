@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.viewbinding.ViewBinding
 import com.alibaba.android.arouter.launcher.ARouter
+import com.hjq.toast.ToastUtils
 import com.kingja.loadsir.callback.SuccessCallback
 import com.kingja.loadsir.core.LoadService
 import com.kingja.loadsir.core.LoadSir
@@ -211,7 +212,6 @@ abstract class BaseActivity<VB : ViewBinding, VM : BaseViewModel> : AppCompatAct
     }
 
     fun toast(msg: String){
-        Toast.makeText(this.applicationContext, msg, Toast.LENGTH_SHORT)
-            .show()
+        ToastUtils.show(msg)
     }
 }

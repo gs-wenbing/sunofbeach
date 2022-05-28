@@ -1,17 +1,19 @@
 package com.zwb.sob_shop.fragment
 
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.zwb.lib_common.base.BaseListFragment
 import com.zwb.sob_shop.R
 import com.zwb.sob_shop.ShopApi
 import com.zwb.sob_shop.ShopViewModel
+import com.zwb.sob_shop.activity.GoodsDetailActivity
 import com.zwb.sob_shop.adapter.ShopGoodsAdapter
-import com.zwb.sob_shop.bean.ShopItemGoodsBean
+import com.zwb.sob_shop.bean.DiscoverGoodsBean
+import com.zwb.sob_shop.bean.IGoodsItem
+import com.zwb.sob_shop.bean.RecommendGoodsBean
 import com.zwb.sob_shop.databinding.ShopFragmentListBinding
 
-class ShopFragmentList: BaseListFragment<ShopItemGoodsBean, ShopFragmentListBinding, ShopViewModel>(),
+class ShopFragmentList: BaseListFragment<IGoodsItem, ShopFragmentListBinding, ShopViewModel>(),
     BaseListFragment.RecyclerListener {
     override val mViewModel by viewModels<ShopViewModel>()
 
@@ -31,11 +33,27 @@ class ShopFragmentList: BaseListFragment<ShopItemGoodsBean, ShopFragmentListBind
         init(mAdapter, this.rvList, this.refreshLayout, this@ShopFragmentList)
 
         mAdapter.setOnItemClickListener { adapter, view, position ->
-            toast("详情")
+
+            when(val item = adapter.getItem(position)){
+                 is DiscoverGoodsBean->{
+                    GoodsDetailActivity.launch(requireActivity(),item)
+                 }
+                is RecommendGoodsBean->{
+                    GoodsDetailActivity.launch(requireActivity(),item)
+                }
+            }
+
         }
         mAdapter.setOnItemChildClickListener { adapter, view, position ->
             if(view.id == R.id.btn_coupon){
-                toast("领券")
+                when(val item = adapter.getItem(position)){
+                    is DiscoverGoodsBean->{
+                        GoodsDetailActivity.launch(requireActivity(),item)
+                    }
+                    is RecommendGoodsBean->{
+                        GoodsDetailActivity.launch(requireActivity(),item)
+                    }
+                }
             }
         }
     }

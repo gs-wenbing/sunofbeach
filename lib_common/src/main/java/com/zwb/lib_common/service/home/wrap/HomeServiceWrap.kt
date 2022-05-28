@@ -27,10 +27,9 @@ class HomeServiceWrap private constructor() {
             .navigation()
     }
 
-    fun launchWebView(title: String?, url:String) {
+    fun launchWebView(url:String) {
         ARouter.getInstance()
             .build(RoutePath.Home.PAGE_WEBVIEW)
-            .withString("title", title)
             .withString("url", url)
             .navigation()
     }

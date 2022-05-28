@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <com.youth.banner.Banner
+        android:id="@+id/banner"
+        android:layout_width="match_parent"
+        android:layout_height="240dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+    <TextView
+        android:id="@+id/tv_goods_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="雪玲妃芝士除螨皂海盐去螨虫硫磺洗脸皂面部女清洁清痘手工香皂男"
+        app:layout_constraintTop_toBottomOf="@+id/banner"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_margin="@dimen/dp_10"
+        android:textSize="@dimen/sp_15"
+        android:lineSpacingExtra="@dimen/dp_4"
+        android:maxLines="2"
+        android:ellipsize="end"
+        android:textColor="@color/textPrimary"
+        />
+    <TextView
+        android:id="@+id/tv_coupon_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="@+id/tv_goods_title"
+        app:layout_constraintTop_toBottomOf="@+id/tv_goods_title"
+        android:layout_marginTop="@dimen/dp_10"
+        android:text="券后价:￥45"
+        android:textColor="#FF3450"
+        android:textSize="@dimen/sp_13"
+        android:textStyle="bold"
+        />
+    <TextView
+        android:id="@+id/tv_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toRightOf="@+id/tv_coupon_price"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_coupon_price"
+        android:text="现价￥80"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:textSize="@dimen/sp_12"
+        />
+    <TextView
+        android:id="@+id/tv_sale_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_coupon_price"
+        android:layout_marginRight="@dimen/dp_10"
+        android:text="73825·人已经购买"
+        android:textSize="@dimen/sp_12"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

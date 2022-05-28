@@ -96,4 +96,7 @@ data class AnswerBean(
         }
     }
 
+    override fun equals(other: Any?): Boolean {
+        return this._id == (other as AnswerBean)._id
+    }
 }

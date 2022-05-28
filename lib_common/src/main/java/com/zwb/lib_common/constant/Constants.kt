@@ -10,8 +10,8 @@ object Constants {
 
     const val WEBSITE_URL = "https://www.sunofbeach.net/a/"
     const val UCENTER_URL = "https://www.sunofbeach.net/u/"
+    const val WENDA_URL = "https://www.sunofbeach.net/qa/"
     const val WEBSITE_PREFIX = "http://www.sunofbeach"
-
     object URL {
         const val CHECK_TOKEN_URL = "uc/user/checkToken"
     }

@@ -3,9 +3,10 @@
     package="com.zwb.sob_shop">
 
     <application>
-        <activity android:name=".activity.MainActivity">
+        <activity android:name=".activity.MainActivity"/>
 
-        </activity>
+        <activity android:name=".activity.GoodsDetailActivity"/>
+        <activity android:name=".activity.GoodsSearchActivity"/>
     </application>
 
 </manifest>

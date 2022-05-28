@@ -2,14 +2,8 @@ package com.zwb.sob_wenda
 
 import com.zwb.lib_base.bean.ListData
 import com.zwb.lib_base.net.BaseResponse
-import com.zwb.sob_wenda.bean.AnswerBean
-import com.zwb.sob_wenda.bean.WendaBean
-import com.zwb.sob_wenda.bean.WendaContentBean
-import com.zwb.sob_wenda.bean.WendaRankingBean
-import retrofit2.http.GET
-import retrofit2.http.PUT
-import retrofit2.http.Path
-import retrofit2.http.Query
+import com.zwb.sob_wenda.bean.*
+import retrofit2.http.*
 
 interface WendaApi {
 
@@ -97,6 +91,18 @@ interface WendaApi {
         @Query("thumbUp") thumbUp: Boolean,
     ): BaseResponse<Int?>
 
+    /**
+     * 发表答案
+     */
+    @POST(WENDA_COMMENT_URL)
+    suspend fun answer( @Body body: AnswerInputBean): BaseResponse<Int?>
+    /**
+     * 评论答案
+     */
+    @POST(WENDA_SUB_COMMENT_URL)
+    suspend fun replyAnswer( @Body body: WendaSubCommentInputBean): BaseResponse<Int?>
+
+
     companion object {
         const val BASE_URL = "https://api.sunofbeaches.com/"
 
@@ -134,5 +140,10 @@ interface WendaApi {
         //答案打赏 PUT /ct/wenda/comment/prise/{commentId}/{count}?thumbUp=thumb
         //commentId 答案id; count 打赏积分数量; thumb：true/false true表示同时点赞
         const val WENDA_COMMENT_PRISE_URL = "ct/wenda/comment/prise"
+
+        // 发表答案
+        const val WENDA_COMMENT_URL = "ct/wenda/comment"
+        // 评论答案
+        const val WENDA_SUB_COMMENT_URL = "ct/wenda/sub-comment"
     }
 }

@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.viewbinding.ViewBinding
 import com.alibaba.android.arouter.launcher.ARouter
+import com.hjq.toast.ToastUtils
 import com.kingja.loadsir.callback.SuccessCallback
 import com.kingja.loadsir.core.LoadService
 import com.kingja.loadsir.core.LoadSir
@@ -191,7 +192,6 @@ abstract class BaseFragment<VB : ViewBinding, VM : BaseViewModel> : Fragment(),
     }
 
     fun toast(msg: String){
-        Toast.makeText(this.activity?.applicationContext, msg, Toast.LENGTH_SHORT)
-            .show()
+        ToastUtils.show(msg)
     }
 }
