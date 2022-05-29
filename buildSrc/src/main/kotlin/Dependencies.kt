@@ -137,4 +137,6 @@ object SDK {
     // 腾讯X5WebView
 //    const val TencentTBSX5 = "com.tencent.tbs.tbssdk:sdk:43939"
     const val TencentTBSX5 = "com.tencent.tbs:tbssdk:44181"
+    const val Pgyer = "com.pgyer:analytics:4.2.1"
+
 }

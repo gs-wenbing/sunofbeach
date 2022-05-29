@@ -116,11 +116,11 @@ class GoodsDetailActivity : BaseActivity<ShopActivityDetailBinding, ShopViewMode
 
     @SuppressLint("SetTextI18n")
     private fun setViewData(item: IGoodsItem) {
-        headerBinding.includeBanner.tvGoodsTitle.text = title
+        headerBinding.includeBanner.tvGoodsTitle.text = item.getGoodsTitle()
         headerBinding.includeBanner.tvPrice.text = "现价 ￥${item.getOriginPrice()}"
         headerBinding.includeBanner.tvCouponPrice.text =
             "券后价 ￥${String.format("%.2f", (item.getOriginPrice() - item.getCouponAmount()))}"
-        headerBinding.includeBanner.tvSaleNum.text = "${item.getCouponAmount()} • 人已购买"
+        headerBinding.includeBanner.tvSaleNum.text = "${item.getSaleNum()} • 人已购买"
 
         val bannerAdapter = ShopBannerAdapter(mutableListOf())
         headerBinding.includeBanner.banner.adapter = bannerAdapter

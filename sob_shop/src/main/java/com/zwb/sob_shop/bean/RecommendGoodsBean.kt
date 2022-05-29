@@ -92,8 +92,7 @@ data class RecommendGoodsBean(
         parcel.readInt(),
         parcel.readString(),
         parcel.readValue(Double::class.java.classLoader) as? Double
-    ) {
-    }
+    )
 
     override fun getGoodsId(): Long {
         return item_id

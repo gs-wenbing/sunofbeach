@@ -49,6 +49,7 @@ dependencies {
     api SDK.TencentBugly
     api SDK.TencentBuglyNative
     api SDK.TencentTBSX5
+    api SDK.Pgyer
 
     api GitHub.OkHttp
     api GitHub.Retrofit

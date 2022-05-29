@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.zwb.sob">
 
     <application
@@ -9,7 +10,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:name=".SobApplication"
-        android:theme="@style/AppTheme">
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:theme="@style/AppTheme"
+        tools:targetApi="n">
         <activity android:name=".activity.SplashActivity"
             android:theme="@style/SplashTheme">
             <intent-filter>

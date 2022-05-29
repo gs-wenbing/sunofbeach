@@ -9,6 +9,7 @@ import com.alibaba.android.arouter.launcher.ARouter
 import com.google.auto.service.AutoService
 import com.hjq.toast.ToastUtils
 import com.kingja.loadsir.core.LoadSir
+import com.pgyer.pgyersdk.PgyerSDKManager
 import com.tencent.smtt.export.external.TbsCoreSettings
 import com.tencent.smtt.sdk.QbSdk
 import com.zwb.lib_base.BaseApplication
@@ -43,6 +44,7 @@ class CommonApplication : ApplicationLifecycle {
      */
     override fun onAttachBaseContext(context: Context) {
         mCommonApplication = this
+        initPagerSdk(BaseApplication.application)
     }
 
     /**
@@ -77,6 +79,13 @@ class CommonApplication : ApplicationLifecycle {
     }
 
 
+    private fun initPagerSdk(application: Application){
+        PgyerSDKManager
+            .Init()
+            .setContext(application)
+            .start()
+    }
+
     /**
      * 不需要立即初始化的放在这里进行后台初始化
      */
@@ -85,15 +94,8 @@ class CommonApplication : ApplicationLifecycle {
     }
 
     private fun initToast(): String {
-//        val okHttpClient = OkHttpClient.Builder()
-//            .addInterceptor(initIntercept())
-//            .build()
-//        Mojito.initialize(
-//            GlideImageLoader.with(BaseApplication.context, okHttpClient),
-//            SketchImageLoadFactory()
-//        )
         ToastUtils.init(BaseApplication.application)
-        return "Mojito -->> init complete"
+        return "ToastUtils -->> init complete"
     }
 
     private fun initMojito(): String {
