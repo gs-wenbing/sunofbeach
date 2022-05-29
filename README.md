@@ -9,6 +9,10 @@
  
 **其中有些功能还在开发中 ...**
 
+## App体验
+[下载地址](https://www.pgyer.com/yLNd)
+![image.png](https://github.com/gs-wenbing/sunofbeach/blob/master/screenshot/yLNd.png)
+
 ## 部分截图
 
 **登录注册**
