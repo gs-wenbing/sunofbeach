@@ -32,6 +32,7 @@ class LoginInterceptor: IInterceptor {
                 RoutePath.Moyu.PAGE_DETAIL,
                 RoutePath.Wenda.PAGE_DETAIL,
                 RoutePath.Wenda.PAGE_ANSWER_DETAIL,
+                RoutePath.Home.PAGE_WEBVIEW,
                 RoutePath.Login.PAGE_LOGIN -> {
                     LogUtils.e(TAG,"不需要登录")
                     callback.onContinue(postcard);
