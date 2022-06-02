@@ -105,7 +105,7 @@ class ReplyBottomSheetDialog(
         if (keyBoardHeight <= 0) { //键盘收起
             setRootPaddingBottom(UIUtils.dp2px(10f))
         } else { //键盘打开
-            setRootPaddingBottom(keyBoardHeight + 20)
+            setRootPaddingBottom(keyBoardHeight + UIUtils.dp2px(10f) + dialogBinding.btnSend.height)
         }
     }
 
