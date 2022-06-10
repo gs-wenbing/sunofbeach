@@ -7,6 +7,7 @@ import com.zwb.lib_base.net.BaseResponse
 import com.zwb.lib_common.CommonViewModel
 import com.zwb.lib_common.bean.CollectInputBean
 import com.zwb.sob_home.bean.*
+import com.zwb.sob_home.db.ChannelBaseHelper
 
 class HomeViewModel : CommonViewModel() {
 
@@ -14,11 +15,35 @@ class HomeViewModel : CommonViewModel() {
         HomeRepo(loadState)
     }
 
-    fun categoryList(key: String): MutableLiveData<List<CategoryBean>?> {
-        val response: MutableLiveData<List<CategoryBean>?> = MutableLiveData()
+    fun getCategoryFromDb(): MutableLiveData<List<CategoryBean>> {
+        val response: MutableLiveData<List<CategoryBean>> = MutableLiveData()
         initiateRequest({
-            val list = homeRepo.categoryList(key)
-            response.value = list?.subList(0, 3)
+            val list = ChannelBaseHelper.db.getChannelDao().getChannels()
+            response.value = list
+        }, loadState)
+        return response
+    }
+
+    fun updateChannelFromDb(category: CategoryBean) {
+        initiateRequest({
+            ChannelBaseHelper.db.getChannelDao().updateChannel(category)
+        }, loadState)
+    }
+
+    fun categoryList(key: String): MutableLiveData<List<CategoryBean>> {
+        val response: MutableLiveData<List<CategoryBean>> = MutableLiveData()
+        initiateRequest({
+            var list = ChannelBaseHelper.db.getChannelDao().getChannels()
+            if (list.isNullOrEmpty()) {
+                list = homeRepo.categoryList(key)
+                list?.let {
+                    it.forEach { item -> item.isMy = true }
+                    ChannelBaseHelper.db.getChannelDao().insertList(it)
+                    response.value = ChannelBaseHelper.db.getChannelDao().getChannelsByFilter(true)
+                }
+            } else {
+                response.value = list.filter { item -> item.isMy }
+            }
         }, loadState, key)
         return response
     }
@@ -106,7 +131,11 @@ class HomeViewModel : CommonViewModel() {
     /**
      * 获取评论列表
      */
-    fun getArticleCommentList(articleId: String, page: Int, key: String): MutableLiveData<List<CommentBean>> {
+    fun getArticleCommentList(
+        articleId: String,
+        page: Int,
+        key: String
+    ): MutableLiveData<List<CommentBean>> {
         val response: MutableLiveData<List<CommentBean>> = MutableLiveData()
         initiateRequest({
             val res = homeRepo.getArticleCommentList(articleId, page, key)
@@ -122,7 +151,10 @@ class HomeViewModel : CommonViewModel() {
     /**
      * 获取推荐列表
      */
-    fun getArticleRecommend(articleId: String, key: String): MutableLiveData<List<ArticleRecommendBean>?> {
+    fun getArticleRecommend(
+        articleId: String,
+        key: String
+    ): MutableLiveData<List<ArticleRecommendBean>?> {
         val response: MutableLiveData<List<ArticleRecommendBean>?> = MutableLiveData()
         initiateRequest({
             response.value = homeRepo.getArticleRecommend(articleId, 10, key)
@@ -166,11 +198,14 @@ class HomeViewModel : CommonViewModel() {
     /**
      * 打赏列表
      */
-    fun getPriseArticleList(articleId: String, key: String): MutableLiveData<List<PriseArticleBean>?> {
+    fun getPriseArticleList(
+        articleId: String,
+        key: String
+    ): MutableLiveData<List<PriseArticleBean>?> {
         val response: MutableLiveData<List<PriseArticleBean>?> = MutableLiveData()
         initiateRequest({
-            response.value = homeRepo.getPriseArticleList(articleId,key)
-        }, loadState,key)
+            response.value = homeRepo.getPriseArticleList(articleId, key)
+        }, loadState, key)
         return response
     }
 

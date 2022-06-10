@@ -22,8 +22,8 @@ class MoyuViewModel : CommonViewModel() {
     fun topicIndex(key: String): MutableLiveData<List<TopicIndexBean>?> {
         val response: MutableLiveData<List<TopicIndexBean>?> = MutableLiveData()
         initiateRequest({
-            val list = moyuRepo.topicIndex(key)
-            response.value = list?.subList(0, 2)
+//            val list = moyuRepo.topicIndex(key)
+            response.value = moyuRepo.topicIndex(key)
         }, loadState, key)
         return response
     }

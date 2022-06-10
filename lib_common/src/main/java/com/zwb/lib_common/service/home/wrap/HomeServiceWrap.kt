@@ -26,6 +26,13 @@ class HomeServiceWrap private constructor() {
             .withString("articleTitle", title)
             .navigation()
     }
+    fun launchChannel(id: String, title: String) {
+        ARouter.getInstance()
+            .build(RoutePath.Home.PAGE_CHANNEL)
+            .withString("articleId", id)
+            .withString("articleTitle", title)
+            .navigation()
+    }
 
     fun launchWebView(url:String) {
         ARouter.getInstance()

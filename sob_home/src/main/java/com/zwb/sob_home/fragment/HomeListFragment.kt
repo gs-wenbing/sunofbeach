@@ -1,5 +1,6 @@
 package com.zwb.sob_home.fragment
 
+import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -33,6 +34,7 @@ class HomeListFragment :
 
     override fun HomeFragmentListBinding.initView() {
         categoryId = requireArguments().getString("categoryId", "1")
+        Log.e("========categoryId", categoryId)
         mAdapter = HomeAdapter(mutableListOf())
 
         this.rvList.layoutManager = LinearLayoutManager(mContext)
@@ -62,17 +64,16 @@ class HomeListFragment :
         loadBanner()
     }
 
-
     override fun loadKey(): String {
         return HomeApi.RECOMMEND_URL
     }
 
     override fun loadListData(action: Int, pageSize: Int, page: Int) {
-        mViewModel.getList(categoryId, page, loadKey()).observe(viewLifecycleOwner, {
+        mViewModel.getList(categoryId, page, loadKey()).observe(viewLifecycleOwner) {
             it?.let {
                 loadCompleted(action, list = it.list, pageSize = it.pageSize)
             }
-        })
+        }
     }
 
     private fun loadBanner(){
@@ -80,8 +81,8 @@ class HomeListFragment :
             bannerBinding = HomeBannerLayoutBinding.inflate(layoutInflater)
             mAdapter.addHeaderView(bannerBinding.root)
 
-            mViewModel.getBanner(HomeApi.BANNER_URL).observe(viewLifecycleOwner, {
-                if(activity==null || requireActivity().isFinishing){
+            mViewModel.getBanner(HomeApi.BANNER_URL).observe(viewLifecycleOwner) {
+                if (activity == null || requireActivity().isFinishing) {
                     return@observe
                 }
                 it?.let {
@@ -89,17 +90,22 @@ class HomeListFragment :
                     bannerBinding.banner.adapter = bannerAdapter
                     bannerBinding.banner.addBannerLifecycleObserver(this)
                     // 画廊效果
-                    bannerBinding.banner.setBannerGalleryEffect(16,6,0.8f)
+                    bannerBinding.banner.setBannerGalleryEffect(16, 6, 0.8f)
                     bannerAdapter.setDatas(it.bannerList)
-                    bannerBinding.banner.setCurrentItem(1,true)
+                    bannerBinding.banner.setCurrentItem(1, true)
 
                     bannerBinding.banner.indicator = CircleIndicator(requireContext())
-                    bannerBinding.banner.setIndicatorSelectedColor(ContextCompat.getColor(mContext,R.color.colorAccent))
+                    bannerBinding.banner.setIndicatorSelectedColor(
+                        ContextCompat.getColor(
+                            mContext,
+                            R.color.colorAccent
+                        )
+                    )
                     bannerAdapter.setOnBannerListener { data, position ->
 
                     }
                 }
-            })
+            }
         }
     }
 }

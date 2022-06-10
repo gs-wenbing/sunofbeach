@@ -22,7 +22,7 @@ class PriseListActivity:BaseActivity<HomeActivityPriseBinding,HomeViewModel>() {
 
     override fun HomeActivityPriseBinding.initView() {
         mBinding.includeBar.tvTitle.text = "打赏列表"
-        mBinding.includeBar.ll.gone()
+        mBinding.includeBar.layoutRight.gone()
         mBinding.includeBar.ivBack.setOnClickListener { finish() }
 
         mBinding.rvPrise.layoutManager = LinearLayoutManager(this@PriseListActivity)
@@ -45,9 +45,9 @@ class PriseListActivity:BaseActivity<HomeActivityPriseBinding,HomeViewModel>() {
 
     override fun initRequestData() {
         val articleId = intent.getStringExtra("articleId")
-        mViewModel.getPriseArticleList(articleId!!, HomeApi.PRISE_ARTICLE_URL).observe(this,{
+        mViewModel.getPriseArticleList(articleId!!, HomeApi.PRISE_ARTICLE_URL).observe(this) {
             mAdapter.setNewData(it)
-        })
+        }
     }
 
     companion object {

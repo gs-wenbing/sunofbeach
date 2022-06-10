@@ -22,6 +22,7 @@ object RoutePath{
         const val SERVICE_HOME = "${HOME}/home_service"
         const val FRAGMENT_HOME = "$HOME/HomeMainFragment"
         const val PAGE_ARTICLE = "${HOME}/ArticleDetailActivity"
+        const val PAGE_CHANNEL = "${HOME}/ChannelManageActivity"
         const val PAGE_WEBVIEW = "${HOME}/WebViewActivity"
     }
 

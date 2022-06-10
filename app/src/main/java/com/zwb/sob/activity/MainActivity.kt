@@ -14,6 +14,7 @@ import com.zwb.lib_base.mvvm.v.BaseActivity
 import com.zwb.lib_base.utils.EventBusRegister
 import com.zwb.lib_base.utils.SpUtils
 import com.zwb.lib_base.utils.StatusBarUtil
+import com.zwb.lib_common.constant.Constants
 import com.zwb.lib_common.constant.RoutePath
 import com.zwb.lib_common.constant.SpKey
 import com.zwb.lib_common.event.StringEvent
@@ -171,6 +172,8 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
     }
 
     override fun initRequestData() {
+        // 刷新token
+        mViewModel.checkToken(Constants.URL.CHECK_TOKEN_URL).observe(this) {}
     }
 
     companion object {

@@ -5,10 +5,12 @@ import androidx.lifecycle.MutableLiveData
 import com.zwb.lib_base.ktx.initiateRequest
 import com.zwb.lib_base.mvvm.vm.BaseViewModel
 import com.zwb.lib_base.net.BaseResponse
+import com.zwb.lib_base.utils.SpUtils
 import com.zwb.lib_common.bean.CollectInputBean
 import com.zwb.lib_common.bean.CollectionBean
 import com.zwb.lib_common.bean.PriseQrCode
 import com.zwb.lib_common.bean.TokenBean
+import com.zwb.lib_common.constant.SpKey
 
 open class CommonViewModel : BaseViewModel() {
 
@@ -19,7 +21,13 @@ open class CommonViewModel : BaseViewModel() {
     fun checkToken(key: String): MutableLiveData<TokenBean?> {
         val response: MutableLiveData<TokenBean?> = MutableLiveData()
         initiateRequest({
-            response.value = repository.checkToken(key)
+            val token = repository.checkToken(key)
+            token?.let {
+                SpUtils.putString(SpKey.USER_ID, token.id)
+                SpUtils.putString(SpKey.USER_AVATAR, if(TextUtils.isEmpty(token.avatar))"" else token.avatar!! )
+                SpUtils.putString(SpKey.USER_NICKNAME, if(TextUtils.isEmpty(token.nickname))"" else token.nickname!! )
+            }
+            response.value = token
         }, loadState)
         return response
     }

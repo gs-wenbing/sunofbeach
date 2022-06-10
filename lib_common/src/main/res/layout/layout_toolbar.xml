@@ -22,7 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_centerVertical="true"
-        android:layout_toLeftOf="@+id/ll"
+        android:layout_toLeftOf="@+id/layout_right"
         android:layout_toRightOf="@+id/ivBack"
         android:ellipsize="end"
         android:gravity="center"
@@ -33,7 +33,7 @@
         />
 <!--tools:text="文字标题文字标题文字标文字标题文字标题文字标" -->
     <LinearLayout
-        android:id="@+id/ll"
+        android:id="@+id/layout_right"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_alignParentRight="true"

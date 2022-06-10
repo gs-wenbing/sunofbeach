@@ -64,5 +64,5 @@ dependencies {
     kapt JetPack.LifecycleCompilerAPT
 
     debugApi GitHub.LeakCanary
-
+    debugApi GitHub.Amitshekhar_Debug
 }

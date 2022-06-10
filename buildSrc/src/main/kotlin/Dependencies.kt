@@ -119,6 +119,7 @@ object GitHub {
     const val Mojito_GlideImageLoader = "com.github.mikaelzero.mojito:GlideImageLoader:1.8.5"
     const val Mojito_SketchImageViewLoader = "com.github.mikaelzero.mojito:SketchImageViewLoader:1.8.5"
     const val ToastUtils = "com.github.getActivity:ToastUtils:10.3"
+    const val Amitshekhar_Debug = "com.amitshekhar.android:debug-db:1.0.6"
 }
 
 /**
@@ -138,5 +139,4 @@ object SDK {
 //    const val TencentTBSX5 = "com.tencent.tbs.tbssdk:sdk:43939"
     const val TencentTBSX5 = "com.tencent.tbs:tbssdk:44181"
     const val Pgyer = "com.pgyer:analytics:4.2.1"
-
 }

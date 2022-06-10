@@ -8,6 +8,7 @@
         </activity>
         <activity android:name=".activity.ArticleDetailActivity"/>
         <activity android:name=".activity.PriseListActivity"/>
+        <activity android:name=".activity.ChannelManageActivity"/>
         <activity android:name=".activity.WebViewActivity"/>
     </application>
 

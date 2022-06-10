@@ -44,7 +44,7 @@ class CommonApplication : ApplicationLifecycle {
      */
     override fun onAttachBaseContext(context: Context) {
         mCommonApplication = this
-        initPagerSdk(BaseApplication.application)
+        initPgyerSdk(BaseApplication.application)
     }
 
     /**
@@ -79,7 +79,7 @@ class CommonApplication : ApplicationLifecycle {
     }
 
 
-    private fun initPagerSdk(application: Application){
+    private fun initPgyerSdk(application: Application){
         PgyerSDKManager
             .Init()
             .setContext(application)

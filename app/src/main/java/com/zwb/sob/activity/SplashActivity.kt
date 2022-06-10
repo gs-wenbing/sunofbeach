@@ -25,10 +25,6 @@ class SplashActivity:BaseActivity<ActivitySplashBinding, MainViewModel>() {
             }
             h.postDelayed(runnable, 500)
         }else{
-            // 刷新token
-            mViewModel.checkToken(Constants.URL.CHECK_TOKEN_URL).observe(this@SplashActivity, {
-                toMain()
-            })
             runnable = Runnable {
                 toMain()
             }

@@ -7,5 +7,6 @@ class StringEvent(var event: String) {
         const val SWITCH_UCENTER = "switch_ucenter"
 
         const val MSG_READ = "msg_read"
+        const val UPDATE_HOME_TAB = "update_home_tab"
     }
 }
