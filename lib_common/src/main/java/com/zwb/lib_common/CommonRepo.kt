@@ -18,8 +18,8 @@ open class CommonRepo(private val loadState: MutableLiveData<State>) : BaseRepos
         RetrofitFactory.instance.getService(CommonApi::class.java, CommonApi.BASE_URL)
     }
 
-    suspend fun checkToken(key: String): TokenBean? {
-        return apiService.checkToken().dataConvert(loadState, key)
+    suspend fun checkToken(): BaseResponse<TokenBean?> {
+        return apiService.checkToken()
     }
 
     suspend fun getPriseQrCode(userId: String): BaseResponse<PriseQrCode?> {

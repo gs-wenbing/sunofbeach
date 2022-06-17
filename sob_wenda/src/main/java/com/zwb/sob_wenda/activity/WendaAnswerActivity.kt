@@ -84,10 +84,7 @@ class WendaAnswerActivity : BaseActivity<WendaActivityAnswerBinding, WendaViewMo
             R.style.BottomSheetDialog,
             UIUtils.getScreenHeight() * 2 / 3
         )
-        replyDialog = ReplyBottomSheetDialog(
-            this@WendaAnswerActivity,
-            R.style.BottomSheetDialog
-        )
+        replyDialog = ReplyBottomSheetDialog(this@WendaAnswerActivity)
         initListener()
         setViewData()
     }

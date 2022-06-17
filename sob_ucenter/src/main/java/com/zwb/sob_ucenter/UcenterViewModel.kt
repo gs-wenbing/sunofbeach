@@ -25,11 +25,13 @@ class UcenterViewModel : CommonViewModel() {
             if (!TextUtils.isEmpty(userId)) {
                 response.value = userRepo.getUserInfo(userId, key)
             } else {
-                val token = userRepo.checkToken(key)
-                if (token != null) {
-                    response.value = userRepo.getUserInfo(token.id, key)
-                } else {
-                    response.value = null
+                val token = userRepo.checkToken()
+                if(token.success){
+                    if (token.data != null) {
+                        response.value = userRepo.getUserInfo(token.data!!.id, key)
+                    } else {
+                        response.value = null
+                    }
                 }
             }
         }, loadState, key)

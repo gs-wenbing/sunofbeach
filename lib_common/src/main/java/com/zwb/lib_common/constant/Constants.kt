@@ -12,6 +12,9 @@ object Constants {
     const val UCENTER_URL = "https://www.sunofbeach.net/u/"
     const val WENDA_URL = "https://www.sunofbeach.net/qa/"
     const val WEBSITE_PREFIX = "http://www.sunofbeach"
+    //未登录
+    const val UN_LOGIN = 11126
+
     object URL {
         const val CHECK_TOKEN_URL = "uc/user/checkToken"
     }

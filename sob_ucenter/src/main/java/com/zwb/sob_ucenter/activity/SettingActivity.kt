@@ -3,6 +3,7 @@ package com.zwb.sob_ucenter.activity
 import android.content.Intent
 import androidx.activity.viewModels
 import androidx.fragment.app.FragmentActivity
+import com.tencent.mmkv.MMKV
 import com.zwb.lib_base.mvvm.v.BaseActivity
 import com.zwb.lib_base.net.RetrofitFactory
 import com.zwb.lib_base.utils.EventBusUtils
@@ -13,7 +14,7 @@ import com.zwb.sob_ucenter.UcenterApi
 import com.zwb.sob_ucenter.UcenterViewModel
 import com.zwb.sob_ucenter.databinding.UcenterActivitySettingBinding
 
-class SettingActivity : BaseActivity<UcenterActivitySettingBinding,UcenterViewModel>() {
+class SettingActivity : BaseActivity<UcenterActivitySettingBinding, UcenterViewModel>() {
     override val mViewModel by viewModels<UcenterViewModel>()
 
     override fun UcenterActivitySettingBinding.initView() {
@@ -26,9 +27,17 @@ class SettingActivity : BaseActivity<UcenterActivitySettingBinding,UcenterViewMo
 //                }
 //
 //            })
-            SpUtils.putBoolean(SpKey.IS_LOGIN,false)
-            SpUtils.putString(RetrofitFactory.SOB_TOKEN, "")
-            SpUtils.putString(RetrofitFactory.L_C_I, "")
+            SpUtils.putBoolean(SpKey.IS_LOGIN, false)
+            SpUtils.removeValuesForKeys(
+                arrayOf(
+                    RetrofitFactory.SOB_TOKEN,
+                    RetrofitFactory.L_C_I,
+                    SpKey.USER_ID,
+                    SpKey.USER_AVATAR,
+                    SpKey.USER_NICKNAME
+                )
+            )
+
             EventBusUtils.postEvent(StringEvent(StringEvent.Event.SWITCH_HOME))
             finish()
         }

@@ -94,10 +94,7 @@ class ArticleDetailActivity : BaseActivity<HomeActivityArticleDetailBinding, Hom
             R.style.BottomSheetDialog,
             UIUtils.getScreenHeight() * 2 / 3
         )
-        replyDialog = ReplyBottomSheetDialog(
-            this@ArticleDetailActivity,
-            R.style.BottomSheetDialog
-        )
+        replyDialog = ReplyBottomSheetDialog(this@ArticleDetailActivity)
         initListener()
     }
 

@@ -76,10 +76,7 @@ class WendaDetailActivity : BaseActivity<WendaActivityDetailBinding, WendaViewMo
         mAdapter.addHeaderView(contentBinding.root)
         mBinding.refreshLayout.setEnableRefresh(false)
 //        mBinding.refreshLayout.setRefreshHeader(ClassicsHeader(this@WendaDetailActivity))
-        replyDialog = ReplyBottomSheetDialog(
-            this@WendaDetailActivity,
-            R.style.BottomSheetDialog
-        )
+        replyDialog = ReplyBottomSheetDialog(this@WendaDetailActivity)
 
         initListener()
     }

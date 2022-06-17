@@ -173,7 +173,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
 
     override fun initRequestData() {
         // 刷新token
-        mViewModel.checkToken(Constants.URL.CHECK_TOKEN_URL).observe(this) {}
+        mViewModel.checkToken()
     }
 
     companion object {

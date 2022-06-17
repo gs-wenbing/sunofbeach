@@ -1,10 +1,14 @@
 package com.zwb.lib_base.utils
 
+import android.annotation.SuppressLint
 import android.app.ActivityManager
+import android.content.ComponentName
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Process
-import kotlin.jvm.Throws
+import android.text.TextUtils
+
 
 /**
  * 进程工具类
@@ -69,5 +73,63 @@ object ProcessUtils {
         val processId = Process.myPid()
         val mainProcessName = getMainProcessName(context)
         return isPidOfProcessName(context, processId, mainProcessName)
+    }
+
+    fun isAppExist(packageName: String, context: Context): Boolean {
+        val pm = context.packageManager
+        return try {
+            pm.getPackageInfo(packageName, PackageManager.GET_ACTIVITIES)
+            true
+        } catch (e: PackageManager.NameNotFoundException) {
+            false
+        }
+    }
+
+    @SuppressLint("WrongConstant")
+    fun isAppAlive(context: Context, packageName: String): Intent? {
+        //Activity完整名
+        val mainAct: String?
+        val pkgMag = context.packageManager
+        val intent = Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_LAUNCHER);
+        intent.flags = Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED or Intent.FLAG_ACTIVITY_NEW_TASK;
+
+        val list = pkgMag.queryIntentActivities(intent, PackageManager.GET_ACTIVITIES)
+        val item = list.find { it.activityInfo.packageName.equals(packageName) }
+        mainAct = item?.activityInfo?.name
+        if (TextUtils.isEmpty(mainAct)) {
+            return null
+        }
+        intent.component = ComponentName(packageName, mainAct!!)
+        return intent
+    }
+
+    fun getPackageContext(context: Context, packageName: String): Context? {
+        var pkgContext: Context? = null
+        if (context.getPackageName().equals(packageName)) {
+            pkgContext = context;
+        } else {
+            // 创建第三方应用的上下文环境
+            try {
+                pkgContext = context.createPackageContext(
+                    packageName,
+                    Context.CONTEXT_IGNORE_SECURITY
+                            or Context.CONTEXT_INCLUDE_CODE
+                )
+            } catch (e: PackageManager.NameNotFoundException) {
+                e.printStackTrace();
+            }
+        }
+        return pkgContext
+    }
+
+    fun openPackage(context: Context, packageName: String): Boolean {
+        val pkgContext = getPackageContext(context, packageName)
+        val intent: Intent? = isAppAlive(context, packageName)
+        if (pkgContext != null && intent != null) {
+            pkgContext.startActivity(intent)
+            return true
+        }
+        return false
     }
 }

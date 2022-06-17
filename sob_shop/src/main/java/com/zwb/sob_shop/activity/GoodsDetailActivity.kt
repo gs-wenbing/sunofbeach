@@ -6,10 +6,8 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.net.Uri
 import android.text.style.AbsoluteSizeSpan
 import android.text.style.ForegroundColorSpan
-import android.view.View
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
@@ -17,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.youth.banner.indicator.CircleIndicator
 import com.zwb.lib_base.ktx.gone
 import com.zwb.lib_base.mvvm.v.BaseActivity
+import com.zwb.lib_base.utils.ProcessUtils
 import com.zwb.lib_base.utils.StatusBarUtil
 import com.zwb.lib_base.utils.UIUtils
 import com.zwb.lib_common.view.CommonViewUtils
@@ -61,9 +60,15 @@ class GoodsDetailActivity : BaseActivity<ShopActivityDetailBinding, ShopViewMode
         }
 
         couponDialog = CopyCouponDialog(this@GoodsDetailActivity)
-        couponDialog.setBtnText(if (isTBInstallExist()) "打开淘宝" else "去分享")
+        couponDialog.setBtnText(
+            if (ProcessUtils.isAppExist(
+                    "com.taobao.taobao",
+                    this@GoodsDetailActivity
+                )
+            ) "打开淘宝" else "去分享"
+        )
         couponDialog.onOpenTaobao {
-            if (isTBInstallExist()) {
+            if (ProcessUtils.isAppExist("com.taobao.taobao", this@GoodsDetailActivity)) {
                 val intent = packageManager.getLaunchIntentForPackage("com.taobao.taobao")
                 intent?.let {
                     intent.action = "Android.intent.action.VIEW"
@@ -172,16 +177,6 @@ class GoodsDetailActivity : BaseActivity<ShopActivityDetailBinding, ShopViewMode
         val clipData = ClipData.newPlainText("tpwd_code", couponDialog.getTpwdValue())
         cm.setPrimaryClip(clipData)
         couponDialog.show()
-    }
-
-    private fun isTBInstallExist(): Boolean {
-        val pm = this.packageManager
-        return try {
-            pm.getPackageInfo("com.taobao.taobao", PackageManager.GET_ACTIVITIES)
-            true
-        } catch (e: PackageManager.NameNotFoundException) {
-            false
-        }
     }
 
     companion object {

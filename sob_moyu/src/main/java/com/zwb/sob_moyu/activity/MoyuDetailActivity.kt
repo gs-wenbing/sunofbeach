@@ -66,10 +66,7 @@ class MoyuDetailActivity :
             loadListData(mCurrentPage)
         }, this.rvContent)
 
-        replyDialog = ReplyBottomSheetDialog(
-            this@MoyuDetailActivity,
-            R.style.BottomSheetDialog
-        )
+        replyDialog = ReplyBottomSheetDialog(this@MoyuDetailActivity)
 
         setDefaultLoad(this.rvContent, MoyuApi.MOYU_DETAIL_URL)
         getMoyuDetail()
